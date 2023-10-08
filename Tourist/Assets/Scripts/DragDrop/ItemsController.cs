@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemsController : MonoBehaviour
 {
@@ -10,6 +13,7 @@ public class ItemsController : MonoBehaviour
     [SerializeField] Transform[] largePanel;
     [SerializeField] static Transform[] slots;
     private bool isRestore = false;
+    private Button buttonObject;
 
     public static Transform[] Slots => slots;
 
@@ -18,15 +22,31 @@ public class ItemsController : MonoBehaviour
         idBackpack = DataHolder.IdBackpack;
         items = DataHolder.Items;
 
-        if (idBackpack == 0) slots = smallPanel;
-        else if (idBackpack == 1) slots = mediumPanel;
+        // Назначаем обработчик для кнопки
+        buttonObject = gameObject.GetComponent<Button>();
+        buttonObject.onClick.AddListener(ButtonClick);
+
+        // Если не записано значение, то вызывается маленький рюкзак
+        if (idBackpack == 1) slots = mediumPanel;
         else if (idBackpack == 2) slots = largePanel;
+        else slots = smallPanel;
     }
 
     public void Update()
     {
         // Если рюкзак открыт, то записываем его содержимое
         if (Inventory.IsOpen) WriteInformation();
+    }
+
+    // Метод, который будет вызываться при клике на кнопку
+    private void ButtonClick()
+    {
+        // Восстанавливаем вещи рюкзака, если скрипт приклеплен к BackpackButton
+        if (gameObject.name == "BackpackButton" && !isRestore)
+        {
+            RestoreInformation();
+            isRestore = true;
+        }
     }
 
     public static void WriteInformation()
@@ -40,12 +60,10 @@ public class ItemsController : MonoBehaviour
             foreach (Transform slotTransform in children)
             {
                 // Если объект находится в ячейке
-                GameObject item =
-                    slotTransform.GetComponent<Slot>().Item;
+                GameObject item = slotTransform.GetComponent<Slot>().Item;
 
-                // Помещаем его название
+                // Помещаем его название, иначе 0
                 if (item) tempItems.Add(item.name);
-                // Помещаем значение "0"
                 else tempItems.Add("0");
             }
         }
@@ -55,38 +73,31 @@ public class ItemsController : MonoBehaviour
 
     public void RestoreInformation()
     {
-        // Если данные не были восстановлены
-        if (isRestore == false)
+        int counter = 0;
+
+        // Проходимся по всем дочерним объектам
+        foreach (Transform children in slots)
         {
-            int counter = 0;
-
-            // Проходимся по всем дочерним объектам
-            foreach (Transform children in slots)
+            // Проходимся по всем ячеек инвентаря
+            foreach (Transform slot in children)
             {
-                // Проходимся по всем ячеек инвентаря
-                foreach (Transform slot in children)
+                // Если значение записано
+                if (items[counter] != "0")
                 {
+                    RestoreItem(items[counter], slot);
                     Debug.Log(counter + " " + items[counter]);
-
-                    // Если значение записано
-                    if (items[counter] != "0")
-                        RestoreItem(items[counter], slot);
-
-                    counter++;
                 }
+                counter++;
             }
-            Debug.Log("Содержимое инвентаря восстановлено");
         }
-        // Данные были восстановлены
-        isRestore = true;
+        Debug.Log("Содержимое инвентаря восстановлено");
     }
 
     private void RestoreItem(string nameItem, Transform slot)
     {
         // Восстановление объекта
         string namePrefab = "Prefabs/" + nameItem;
-        GameObject prefab =
-            Resources.Load(namePrefab) as GameObject;
+        GameObject prefab = Resources.Load(namePrefab) as GameObject;
         Instantiate(prefab, slot, false);
     }
 

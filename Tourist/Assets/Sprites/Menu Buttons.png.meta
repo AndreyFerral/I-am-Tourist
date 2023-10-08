@@ -111,6 +111,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -808,6 +809,36 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Menu Buttons_14: -9042423279021791028
+      Menu Buttons_19: 1818284210403669699
+      Menu Buttons_17: -7297549537121200785
+      Menu Buttons_10: 6171537295390068678
+      Menu Buttons_21: 2136935194509347514
+      Menu Buttons_12: -6630134826041653360
+      Menu Buttons_7: -2377220807810611120
+      Menu Buttons_18: -3253420674186686847
+      Menu Buttons_11: -2932257281760155851
+      Menu Buttons_13: -2567477066349301821
+      Menu Buttons_28: -4581216074259692367
+      Menu Buttons_8: 9176070131236104477
+      Menu Buttons_4: -7380087767416289086
+      Menu Buttons_3: -3242226755293709199
+      Menu Buttons_16: 9183207080794462530
+      Menu Buttons_9: -83565330353265594
+      Menu Buttons_22: -51372490778674962
+      Menu Buttons_26: 5492321505087180475
+      Menu Buttons_2: 5307979427446768364
+      Menu Buttons_24: 1293824994382561141
+      Menu Buttons_6: 351873560117742261
+      Menu Buttons_20: -1893948400328896899
+      Menu Buttons_25: -2040472475549561724
+      Menu Buttons_1: -3047018070302559869
+      Menu Buttons_5: 5234076213473386470
+      Menu Buttons_15: -3318710403707734160
+      Menu Buttons_23: 8918505415770440966
+      Menu Buttons_27: -8697943330114767468
+      Menu Buttons_0: -5652939182684387322
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
