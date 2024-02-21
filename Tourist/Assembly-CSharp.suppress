@@ -1,0 +1,300 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="SuppressVersion">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CurrentVersion" type="xs:int" minOccurs="0" />
+                <xs:element name="IsPrimary" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Assembly-CSharp" msdata:CaseSensitive="False">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FileName" type="xs:string" default="" />
+                <xs:element name="ErrorCode" type="xs:string" default="" />
+                <xs:element name="Message" type="xs:string" default="" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" default="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Assembly-CSharp" />
+        <xs:field xpath="FileName" />
+        <xs:field xpath="ErrorCode" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="CodePrev" />
+        <xs:field xpath="CodeCurrent" />
+        <xs:field xpath="CodeNext" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <SuppressVersion>
+    <CurrentVersion>3</CurrentVersion>
+    <IsPrimary>false</IsPrimary>
+  </SuppressVersion>
+  <Assembly-CSharp>
+    <FileName>Benchmark03.cs</FileName>
+    <ErrorCode>V3002</ErrorCode>
+    <Message>The switch statement does not cover all values of the 'BenchmarkType' enum: TEXTMESH_BITMAP.</Message>
+    <CodePrev>2241370547</CodePrev>
+    <CodeCurrent>5855023</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>Benchmark04.cs</FileName>
+    <ErrorCode>V3041</ErrorCode>
+    <Message>The expression was implicitly cast from 'int' type to 'float' type. Consider utilizing an explicit type cast to avoid the loss of a fractional part. An example: double A = (double)(X) / Y;.</Message>
+    <CodePrev>8770479</CodePrev>
+    <CodeCurrent>2192192447</CodeCurrent>
+    <CodeNext>913642935</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>CameraController.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: touchCount == _. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>68878188</CodePrev>
+    <CodeCurrent>5957137</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>CameraController.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: touchCount == _. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>1138354727</CodePrev>
+    <CodeCurrent>569445254</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>CampfirePanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The first argument of the 'Instantiate' method is not expected to be null. Potential null value: prefab.</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>CampfirePanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The second argument of the 'Instantiate' method is not expected to be null. Potential null value: GetEmptySlot().</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>CampfirePanel.cs</FileName>
+    <ErrorCode>V3188</ErrorCode>
+    <Message>The value of the 'item' expression is a potentially destroyed Unity object or null. Method invocation on this value may lead to an exception.</Message>
+    <CodePrev>465976337</CodePrev>
+    <CodeCurrent>1123258293</CodeCurrent>
+    <CodeNext>113</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>ContextClue.cs</FileName>
+    <ErrorCode>V3003</ErrorCode>
+    <Message>The use of 'if (A) {...} else if (A) {...}' pattern was detected. There is a probability of logical error presence. Check lines: _, _.</Message>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>2737149940</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>EatPanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The first argument of the 'Instantiate' method is not expected to be null. Potential null value: prefab.</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>EatPanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The second argument of the 'Instantiate' method is not expected to be null. Potential null value: GetEmptySlot().</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>InteractPanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The first argument of the 'Instantiate' method is not expected to be null. Potential null value: prefab.</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>InteractPanel.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The second argument of the 'Instantiate' method is not expected to be null. Potential null value: GetEmptySlot().</Message>
+    <CodePrev>2071801793</CodePrev>
+    <CodeCurrent>3749994085</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>ItemsController.cs</FileName>
+    <ErrorCode>V3156</ErrorCode>
+    <Message>The first argument of the 'Instantiate' method is not expected to be null. Potential null value: prefab.</Message>
+    <CodePrev>1210810689</CodePrev>
+    <CodeCurrent>406209823</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>Joystick.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: value == _. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>185381</CodeCurrent>
+    <CodeNext>176405</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>Joystick.cs</FileName>
+    <ErrorCode>V3110</ErrorCode>
+    <Message>Possible infinite recursion inside 'AxisOptions' property.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>687628097</CodeCurrent>
+    <CodeNext>170739393</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>ObjectSpin.cs</FileName>
+    <ErrorCode>V3066</ErrorCode>
+    <Message>Possible incorrect order of arguments passed to 'Vector_' constructor: 'z' and 'y'.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1070084221</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>SkewTextExample.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1348489551</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>SkewTextExample.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: old_CurveScale == CurveScale. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1348489551</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>SkewTextExample.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: old_ShearValue == ShearAmount. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1348489551</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TextMeshProFloatingText.cs</FileName>
+    <ErrorCode>V3110</ErrorCode>
+    <Message>Possible infinite recursion inside 'DisplayTextMeshProFloatingText' method.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>437335432</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TextMeshProFloatingText.cs</FileName>
+    <ErrorCode>V3110</ErrorCode>
+    <Message>Possible infinite recursion inside 'DisplayTextMeshFloatingText' method.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2739674509</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TMP_PhoneNumberValidator.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'ch &lt; '_' &amp;&amp; ch &gt; '_'' is always false. Probably the '||' operator should be used here.</Message>
+    <CodePrev>333982897</CodePrev>
+    <CodeCurrent>3844876946</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TMP_TextInfoDebugTool.cs</FileName>
+    <ErrorCode>V3127</ErrorCode>
+    <Message>Two similar code fragments were found. Perhaps, this is a typo and 'topLeft' variable should be used instead of 'bottomLeft'</Message>
+    <CodePrev>2435488615</CodePrev>
+    <CodeCurrent>1216808286</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TMP_TextInfoDebugTool.cs</FileName>
+    <ErrorCode>V3127</ErrorCode>
+    <Message>Two similar code fragments were found. Perhaps, this is a typo and 'bottomRight' variable should be used instead of 'topRight'</Message>
+    <CodePrev>3180431261</CodePrev>
+    <CodeCurrent>2476868558</CodeCurrent>
+    <CodeNext>1330734120</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TMP_TextSelector_B.cs</FileName>
+    <ErrorCode>V3051</ErrorCode>
+    <Message>An excessive type cast. The object is already of the 'RectTransform' type.</Message>
+    <CodePrev>4068839883</CodePrev>
+    <CodeCurrent>2117267441</CodeCurrent>
+    <CodeNext>741049823</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TrashCan.cs</FileName>
+    <ErrorCode>V3061</ErrorCode>
+    <Message>Parameter 'isEventOld' is always rewritten in method body before being used.</Message>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>19716291</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TrashCan.cs</FileName>
+    <ErrorCode>V3137</ErrorCode>
+    <Message>The 'isEventOld' variable is assigned but is not used by the end of the function.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>19716291</CodeCurrent>
+    <CodeNext>5395539</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>TrashCan.cs</FileName>
+    <ErrorCode>V3137</ErrorCode>
+    <Message>The 'isEventOld' variable is assigned but is not used by the end of the function.</Message>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>19716291</CodeCurrent>
+    <CodeNext>125</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>VertexShakeA.cs</FileName>
+    <ErrorCode>V3137</ErrorCode>
+    <Message>The 'obj' variable is assigned but is not used by the end of the function.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>372656849</CodeCurrent>
+    <CodeNext>38954709</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>VertexShakeB.cs</FileName>
+    <ErrorCode>V3137</ErrorCode>
+    <Message>The 'obj' variable is assigned but is not used by the end of the function.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>372656849</CodeCurrent>
+    <CodeNext>38954709</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>WarpTextExample.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2693960829</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+  <Assembly-CSharp>
+    <FileName>WarpTextExample.cs</FileName>
+    <ErrorCode>V3024</ErrorCode>
+    <Message>An odd precise comparison: old_CurveScale == CurveScale. Consider using a comparison with defined precision: Math.Abs(A - B) &lt; Epsilon.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2693960829</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp>
+</NewDataSet>

@@ -1,0 +1,68 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="SuppressVersion">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CurrentVersion" type="xs:int" minOccurs="0" />
+                <xs:element name="IsPrimary" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Assembly-CSharp-Editor" msdata:CaseSensitive="False">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FileName" type="xs:string" default="" />
+                <xs:element name="ErrorCode" type="xs:string" default="" />
+                <xs:element name="Message" type="xs:string" default="" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" default="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Assembly-CSharp-Editor" />
+        <xs:field xpath="FileName" />
+        <xs:field xpath="ErrorCode" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="CodePrev" />
+        <xs:field xpath="CodeCurrent" />
+        <xs:field xpath="CodeNext" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <SuppressVersion>
+    <CurrentVersion>3</CurrentVersion>
+    <IsPrimary>false</IsPrimary>
+  </SuppressVersion>
+  <Assembly-CSharp-Editor>
+    <FileName>DynamicJoystickEditor.cs</FileName>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'DynamicJoystickEditor' class containing IDisposable members does not itself implement IDisposable. Inspect: moveThreshold.</Message>
+    <CodePrev>1570230363</CodePrev>
+    <CodeCurrent>694114267</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp-Editor>
+  <Assembly-CSharp-Editor>
+    <FileName>JoystickEditor.cs</FileName>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'JoystickEditor' class containing IDisposable members does not itself implement IDisposable. Inspect: handleRange, deadZone, axisOptions, snapX, snapY, background...</Message>
+    <CodePrev>392457181</CodePrev>
+    <CodeCurrent>2326349945</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp-Editor>
+  <Assembly-CSharp-Editor>
+    <FileName>VariableJoystickEditor.cs</FileName>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'VariableJoystickEditor' class containing IDisposable members does not itself implement IDisposable. Inspect: moveThreshold, joystickType.</Message>
+    <CodePrev>3142384915</CodePrev>
+    <CodeCurrent>694425991</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Assembly-CSharp-Editor>
+</NewDataSet>

@@ -1,0 +1,132 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="SuppressVersion">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CurrentVersion" type="xs:int" minOccurs="0" />
+                <xs:element name="IsPrimary" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Meryel.CodeAssist.Editor" msdata:CaseSensitive="False">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FileName" type="xs:string" default="" />
+                <xs:element name="ErrorCode" type="xs:string" default="" />
+                <xs:element name="Message" type="xs:string" default="" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" default="0" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" default="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//Meryel.CodeAssist.Editor" />
+        <xs:field xpath="FileName" />
+        <xs:field xpath="ErrorCode" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="CodePrev" />
+        <xs:field xpath="CodeCurrent" />
+        <xs:field xpath="CodeNext" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <SuppressVersion>
+    <CurrentVersion>3</CurrentVersion>
+    <IsPrimary>false</IsPrimary>
+  </SuppressVersion>
+  <Meryel.CodeAssist.Editor>
+    <FileName>Assister.cs</FileName>
+    <ErrorCode>V3010</ErrorCode>
+    <Message>The return value of function 'StartCoroutine' is required to be utilized.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2200167520</CodeCurrent>
+    <CodeNext>0</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>EditorWindowCoroutineExtension.cs</FileName>
+    <ErrorCode>V3031</ErrorCode>
+    <Message>An excessive check can be simplified. The '||' operator is surrounded by opposite expressions 'owner == null' and 'owner != null'.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>938694994</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>ELogger.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'isLoggingToOutputWindow' is always true.</Message>
+    <CodePrev>3364353782</CodePrev>
+    <CodeCurrent>3612418275</CodeCurrent>
+    <CodeNext>1982945457</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>ELogger.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'isLoggingToFile' is always true.</Message>
+    <CodePrev>2674828171</CodePrev>
+    <CodeCurrent>3700435587</CodeCurrent>
+    <CodeNext>1483823337</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>PreferenceMonitor.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'entryAccessor != null' is always true.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>372166633</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>PreferenceMonitor.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'isPlayerPrefs' is always true.</Message>
+    <CodePrev>90080130</CodePrev>
+    <CodeCurrent>2346200630</CodeCurrent>
+    <CodeNext>1759539335</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>PreferenceMonitor.cs</FileName>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'PreferenceMonitor' class containing IDisposable members does not itself implement IDisposable. Inspect: serializedObject.</Message>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>3636085750</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>PreferenceStorageAccessor.cs</FileName>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'WindowsPrefStorage' class containing IDisposable members does not itself implement IDisposable. Inspect: monitor.</Message>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>647112728</CodeCurrent>
+    <CodeNext>123</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>Text2Yaml.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'line.Length &gt; _' is always true.</Message>
+    <CodePrev>3389430686</CodePrev>
+    <CodeCurrent>74433873</CodeCurrent>
+    <CodeNext>3687380751</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>Text2Yaml.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'line.Length &gt; _' is always true.</Message>
+    <CodePrev>3389438878</CodePrev>
+    <CodeCurrent>74433873</CodeCurrent>
+    <CodeNext>3069225842</CodeNext>
+  </Meryel.CodeAssist.Editor>
+  <Meryel.CodeAssist.Editor>
+    <FileName>UnityInputManager.cs</FileName>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression '!CreateBindingsMap(out var buttonKeys, out var buttonAxis)' is always false.</Message>
+    <CodePrev>298559460</CodePrev>
+    <CodeCurrent>2698258420</CodeCurrent>
+    <CodeNext>5607</CodeNext>
+  </Meryel.CodeAssist.Editor>
+</NewDataSet>

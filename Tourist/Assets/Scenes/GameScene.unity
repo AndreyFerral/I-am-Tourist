@@ -55991,8 +55991,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 991517753}
-        m_TargetAssemblyTypeName: Choice, Assembly-CSharp
-        m_MethodName: ShowClosePanel
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: Backpack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -56053,9 +56053,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backpackPanel: {fileID: 1081088514}
-  smallPanel: {fileID: 1061795785}
-  mediumPanel: {fileID: 553895616}
-  largePanel: {fileID: 361792606}
 --- !u!114 &991517754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56068,19 +56065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec738e90904f7324aaf330c777022a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallPanel:
-  - {fileID: 1892245385}
-  - {fileID: 1010356799}
-  mediumPanel:
-  - {fileID: 1393541708}
-  - {fileID: 975130670}
-  - {fileID: 210773511}
-  - {fileID: 1442993485}
-  largePanel:
-  - {fileID: 1999012292}
-  - {fileID: 1760820004}
-  - {fileID: 1334411264}
-  - {fileID: 977965821}
+  backpackPanel: {fileID: 1081088514}
 --- !u!1 &1008021630
 GameObject:
   m_ObjectHideFlags: 0
@@ -61310,7 +61295,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081088514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 

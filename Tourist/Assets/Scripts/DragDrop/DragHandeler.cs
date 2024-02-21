@@ -38,6 +38,9 @@ public class DragHandeler : MonoBehaviour,
 
         if (Inventory.IsOpen)
         {
+            Debug.Log("OnBeginDrag WriteInformation");
+            ItemsController.WriteInformation();
+
             if (!ItemsController.CanDrag(itemBeginDragged))
             {
                 Debug.Log("OnDrag запрещен");

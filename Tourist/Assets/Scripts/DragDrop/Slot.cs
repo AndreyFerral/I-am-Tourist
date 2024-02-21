@@ -19,18 +19,23 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (Inventory.IsOpen)
+        // Запрещаем OnDrop, если он не соответствует правилам функции
+        if (Inventory.IsOpen && !ItemsController.CanDrop(eventData.pointerEnter))
         {
-            if (!ItemsController.CanDrop(eventData.pointerEnter))
-            {
-                Debug.Log("OnDrop запрещен");
-                return;
-            }
+            Debug.Log("OnDrop запрещен");
+            return;
         }
 
         // Если на слоте нет предметов
         if (!Item)
         {
+            // Записываем информацию по содержимому инвентарю
+            if (Inventory.IsOpen)
+            {
+                Debug.Log("OnDrop WriteInformation");
+                ItemsController.WriteInformation();
+            }
+
             itemBeginDrag = DragHandeler.itemBeginDragged;
             itemBeginDrag.transform.SetParent(transform);
         }

@@ -62,29 +62,6 @@ public class HouseTransfer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Пример 2: Сохранение и загрузка списка других данных
-        
-        List<LevelData> levelList = new List<LevelData>();
-        levelList.Add(new LevelData("Sword", 10));
-        levelList.Add(new LevelData("Shield", 5));
-        JsonSaveLoadSystem.SaveListData(levelList);
-        JsonSaveLoadSystem.AddDataToList(new LevelData("Shield", 5));
-
-        JsonSaveLoadSystem.AddDataToList(new ItemData("Shield", 5, 15));
-        
-        List<LevelData> loadedItemList = JsonSaveLoadSystem.LoadListData<LevelData>();
-        List<ItemData> loadedList = JsonSaveLoadSystem.LoadListData<ItemData>();
-
-        foreach (LevelData item in loadedItemList)
-        {
-            Debug.Log("Item Name: " + item.Name + ", Power: " + item.Score);
-        }
-
-        foreach (ItemData item in loadedList)
-        {
-            Debug.Log("Item Name: " + item.Name + ", Power: " + item.Score + ", Weight: " + item.Weight);
-        }
-
         if (other.CompareTag(playerTag))
         {
             // Если игрок дома

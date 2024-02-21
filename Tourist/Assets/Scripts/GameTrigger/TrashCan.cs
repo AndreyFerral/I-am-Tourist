@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TrashCan : MonoBehaviour
@@ -173,7 +173,7 @@ public class TrashCan : MonoBehaviour
 
     public bool CheckBackpack()
     {
-        Transform[] slots = ItemsController.Slots;
+        List<Transform> slots = ItemsController.Slots;
 
         // Проходимся по всем дочерним объектам
         foreach (Transform children in slots)

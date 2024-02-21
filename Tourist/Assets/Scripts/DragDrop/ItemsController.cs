@@ -1,57 +1,46 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ItemsController : MonoBehaviour
 {
+    [SerializeField] GameObject backpackPanel;
+    private GameObject _backpackPanel;
+    private static List<Transform> slots;
+
     private static int idBackpack;
     private static List<string> items;
-    [SerializeField] Transform[] smallPanel;
-    [SerializeField] Transform[] mediumPanel;
-    [SerializeField] Transform[] largePanel;
-    [SerializeField] static Transform[] slots;
-    private bool isRestore = false;
-    private Button buttonObject;
+    private static bool isRestore;
 
-    public static Transform[] Slots => slots;
+    public static List<Transform> Slots => slots;
 
-    private void Start()
+    void Start()
     {
+        // Рюкзак не был восстановлен
+        isRestore = false;
+
+        slots = new List<Transform>();
+
+        // 0 - Small, 1 - Medium, 2 - Large Backpack Panel
         idBackpack = DataHolder.IdBackpack;
-        items = DataHolder.Items;
+        _backpackPanel = backpackPanel.transform.GetChild(idBackpack).gameObject;
 
-        // Назначаем обработчик для кнопки
-        buttonObject = gameObject.GetComponent<Button>();
-        buttonObject.onClick.AddListener(ButtonClick);
-
-        // Если не записано значение, то вызывается маленький рюкзак
-        if (idBackpack == 1) slots = mediumPanel;
-        else if (idBackpack == 2) slots = largePanel;
-        else slots = smallPanel;
-    }
-
-    public void Update()
-    {
-        // Если рюкзак открыт, то записываем его содержимое
-        if (Inventory.IsOpen) WriteInformation();
-    }
-
-    // Метод, который будет вызываться при клике на кнопку
-    private void ButtonClick()
-    {
-        // Восстанавливаем вещи рюкзака, если скрипт приклеплен к BackpackButton
-        if (gameObject.name == "BackpackButton" && !isRestore)
+        for (int i = 0; i < _backpackPanel.transform.childCount; i++)
         {
-            RestoreInformation();
-            isRestore = true;
+            // Перебираем BackpackFront и BackpackBack
+            GameObject child = _backpackPanel.transform.GetChild(i).gameObject;
+
+            for (int j = 0; j < child.transform.childCount; j++)
+            {
+                // Добавляем панели рюкзака (левая, правая, верхняя, нижняя), в которых хранятся ячейки
+                slots.Add(child.transform.GetChild(j));
+            }
         }
     }
 
     public static void WriteInformation()
     {
-        List<string> tempItems = new List<string>();
+        // Если есть данные - обнуляем
+        items = new List<string>();
 
         // Проходимся по всем дочерним объектам
         foreach (Transform children in slots)
@@ -63,16 +52,21 @@ public class ItemsController : MonoBehaviour
                 GameObject item = slotTransform.GetComponent<Slot>().Item;
 
                 // Помещаем его название, иначе 0
-                if (item) tempItems.Add(item.name);
-                else tempItems.Add("0");
+                if (item) items.Add(item.name);
+                else items.Add("0");
             }
         }
-        DataHolder.Items = tempItems;
-        items = DataHolder.Items;
+        DataHolder.Items = items;
     }
 
-    public void RestoreInformation()
+    public static void RestoreInformation()
     {
+        Debug.Log("Восстанавливаем при нажатии");
+
+        if (isRestore || items == null) return;
+        isRestore = true;
+
+        items = DataHolder.Items;
         int counter = 0;
 
         // Проходимся по всем дочерним объектам
@@ -92,8 +86,8 @@ public class ItemsController : MonoBehaviour
         }
         Debug.Log("Содержимое инвентаря восстановлено");
     }
-
-    private void RestoreItem(string nameItem, Transform slot)
+    
+    private static void RestoreItem(string nameItem, Transform slot)
     {
         // Восстановление объекта
         string namePrefab = "Prefabs/" + nameItem;
