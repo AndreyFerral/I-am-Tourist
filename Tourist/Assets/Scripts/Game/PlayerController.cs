@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
-    [SerializeField] StaminaBar scriptSB;
     [SerializeField] GameObject finalMenu;
     [SerializeField] EventInfo brookEvent;
     [SerializeField] EventInfo rainEvent;
@@ -17,8 +16,8 @@ public class PlayerController : MonoBehaviour
     private Transform handleJoystick;
 
     private float staminaMin = 0f;
-    private float staminaBackpack;
     private float coroutineTime = 1f;
+    private float staminaBackpack;
     private float staminaBrook;
     private float staminaRain;
 
@@ -55,30 +54,31 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
+            // Если игрок дома, то не отнимаем выносливость
             bool isHome = HouseTransfer.IsHome;
 
             // Если закончилась выносливость
-            if (scriptSB.GetStamina() <= staminaMin)
+            if (StaminaBar.GetStamina() <= staminaMin && !isHome)
             {
                 PrepareLoseMenu();
                 yield break;
             }
-            // Если игрок передвигается вне дома
+            // Если игрок передвигается
             if (animator.GetBool("moving") && !isHome)
             {
-                scriptSB.MinusStamina(staminaBackpack);
+                StaminaBar.MinusStamina(staminaBackpack);
                 Debug.Log("Рюкзак. Отнимаем " + staminaBackpack);
             }
             // Если игрок находится на ручье
             if (TrashCan.IsBrook && !isHome)
             {
-                scriptSB.MinusStamina(staminaBrook);
+                StaminaBar.MinusStamina(staminaBrook);
                 Debug.Log("Ручей. Отнимаем " + staminaBrook);
             }
             // Если игрок под дождем
             if (TrashCan.IsRain && !isHome)
             {
-                scriptSB.MinusStamina(staminaRain);
+                StaminaBar.MinusStamina(staminaRain);
                 Debug.Log("Дождь. Отнимаем " + staminaRain);
             }
 

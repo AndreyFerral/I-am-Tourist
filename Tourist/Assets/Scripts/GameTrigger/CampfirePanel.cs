@@ -21,7 +21,6 @@ public class CampfirePanel : MonoBehaviour
     [Header("Other")]
     [SerializeField] EventInfo eventInfo;
     [SerializeField] InteractPanel scriptIP;
-    [SerializeField] StaminaBar staminaBar;
 
     public EventInfo EventInfo => eventInfo;
 
@@ -89,7 +88,7 @@ public class CampfirePanel : MonoBehaviour
         if (CanCraftItem(eatCraft))
         {
             float staminaPlus = eventInfo.PositiveEffect;
-            staminaBar.PlusStamina(staminaPlus);
+            StaminaBar.PlusStamina(staminaPlus);
             Debug.Log("Скушан");
         }
         else Debug.Log("Не скушан");

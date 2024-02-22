@@ -1,32 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
-    [SerializeField] Slider slider;
-    private float maxStamina = 100;
+    private static Slider slider;
 
-    public void MinusStamina(float number)
+    void Start()
     {
-        slider.value = slider.value - number;
+        slider = GetComponent<Slider>();
     }
 
-    public void PlusStamina(float number)
+    public static void MinusStamina(float amount)
     {
-        slider.value = slider.value + number;
+        slider.value -= amount;
     }
 
-    public void SetMaxStamina()
+    public static void PlusStamina(float amount)
     {
-        slider.value = maxStamina;
+        slider.value += amount;
     }
 
-    public void SetStamina(float number)
+    public static void SetMaxStamina()
     {
-        slider.value = number;
+        slider.value = 100;
     }
 
-    public float GetStamina()
+    public static float GetStamina()
     {
         return slider.value;
     }

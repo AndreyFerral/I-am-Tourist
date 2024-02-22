@@ -12,7 +12,6 @@ public class InteractPanel : MonoBehaviour
 
     [Header("Finish")]
     [SerializeField] GameObject houseOut;
-    [SerializeField] StaminaBar scriptSB;
     [SerializeField] DialogBox scriptDB;
     [SerializeField] FinalMenu scriptFM;
 
@@ -167,7 +166,7 @@ public class InteractPanel : MonoBehaviour
         {
             // Устанавливаем значения после завершения маршрута
             interactPanel.SetActive(false);
-            scriptSB.SetMaxStamina();
+            //StaminaBar.SetMaxStamina();
             notifyCollider.enabled = true;
             DataHolder.IsAfterRoute = true;
 

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EatPanel : MonoBehaviour
 {
-    [SerializeField] StaminaBar staminaBar;
     [SerializeField] Transform useSlots;
     [SerializeField] Transform quickSlots;
     [SerializeField] EventInfo eventInfo;
@@ -40,7 +39,7 @@ public class EatPanel : MonoBehaviour
                 // Уничтожаем вещь
                 Destroy(item);
                 // Восстанавливаем выносливость
-                staminaBar.PlusStamina(staminaPlus);
+                StaminaBar.PlusStamina(staminaPlus);
 
                 if (CanUseItem(item, itemsPack))
                 {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 public class TrashCan : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class TrashCan : MonoBehaviour
     private bool isBrookOld;
     public static bool IsRain;
     private bool isRainOld;
+
+    void Start()
+    {
+        IsBrook = false;
+        IsRain = false;
+    }
 
     private void CheckEvent(
         bool isEvent, bool isEventOld, string[] message)
