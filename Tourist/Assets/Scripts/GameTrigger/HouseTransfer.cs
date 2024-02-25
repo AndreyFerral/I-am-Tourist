@@ -64,6 +64,8 @@ public class HouseTransfer : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
+            DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+
             // Если игрок дома
             if (isHome)
             {
@@ -73,15 +75,13 @@ public class HouseTransfer : MonoBehaviour
                 // Если игрок не сообщил о начале маршрута
                 if (!isNotifyStart)
                 {
-                    string textDB = scriptDB.NotifyDB[0];
-                    scriptDB.StartDialogBox(textDB);
+                    scriptDB.StartDialogBox(dialog.TextBefore);
                     return;
                 }
                 // Если игрок прошел маршрут
                 else if (isAfterRoute)
                 {
-                    string textDB = scriptDB.NotifyDB[1];
-                    scriptDB.StartDialogBox(textDB);
+                    scriptDB.StartDialogBox(dialog.TextAfter);
                     return;
                 }
             }

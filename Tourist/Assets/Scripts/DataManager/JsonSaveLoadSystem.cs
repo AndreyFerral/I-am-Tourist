@@ -5,18 +5,45 @@ using System.IO;
 
 public static class JsonSaveLoadSystem
 {
-    // Путь к папке для сохранения файлов
-    private static string saveFolderPath = Application.persistentDataPath;
+    // Получаем путь к папкам StreamingAssets и persistentDataPath
+    private static string sourceDir = Path.Combine(Application.streamingAssetsPath, "JSON");
+    private static string saveFolder = Path.Combine(Application.persistentDataPath, "JSON");
+
+    public static void CreateJSON()
+    {
+        Debug.Log("Вызван метод CreateJSON");
+
+        // Проверяем, существует ли папка и создаем, если не существует
+        if (!Directory.Exists(saveFolder)) Directory.CreateDirectory(saveFolder);
+
+        // Получаем все JSON-файлы из папки StreamingAssets
+        string[] jsonFiles = Directory.GetFiles(sourceDir, "*.json");
+
+        // Переносим каждый файл в папку persistentDataPath
+        foreach (string file in jsonFiles)
+        {
+            string fileName = Path.GetFileName(file);
+            string destFile = Path.Combine(saveFolder, fileName);
+            if (!File.Exists(destFile))
+            {
+                File.Copy(file, destFile);
+            }
+        }
+    }
 
     // Метод для сохранения списка данных в JSON файл
     public static void SaveListData<T>(List<T> dataList)
     {
         Debug.Log("Вызван метод SaveListData");
 
+        // Проверяем, существует ли папка и создаем, если не существует
+        if (!Directory.Exists(saveFolder)) Directory.CreateDirectory(saveFolder);
+
         // Создаем имя файла на основе имени типа
         string jsonFileName = typeof(T).Name + "List.json";
         // Создаем полный путь к файлу
-        string jsonFilePath = Path.Combine(saveFolderPath, jsonFileName);
+        string jsonFilePath = Path.Combine(saveFolder, jsonFileName);
+
         // Сериализуем список в JSON
         string jsonData = JsonConvert.SerializeObject(dataList);
 
@@ -32,7 +59,7 @@ public static class JsonSaveLoadSystem
         // Создаем имя файла на основе имени типа
         string jsonFileName = typeof(T).Name + "List.json";
         // Создаем полный путь к файлу
-        string jsonFilePath = Path.Combine(saveFolderPath, jsonFileName);
+        string jsonFilePath = Path.Combine(saveFolder, jsonFileName);
 
         List<T> dataList;
 
@@ -66,7 +93,7 @@ public static class JsonSaveLoadSystem
         // Создаем имя файла на основе имени типа
         string jsonFileName = typeof(T).Name + "List.json";
         // Создаем полный путь к файлу
-        string jsonFilePath = Path.Combine(saveFolderPath, jsonFileName);
+        string jsonFilePath = Path.Combine(saveFolder, jsonFileName);
 
         if (File.Exists(jsonFilePath))
         {

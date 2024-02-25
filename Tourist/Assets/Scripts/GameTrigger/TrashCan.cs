@@ -1,6 +1,6 @@
+using DataNamespace;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore;
 
 public class TrashCan : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class TrashCan : MonoBehaviour
     private bool isTrashDrop = false;
 
     public bool IsTrashDrop => isTrashDrop;
-    public EventInfo EventInfo => eventInfo;
+    //public EventInfo EventInfo => eventInfo;
 
     public static bool IsBrook;
     private bool isBrookOld;
@@ -23,44 +23,10 @@ public class TrashCan : MonoBehaviour
         IsRain = false;
     }
 
-    private void CheckEvent(
-        bool isEvent, bool isEventOld, string[] message)
-    {
-        // Обновляем значение 
-        if (!CheckQuick()) isEvent = true;
-        else isEvent = false;
-
-        // Если значение изменилось выводим сообщение
-        if (isEventOld != isEvent)
-        {
-            isEventOld = isEvent;
-            if (!CheckQuick())
-                scriptDB.StartDialogBox(message[0]);
-            else scriptDB.StartDialogBox(message[1]);
-        }
-    }
-
-    private void StartEvent(
-        bool isEvent, bool isEventOld, string[] message)
-    {
-        if (!CheckQuick())
-        {
-            // Если пользователь на речке без сапог
-            isEvent = true;
-            scriptDB.StartDialogBox(message[0]);
-        }
-        else
-        {
-            // Если пользователь на речке в сапогах
-            isEvent = false;
-            scriptDB.StartDialogBox(message[1]);
-        }
-        isEventOld = isEvent;
-    }
-
-
     public void CheckBrook()
     {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+
         // Обновляем значение 
         if (!CheckQuick()) IsBrook = true;
         else IsBrook = false;
@@ -69,31 +35,34 @@ public class TrashCan : MonoBehaviour
         if (isBrookOld != IsBrook)
         {
             isBrookOld = IsBrook;
-            if (!CheckQuick())
-                scriptDB.StartDialogBox(scriptDB.BrookDB[0]);
-            else scriptDB.StartDialogBox(scriptDB.BrookDB[1]);
+            if (!CheckQuick()) scriptDB.StartDialogBox(dialog.TextBefore);
+            else scriptDB.StartDialogBox(dialog.TextAfter);
         }
     }
 
     public void StartBrook()
     {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+
         if (!CheckQuick())
         {
             // Если пользователь на речке без сапог
             IsBrook = true;
-            scriptDB.StartDialogBox(scriptDB.BrookDB[0]);
+            scriptDB.StartDialogBox(dialog.TextBefore);
         }
         else
         {
             // Если пользователь на речке в сапогах
             IsBrook = false;
-            scriptDB.StartDialogBox(scriptDB.BrookDB[1]);
+            scriptDB.StartDialogBox(dialog.TextAfter);
         }
         isBrookOld = IsBrook;
     }
 
     public void CheckRain()
     {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+
         // Обновляем значение 
         if (!CheckQuick()) IsRain = true;
         else IsRain = false;
@@ -102,25 +71,26 @@ public class TrashCan : MonoBehaviour
         if (isRainOld != IsRain)
         {
             isRainOld = IsRain;
-            if (!CheckQuick())
-                scriptDB.StartDialogBox(scriptDB.RainDB[0]);
-            else scriptDB.StartDialogBox(scriptDB.RainDB[1]);
+            if (!CheckQuick()) scriptDB.StartDialogBox(dialog.TextBefore);
+            else scriptDB.StartDialogBox(dialog.TextAfter);
         }
     }
 
     public void StartRain()
     {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+
         if (!CheckQuick())
         {
             // Если пользователь на речке без сапог
             IsRain = true;
-            scriptDB.StartDialogBox(scriptDB.RainDB[0]);
+            scriptDB.StartDialogBox(dialog.TextBefore);
         }
         else
         {
             // Если пользователь на речке в сапогах
             IsRain = false;
-            scriptDB.StartDialogBox(scriptDB.RainDB[1]);
+            scriptDB.StartDialogBox(dialog.TextAfter);
         }
         isRainOld = IsRain;
     }
@@ -148,8 +118,7 @@ public class TrashCan : MonoBehaviour
     // Метод, проверяющий нижнию панель на соответствие событию
     private bool CanUseItem(GameObject item)
     {
-        DragHandeler dragHandel =
-            item.GetComponent<DragHandeler>();
+        DragHandeler dragHandel = item.GetComponent<DragHandeler>();
 
         // Проходимся по всем доступным вещам в событии
         foreach (ItemsInfo itemInfo in eventInfo.Items)

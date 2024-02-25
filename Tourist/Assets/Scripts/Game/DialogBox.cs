@@ -13,33 +13,6 @@ public class DialogBox : MonoBehaviour
     private GameObject dbSprite;
     private bool activeObject = false;
 
-    private string[] notifyDB = {
-        "Сначала мне нужно сообщить о том, что я пошел в поход",
-        "Мне нужно сообщить о том, что я вернулся из похода",
-        "Теперь я могу отправиться в поход!"
-    };
-
-    private string[] brookDB = {
-        "Мне нужно надеть сапоги или уйти с ручья",
-        "На мне сапоги - я не намочу ноги"
-    };
-
-    private string[] rainDB = {
-        "Мне нужно взять зонт или надеть плащ",
-        "Теперь я не промокну"
-    };
-
-    private string[] trashDB = {
-        "В мусорное ведро можно выбросить фантики"
-    };
-
-    public string[] NotifyDB => notifyDB;
-    public string[] BrookDB => brookDB;
-    public string[] RainDB => rainDB;
-
-    public string[] TrashDB => trashDB;
-
-
     void Awake()
     {
         dbSprite = transform.GetChild(0).gameObject;

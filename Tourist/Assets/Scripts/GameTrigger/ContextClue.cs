@@ -42,13 +42,13 @@ public class ContextClue : MonoBehaviour
         else if (other.CompareTag(picnicTag))
         {
             // Настраиваем панель взаимодействия
-            interact.SetEatPanels(true);
+            interact.SetEatPanels(other, true);
         }
         // Если этот объект костёр
         else if (other.CompareTag(campfireTag))
         {
             // Настраиваем панель взаимодействия
-            interact.SetEatPanels(false);
+            interact.SetEatPanels(other, false);
         }
         // Если этот объект подбираемый
         else if (other.CompareTag(itemPickTag))
@@ -79,12 +79,7 @@ public class ContextClue : MonoBehaviour
         else if (other.CompareTag(finishTag))
         {
             // Настраиваем панель взаимодействия
-            interact.SetFinish();
-        }
-        else if (other.CompareTag(finishTag))
-        {
-            // Настраиваем панель взаимодействия
-            interact.SetFinish();
+            interact.SetFinish(other);
         }
         else if (other.CompareTag(brookTag))
         {

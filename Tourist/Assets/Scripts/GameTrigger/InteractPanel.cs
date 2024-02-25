@@ -1,3 +1,5 @@
+using DataNamespace;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,24 +25,6 @@ public class InteractPanel : MonoBehaviour
     [SerializeField] Button backpackButton;
 
     private Collider2D notifyCollider;
-    private string openName = "Открыть";
-
-    private string[] pickupNames = {
-        "Подобрать", "Нет места"
-    };
-
-    private string[] trashNames = {
-        "Выбросить мусор", "Нет мусора"
-    };
-
-    private string[] notifyNames = {
-        "Сообщить о начале похода", "Сообщить о конце похода",
-        "Родственникам и МЧС"
-    };
-
-    private string[] finishNames = {
-        "Маршрут пройден", "Домой"
-    };
 
     public void SetItemPick(Collider2D other)
     {
@@ -48,17 +32,22 @@ public class InteractPanel : MonoBehaviour
         ChangeTextSize(textSize);
 
         // Устанавливаем названия панели
-        DragHandeler dragHandel =
-            other.GetComponent<DragHandeler>();
-        string itemName = dragHandel.ItemInfo.NameItem;
+        
 
+        // TODO заменить scriptable на json
+        DragHandeler dragHandel = other.GetComponent<DragHandeler>();
+        string itemName = dragHandel.ItemInfo.NameItem;
         interactHeader.text = itemName;
+
+        string tag = other.gameObject.tag;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+
         interactButton.onClick.RemoveAllListeners();
 
         // Если есть пустые слоты в нижних ячейках
         if (GetEmptySlot() != null)
         {
-            buttonText.text = pickupNames[0];
+            buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
                 ItemPick(other, itemName);
@@ -66,7 +55,7 @@ public class InteractPanel : MonoBehaviour
         }
         else
         {
-            buttonText.text = pickupNames[1];
+            buttonText.text = interact.TextNegative;
             interactButton.onClick.AddListener(delegate
             {
                 interactPanel.SetActive(false);
@@ -93,16 +82,19 @@ public class InteractPanel : MonoBehaviour
 
         // Устанавливаем названия панели
         TrashCan trashCan = other.GetComponent<TrashCan>();
-        string eventName = trashCan.EventInfo.NameEvent;
+        string tag = other.gameObject.tag;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(tag);
 
-        interactHeader.text = eventName;
+        interactHeader.text = interact.TextName;
+        scriptDB.StartDialogBox(dialog.TextBefore);
+
         interactButton.onClick.RemoveAllListeners();
-        scriptDB.StartDialogBox(scriptDB.TrashDB[0]);
 
         // Если есть мусор в нижних ячейках
         if (trashCan.CheckQuick() != false)
         {
-            buttonText.text = trashNames[0];
+            buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
                 trashCan.UseItems();
@@ -111,7 +103,7 @@ public class InteractPanel : MonoBehaviour
         }
         else
         {
-            buttonText.text = trashNames[1];
+            buttonText.text = interact.TextNegative;
             interactButton.onClick.AddListener(delegate
             {
                 interactPanel.SetActive(false);
@@ -124,11 +116,15 @@ public class InteractPanel : MonoBehaviour
         const int textSize = 14;
         ChangeTextSize(textSize);
 
-        // Устанавливаем названия панели
+        string tag = other.gameObject.tag;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(tag);
+
+        // Устанавливаем названия панели в зависимости пройден ли уровень
         bool isAfterRoute = DataHolder.IsAfterRoute;
-        int аfterRoute = isAfterRoute ? 1 : 0;
-        interactHeader.text = notifyNames[аfterRoute];
-        buttonText.text = notifyNames[2];
+        if (!isAfterRoute) interactHeader.text = interact.TextPositive;
+        else interactHeader.text = interact.TextNegative;
+        buttonText.text = interact.TextName;
 
         interactButton.onClick.RemoveAllListeners();
         interactButton.onClick.AddListener(delegate
@@ -142,7 +138,7 @@ public class InteractPanel : MonoBehaviour
             if (!isAfterRoute)
             {
                 DataHolder.IsNotifyStart = true;
-                scriptDB.StartDialogBox(scriptDB.NotifyDB[2]);
+                scriptDB.StartDialogBox(dialog.TextAfter);
             }
             else
             {
@@ -152,21 +148,24 @@ public class InteractPanel : MonoBehaviour
         });
     }
 
-    public void SetFinish()
+    public void SetFinish(Collider2D other)
     {
         const int textSize = 16;
         ChangeTextSize(textSize);
 
-        // Устанавливаем названия панели
-        interactHeader.text = finishNames[0];
-        buttonText.text = finishNames[1];
+        // Устанавливаем названия и текст для финиша
+        string tag = other.gameObject.tag;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData(tag);
+
+        interactHeader.text = interact.TextName;
+        buttonText.text = interact.TextPositive;
 
         interactButton.onClick.RemoveAllListeners();
         interactButton.onClick.AddListener(delegate
         {
             // Устанавливаем значения после завершения маршрута
             interactPanel.SetActive(false);
-            //StaminaBar.SetMaxStamina();
             notifyCollider.enabled = true;
             DataHolder.IsAfterRoute = true;
 
@@ -175,26 +174,21 @@ public class InteractPanel : MonoBehaviour
             houseOut.transform.position =
                 player.transform.position;
 
-            // Выводим на экран DialogBox
-            scriptDB.StartDialogBox(scriptDB.NotifyDB[1]);
+            // Выводим на экран DialogBox текст после нажатия на кнопку
+            scriptDB.StartDialogBox(dialog.TextAfter);
         });
     }
 
-    public void SetEatPanels(bool isPicnic)
+    public void SetEatPanels(Collider2D other, bool isPicnic)
     {
         const int textSize = 20;
         ChangeTextSize(textSize);
 
-        // Устанавливаем названия панели
-        EventInfo eventInfo;
-        if (isPicnic) eventInfo = picnicPanel.
-                GetComponent<EatPanel>().EventInfo;
-        else eventInfo = campfirePanel.
-                GetComponent<CampfirePanel>().EventInfo;
-        string eventName = eventInfo.NameEvent;
-
-        interactHeader.text = eventName;
-        buttonText.text = openName;
+        // Устанавливаем названия панели пикника/костра
+        string tag = other.gameObject.tag;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+        interactHeader.text = interact.TextName;
+        buttonText.text = interact.TextPositive;
 
         interactButton.onClick.RemoveAllListeners();
         interactButton.onClick.AddListener(delegate

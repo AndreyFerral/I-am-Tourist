@@ -15737,6 +15737,50 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &110986824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 110986825}
+  - component: {fileID: 110986826}
+  m_Layer: 0
+  m_Name: DataLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &110986825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110986824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.819433, y: 4.988842, z: -0.44411123}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &110986826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110986824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c045e2d9f1f460148a216722c8aa731a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &141071826
 GameObject:
   m_ObjectHideFlags: 0
@@ -18463,7 +18507,6 @@ MonoBehaviour:
   textButton: {fileID: 1080867594}
   eventInfo: {fileID: 11400000, guid: d042005abdd56324eb400a89d41d3b64, type: 2}
   scriptIP: {fileID: 2029562149}
-  staminaBar: {fileID: 1088573817}
 --- !u!1 &394581906
 GameObject:
   m_ObjectHideFlags: 0
@@ -31938,7 +31981,7 @@ RectTransform:
   - {fileID: 1063945593}
   - {fileID: 1408374435}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -50064,7 +50107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721c538bb0aff0f45a4bae1b393ddd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staminaBar: {fileID: 1088573817}
   useSlots: {fileID: 456068590}
   quickSlots: {fileID: 155634501}
   eventInfo: {fileID: 11400000, guid: 5cd4b1fdc225cad409dcf363e7205ed1, type: 2}
@@ -55556,7 +55598,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975130669
 GameObject:
@@ -61679,7 +61721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649ec0eb586df674d99a0bfbac15e515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1088573816}
 --- !u!4 &1093198170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5279357627702011399, guid: 22f96761b2f47174486b0d8325c80437, type: 3}
@@ -68500,7 +68541,7 @@ Transform:
   - {fileID: 703512286}
   - {fileID: 142447357}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413700047
 GameObject:
@@ -68533,7 +68574,7 @@ Transform:
   - {fileID: 472444551}
   - {fileID: 1841430898}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442993484
 GameObject:
@@ -70058,7 +70099,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 819538797}
-  scriptSB: {fileID: 1088573817}
   finalMenu: {fileID: 1408374434}
   brookEvent: {fileID: 11400000, guid: 884987520c58209458feae3db46d100a, type: 2}
   rainEvent: {fileID: 11400000, guid: 79fc9ba25b48c07459f285babd005889, type: 2}
@@ -70179,7 +70219,7 @@ Transform:
   m_Children:
   - {fileID: 2144676073}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1538594434
 Animator:
@@ -89384,7 +89424,7 @@ Transform:
   - {fileID: 144297006}
   - {fileID: 539375362}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836574075
 GameObject:
@@ -117388,7 +117428,6 @@ MonoBehaviour:
   interactButton: {fileID: 1586507645}
   buttonText: {fileID: 636833077}
   houseOut: {fileID: 1736672273}
-  scriptSB: {fileID: 1088573817}
   scriptDB: {fileID: 1445022424}
   scriptFM: {fileID: 1408374438}
   eatPanel: {fileID: 352834529}
