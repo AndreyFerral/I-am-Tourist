@@ -9,6 +9,7 @@ public static class JsonSaveLoadSystem
     private static string sourceDir = Path.Combine(Application.streamingAssetsPath, "JSON");
     private static string saveFolder = Path.Combine(Application.persistentDataPath, "JSON");
 
+    // Метод для переноса файлов JSON на устройство пользователя
     public static void CreateJSON()
     {
         Debug.Log("Вызван метод CreateJSON");

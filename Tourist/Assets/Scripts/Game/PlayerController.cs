@@ -1,3 +1,4 @@
+using DataNamespace;
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject finalMenu;
     [SerializeField] EventInfo brookEvent;
     [SerializeField] EventInfo rainEvent;
-    [SerializeField] BackpackInfo[] backpacks;
     private float moveSpeed = 3;
 
     private Rigidbody2D myRigidBody;
@@ -28,9 +28,10 @@ public class PlayerController : MonoBehaviour
         // Устанавливаем выносливость для событий
         staminaBrook = brookEvent.NegativeEffect;
         staminaRain = rainEvent.NegativeEffect;
+
         // Устанавливаем выносливость для рюкзака
-        int idBackpack = DataHolder.IdBackpack;
-        staminaBackpack = backpacks[idBackpack].Stamina;
+        BackpackData item = DataLoader.GetBackpackData(DataHolder.IdBackpack);
+        staminaBackpack = item.Stamina;
 
         animator = GetComponent<Animator>();
         myRigidBody = GetComponent<Rigidbody2D>();

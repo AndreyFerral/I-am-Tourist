@@ -87,7 +87,7 @@ public class MainMenu : MonoBehaviour
         JsonSaveLoadSystem.SaveListData(interactPanelDatas);
         */
 
-        
+        /*
         List<DialogBoxData> data = new List<DialogBoxData>();
         data.Add(new DialogBoxData("TrashCan", "В мусорное ведро можно выбросить фантики", ""));
         data.Add(new DialogBoxData("Notify", "", "Теперь я могу отправиться в поход!"));
@@ -95,7 +95,14 @@ public class MainMenu : MonoBehaviour
         data.Add(new DialogBoxData("Finish", "", "Мне нужно сообщить о том, что я вернулся из похода"));
         data.Add(new DialogBoxData("Brook", "Мне нужно надеть сапоги или уйти с ручья", "На мне сапоги - я не намочу ноги"));
         data.Add(new DialogBoxData("Rain", "Мне нужно взять зонт или надеть плащ", "Теперь я не промокну"));
+        JsonSaveLoadSystem.SaveListData(data);
+        */
 
+        
+        List<BackpackData> data = new List<BackpackData>();
+        data.Add(new BackpackData(0, "SmallBackpack", 2));
+        data.Add(new BackpackData(1, "MediumBackpack", 3));
+        data.Add(new BackpackData(2, "LargeBackpack", 4));
         JsonSaveLoadSystem.SaveListData(data);
         
     }
