@@ -1,5 +1,4 @@
 using DataNamespace;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,15 +29,17 @@ public class InteractPanel : MonoBehaviour
     {
         const int textSize = 20;
         ChangeTextSize(textSize);
+        
+        // Получаем название объекта
+        string objectName = other.name;
+        string[] tokens = objectName.Split(' ');
+        objectName = tokens[0].ToLower();
+
+        // Устанавливаем название объекта
+        ItemData item = DataLoader.GetItemData(objectName);
+        interactHeader.text = item.TextItem;
 
         // Устанавливаем названия панели
-        
-
-        // TODO заменить scriptable на json
-        DragHandeler dragHandel = other.GetComponent<DragHandeler>();
-        string itemName = dragHandel.ItemInfo.NameItem;
-        interactHeader.text = itemName;
-
         string tag = other.gameObject.tag;
         InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
 
@@ -50,7 +51,7 @@ public class InteractPanel : MonoBehaviour
             buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
-                ItemPick(other, itemName);
+                ItemPick(other, item.TextItem);
             });
         }
         else

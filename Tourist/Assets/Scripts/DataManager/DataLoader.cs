@@ -7,6 +7,7 @@ public class DataLoader : MonoBehaviour
     private static List<InteractPanelData> loadedInteractList;
     private static List<DialogBoxData> loadedDialogList;
     private static List<BackpackData> loadedBackpackList;
+    private static List<ItemData> loadedItemList;
 
     void Start()
     {
@@ -14,6 +15,8 @@ public class DataLoader : MonoBehaviour
         loadedInteractList = JsonSaveLoadSystem.LoadListData<InteractPanelData>();
         loadedDialogList = JsonSaveLoadSystem.LoadListData<DialogBoxData>();
         loadedBackpackList = JsonSaveLoadSystem.LoadListData<BackpackData>();
+        loadedItemList = JsonSaveLoadSystem.LoadListData<ItemData>();
+
         Debug.Log("Загрузка данных произошла успешно");
     }
 
@@ -40,6 +43,15 @@ public class DataLoader : MonoBehaviour
         foreach (BackpackData item in loadedBackpackList)
         {
             if (item.IdBackpack == id) return item;
+        }
+        return null;
+    }
+
+    public static ItemData GetItemData(string name)
+    {
+        foreach (ItemData item in loadedItemList)
+        {
+            if (item.FileName == name) return item;
         }
         return null;
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5279357627702011394}
   - component: {fileID: 5279357627702011398}
   m_Layer: 0
-  m_Name: Branch
+  m_Name: branch
   m_TagString: ItemPick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

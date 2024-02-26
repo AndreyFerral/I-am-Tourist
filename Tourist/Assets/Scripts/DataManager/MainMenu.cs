@@ -99,10 +99,26 @@ public class MainMenu : MonoBehaviour
         */
 
         
-        List<BackpackData> data = new List<BackpackData>();
-        data.Add(new BackpackData(0, "SmallBackpack", 2));
-        data.Add(new BackpackData(1, "MediumBackpack", 3));
-        data.Add(new BackpackData(2, "LargeBackpack", 4));
+        List<ItemData> data = new List<ItemData>();
+        data.Add(new ItemData("Prefabs/", "boots", "Ботинки", 0.2f));
+        data.Add(new ItemData("Prefabs/", "umbrella", "Зонт", 0.3f));
+        data.Add(new ItemData("Prefabs/", "saucepan", "Кастрюля", 0.5f));
+        data.Add(new ItemData("Prefabs/", "raincoat", "Плащ", 0.5f));
+
+        data.Add(new ItemData("Prefabs/", "branch", "Ветка", 0.1f));
+        data.Add(new ItemData("Prefabs/", "cutlery", "Приборы", 0.2f));
+        data.Add(new ItemData("Prefabs/", "energy-bar", "Батончик", 0.1f));
+        data.Add(new ItemData("Prefabs/", "lighter", "Зажигалка", 0.1f));
+        data.Add(new ItemData("Prefabs/", "matches", "Спички", 0.1f));
+        data.Add(new ItemData("Prefabs/", "packaging", "Мусор", 0.15f));
+        data.Add(new ItemData("Prefabs/", "plastic-cup", "Вода", 0.2f));
+        data.Add(new ItemData("Prefabs/", "raspberry", "Ягода", 0.1f));
+        data.Add(new ItemData("Prefabs/", "rice-bowl", "РисСырой", 0.3f));
+        data.Add(new ItemData("Prefabs/", "rice", "Рис", 0.25f));
+        data.Add(new ItemData("Prefabs/", "sandwich", "Бутерброд", 0.4f));
+        data.Add(new ItemData("Prefabs/", "thermos", "Термос", 0.6f));
+        data.Add(new ItemData("Prefabs/", "zip-bag", "Печеньки", 0.1f));
+
         JsonSaveLoadSystem.SaveListData(data);
         
     }

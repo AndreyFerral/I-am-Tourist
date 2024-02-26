@@ -5,8 +5,7 @@ using System.IO;
 
 public static class JsonSaveLoadSystem
 {
-    // Получаем путь к папкам StreamingAssets и persistentDataPath
-    private static string sourceDir = Path.Combine(Application.streamingAssetsPath, "JSON");
+    // Получаем путь к persistentDataPath
     private static string saveFolder = Path.Combine(Application.persistentDataPath, "JSON");
 
     // Метод для переноса файлов JSON на устройство пользователя
@@ -14,20 +13,19 @@ public static class JsonSaveLoadSystem
     {
         Debug.Log("Вызван метод CreateJSON");
 
-        // Проверяем, существует ли папка и создаем, если не существует
-        if (!Directory.Exists(saveFolder)) Directory.CreateDirectory(saveFolder);
-
-        // Получаем все JSON-файлы из папки StreamingAssets
-        string[] jsonFiles = Directory.GetFiles(sourceDir, "*.json");
-
-        // Переносим каждый файл в папку persistentDataPath
-        foreach (string file in jsonFiles)
+        if (!Directory.Exists(saveFolder))
         {
-            string fileName = Path.GetFileName(file);
-            string destFile = Path.Combine(saveFolder, fileName);
+            Directory.CreateDirectory(saveFolder);
+        }
+
+        TextAsset[] jsonFiles = Resources.LoadAll<TextAsset>("JSON");
+
+        foreach (TextAsset jsonFile in jsonFiles)
+        {
+            string destFile = Path.Combine(saveFolder, jsonFile.name + ".json");
             if (!File.Exists(destFile))
             {
-                File.Copy(file, destFile);
+                File.WriteAllText(destFile, jsonFile.text);
             }
         }
     }

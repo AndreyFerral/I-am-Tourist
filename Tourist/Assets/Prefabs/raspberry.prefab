@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8996503249903852999}
   - component: {fileID: 8996503249903853003}
   m_Layer: 0
-  m_Name: Berry
+  m_Name: raspberry
   m_TagString: ItemPick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
