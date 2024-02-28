@@ -11,12 +11,7 @@ public class StaminaBar : MonoBehaviour
         slider = GetComponent<Slider>();
     }
 
-    public static void MinusStamina(float amount)
-    {
-        slider.value -= amount;
-    }
-
-    public static void PlusStamina(float amount)
+    public static void ChangeStamina(float amount)
     {
         slider.value += amount;
     }

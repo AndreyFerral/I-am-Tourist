@@ -6,8 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
     [SerializeField] GameObject finalMenu;
-    [SerializeField] EventInfo brookEvent;
-    [SerializeField] EventInfo rainEvent;
     private float moveSpeed = 3;
 
     private Rigidbody2D myRigidBody;
@@ -26,12 +24,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // Устанавливаем выносливость для событий
-        staminaBrook = brookEvent.NegativeEffect;
-        staminaRain = rainEvent.NegativeEffect;
+        EventsItemsData eventBrook = DataLoader.GetEventsItemsData("Brook");
+        EventsItemsData eventRain = DataLoader.GetEventsItemsData("Rain");
+        staminaBrook = eventBrook.ValueStamina;
+        staminaRain = eventRain.ValueStamina;
 
         // Устанавливаем выносливость для рюкзака
-        BackpackData item = DataLoader.GetBackpackData(DataHolder.IdBackpack);
-        staminaBackpack = item.Stamina;
+        BackpackData backpack = DataLoader.GetBackpackData(DataHolder.IdBackpack);
+        staminaBackpack = -backpack.Stamina;
 
         animator = GetComponent<Animator>();
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -67,20 +67,20 @@ public class PlayerController : MonoBehaviour
             // Если игрок передвигается
             if (animator.GetBool("moving") && !isHome)
             {
-                StaminaBar.MinusStamina(staminaBackpack);
-                Debug.Log("Рюкзак. Отнимаем " + staminaBackpack);
+                StaminaBar.ChangeStamina(staminaBackpack);
+                Debug.Log("Рюкзак. Выносливость " + staminaBackpack);
             }
             // Если игрок находится на ручье
             if (TrashCan.IsBrook && !isHome)
             {
-                StaminaBar.MinusStamina(staminaBrook);
-                Debug.Log("Ручей. Отнимаем " + staminaBrook);
+                StaminaBar.ChangeStamina(staminaBrook);
+                Debug.Log("Ручей. Выносливость " + staminaBrook);
             }
             // Если игрок под дождем
             if (TrashCan.IsRain && !isHome)
             {
-                StaminaBar.MinusStamina(staminaRain);
-                Debug.Log("Дождь. Отнимаем " + staminaRain);
+                StaminaBar.ChangeStamina(staminaRain);
+                Debug.Log("Дождь. Выносливость " + staminaRain);
             }
 
             // Ожидаем определенное время

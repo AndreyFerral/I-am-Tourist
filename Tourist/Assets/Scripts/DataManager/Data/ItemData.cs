@@ -9,14 +9,14 @@ namespace DataNamespace
     {
         public string PathPicture;
         public string FileName;
-        public string TextItem;
+        public string VisibleName;
         public float WeightItem;
 
-        public ItemData(string path, string file, string text, float weight)
+        public ItemData(string path, string file, string name, float weight)
         {
             PathPicture = path;
             FileName = file;
-            TextItem = text;
+            VisibleName = name;
             WeightItem = weight;
         }
     }

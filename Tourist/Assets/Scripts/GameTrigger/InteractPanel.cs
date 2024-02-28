@@ -37,7 +37,7 @@ public class InteractPanel : MonoBehaviour
 
         // Устанавливаем название объекта
         ItemData item = DataLoader.GetItemData(objectName);
-        interactHeader.text = item.TextItem;
+        interactHeader.text = item.VisibleName;
 
         // Устанавливаем названия панели
         string tag = other.gameObject.tag;
@@ -51,7 +51,7 @@ public class InteractPanel : MonoBehaviour
             buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
-                ItemPick(other, item.TextItem);
+                ItemPick(other, item.VisibleName);
             });
         }
         else
@@ -87,7 +87,7 @@ public class InteractPanel : MonoBehaviour
         InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
         DialogBoxData dialog = DataLoader.GetDialogBoxData(tag);
 
-        interactHeader.text = interact.TextName;
+        interactHeader.text = interact.VisibleName;
         scriptDB.StartDialogBox(dialog.TextBefore);
 
         interactButton.onClick.RemoveAllListeners();
@@ -125,7 +125,7 @@ public class InteractPanel : MonoBehaviour
         bool isAfterRoute = DataHolder.IsAfterRoute;
         if (!isAfterRoute) interactHeader.text = interact.TextPositive;
         else interactHeader.text = interact.TextNegative;
-        buttonText.text = interact.TextName;
+        buttonText.text = interact.VisibleName;
 
         interactButton.onClick.RemoveAllListeners();
         interactButton.onClick.AddListener(delegate
@@ -159,7 +159,7 @@ public class InteractPanel : MonoBehaviour
         InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
         DialogBoxData dialog = DataLoader.GetDialogBoxData(tag);
 
-        interactHeader.text = interact.TextName;
+        interactHeader.text = interact.VisibleName;
         buttonText.text = interact.TextPositive;
 
         interactButton.onClick.RemoveAllListeners();
@@ -188,7 +188,7 @@ public class InteractPanel : MonoBehaviour
         // Устанавливаем названия панели пикника/костра
         string tag = other.gameObject.tag;
         InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
-        interactHeader.text = interact.TextName;
+        interactHeader.text = interact.VisibleName;
         buttonText.text = interact.TextPositive;
 
         interactButton.onClick.RemoveAllListeners();

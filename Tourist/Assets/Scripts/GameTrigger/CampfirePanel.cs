@@ -88,7 +88,7 @@ public class CampfirePanel : MonoBehaviour
         if (CanCraftItem(eatCraft))
         {
             float staminaPlus = eventInfo.PositiveEffect;
-            StaminaBar.PlusStamina(staminaPlus);
+            StaminaBar.ChangeStamina(staminaPlus);
             Debug.Log("Скушан");
         }
         else Debug.Log("Не скушан");

@@ -39,7 +39,7 @@ public class EatPanel : MonoBehaviour
                 // Уничтожаем вещь
                 Destroy(item);
                 // Восстанавливаем выносливость
-                StaminaBar.PlusStamina(staminaPlus);
+                StaminaBar.ChangeStamina(staminaPlus);
 
                 if (CanUseItem(item, itemsPack))
                 {
