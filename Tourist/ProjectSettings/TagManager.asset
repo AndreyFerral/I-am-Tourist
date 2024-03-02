@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Sign
-  - Campfire
   - Teleport
   - ItemPick
   - TrashCan
   - Notify
   - Brook
   - Rain
-  - Picnic
+  - OneEvent
+  - TwoEvent
+  - ThreeEvent
   layers:
   - Default
   - TransparentFX

@@ -120,6 +120,8 @@ public class TrashCan : MonoBehaviour
     {
         DragHandeler dragHandel = item.GetComponent<DragHandeler>();
 
+        DataLoader.GetItemData(item.name);
+
         // ѕроходимс€ по всем доступным вещам в событии
         foreach (ItemsInfo itemInfo in eventInfo.Items)
         {

@@ -123,24 +123,24 @@ public class MainMenu : MonoBehaviour
     private static void CreateEventsItemsData()
     {
         List<EventsItemsData> data = new List<EventsItemsData>();
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "plastic-cup" }, new List<string> { "plastic-cup" }, new List<string> { "" }, 10));
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "thermos" }, new List<string> { "thermos" }, new List<string> { "" }, 10));
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "raspberry" }, new List<string> { "raspberry" }, new List<string> { "" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Вода" }, new List<string> { "Вода" }, new List<string> { "" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Термос" }, new List<string> { "Термос" }, new List<string> { "" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Ягода" }, new List<string> { "Ягода" }, new List<string> { "" }, 10));
 
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "energy-bar" }, new List<string> { "energy-bar" }, new List<string> { "packaging" }, 10));
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "sandwich" }, new List<string> { "sandwich" }, new List<string> { "packaging" }, 10));
-        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "zip-bag" }, new List<string> { "zip-bag" }, new List<string> { "packaging" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Батончик" }, new List<string> { "Батончик" }, new List<string> { "Мусор" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Бутерброд" }, new List<string> { "Бутерброд" }, new List<string> { "Мусор" }, 10));
+        data.Add(new EventsItemsData("Picnic", 0, new List<string> { "Печеньки" }, new List<string> { "Печеньки" }, new List<string> { "Мусор" }, 10));
 
-        data.Add(new EventsItemsData("TrashCan", 0, new List<string> { "packaging" }, new List<string> { "packaging" }, new List<string> { "" }, 0));
-        data.Add(new EventsItemsData("Brook", 0, new List<string> { "boots" }, new List<string> { "" }, new List<string> { "" }, -2));
-        data.Add(new EventsItemsData("Rain", 0, new List<string> { "raincoat" }, new List<string> { "" }, new List<string> { "" }, -2));
-        data.Add(new EventsItemsData("Rain", 0, new List<string> { "umbrella" }, new List<string> { "" }, new List<string> { "" }, -2));
+        data.Add(new EventsItemsData("TrashCan", 0, new List<string> { "Мусор" }, new List<string> { "Мусор" }, new List<string> { "" }, 0));
+        data.Add(new EventsItemsData("Brook", 0, new List<string> { "Ботинки" }, new List<string> { "" }, new List<string> { "" }, -2));
+        data.Add(new EventsItemsData("Rain", 0, new List<string> { "Плащ" }, new List<string> { "" }, new List<string> { "" }, -2));
+        data.Add(new EventsItemsData("Rain", 0, new List<string> { "Зонт" }, new List<string> { "" }, new List<string> { "" }, -2));
 
-        data.Add(new EventsItemsData("Bonfire", 0, new List<string> { "branch", "lighter" }, new List<string> { "branch" }, new List<string> { "" }, 0));
-        data.Add(new EventsItemsData("Bonfire", 0, new List<string> { "branch", "matches" }, new List<string> { "branch" }, new List<string> { "" }, 0));
-        data.Add(new EventsItemsData("Bonfire", 1, new List<string> { "saucepan", "rice-bowl", "plastic-cup" }, new List<string> { "rice-bowl", "plastic-cup" }, new List<string> { "rice" }, 0));
-        data.Add(new EventsItemsData("Bonfire", 1, new List<string> { "saucepan", "rice-bowl", "thermos" }, new List<string> { "rice-bowl", "thermos" }, new List<string> { "rice" }, 0));
-        data.Add(new EventsItemsData("Bonfire", 2, new List<string> { "rice", "cutlery" }, new List<string> { "rice" }, new List<string> { "" }, 20));
+        data.Add(new EventsItemsData("Campfire", 0, new List<string> { "Ветка", "Зажигалка" }, new List<string> { "Ветка" }, new List<string> { "" }, 0));
+        data.Add(new EventsItemsData("Campfire", 0, new List<string> { "Ветка", "Спички" }, new List<string> { "Ветка" }, new List<string> { "" }, 0));
+        data.Add(new EventsItemsData("Campfire", 1, new List<string> { "Кастрюля", "РисСырой", "Вода" }, new List<string> { "РисСырой", "Вода" }, new List<string> { "Рис" }, 0));
+        data.Add(new EventsItemsData("Campfire", 1, new List<string> { "Кастрюля", "РисСырой", "Термос" }, new List<string> { "РисСырой", "Термос" }, new List<string> { "Рис" }, 0));
+        data.Add(new EventsItemsData("Campfire", 2, new List<string> { "Рис", "Приборы" }, new List<string> { "Рис" }, new List<string> { "" }, 20));
 
         JsonSaveLoadSystem.SaveListData(data);
     }
@@ -150,9 +150,9 @@ public class MainMenu : MonoBehaviour
         List<EventsInfoData> data = new List<EventsInfoData>();
         data.Add(new EventsInfoData("Picnic", 0, "", "Перекусить","" ,""));
 
-        data.Add(new EventsInfoData("Bonfire", 0, "", "Разжечь", "Разожжён", ""));
-        data.Add(new EventsInfoData("Bonfire", 1, "", "Приготовить", "", ""));
-        data.Add(new EventsInfoData("Bonfire", 2, "", "Съесть", "", ""));
+        data.Add(new EventsInfoData("Campfire", 0, "", "Разжечь", "Разожжён", ""));
+        data.Add(new EventsInfoData("Campfire", 1, "", "Приготовить", "", ""));
+        data.Add(new EventsInfoData("Campfire", 2, "", "Съесть", "", ""));
         
         JsonSaveLoadSystem.SaveListData(data);
     }
@@ -161,7 +161,7 @@ public class MainMenu : MonoBehaviour
     {
         List<EventsData> data = new List<EventsData>();
         data.Add(new EventsData("Picnic", "Пикник", ""));
-        data.Add(new EventsData("Bonfire", "Костёр", ""));
+        data.Add(new EventsData("Campfire", "Костёр", ""));
 
         JsonSaveLoadSystem.SaveListData(data);
     }
@@ -169,8 +169,10 @@ public class MainMenu : MonoBehaviour
     // Метод для добавления данных в JSON
     public static void AddDataToJson()
     {
+        /*
         CreateEventsItemsData();
         CreateEventsInfoData();
         CreateEventsData();
+        */
     }
 }

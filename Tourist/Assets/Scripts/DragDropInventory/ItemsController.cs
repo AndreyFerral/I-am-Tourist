@@ -90,9 +90,10 @@ public class ItemsController : MonoBehaviour
     private static void RestoreItem(string nameItem, Transform slot)
     {
         // Восстановление объекта
-        string namePrefab = "Prefabs/" + nameItem;
-        GameObject prefab = Resources.Load(namePrefab) as GameObject;
-        Instantiate(prefab, slot, false);
+        string prefabName = "Prefabs/" + nameItem;
+        GameObject prefab = Resources.Load(prefabName) as GameObject;
+        var item = Instantiate(prefab, slot, false);
+        item.gameObject.name = nameItem;
     }
 
     private static int GetIdItem(GameObject draggedItem)

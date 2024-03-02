@@ -14,8 +14,9 @@ public class ContextClue : MonoBehaviour
     // Теги действий, событий и прочего
     private string signTag = "Sign";
     private string teleportTag = "Teleport";
-    private string picnicTag = "Picnic";
-    private string campfireTag = "Campfire";
+    private string oneEventTag = "OneEvent";
+    private string twoEventTag = "TwoEvent";
+    private string threeEventTag = "ThreeEvent";
     private string itemPickTag = "ItemPick";
     private string trachCanTag = "TrashCan";
     private string notifyTag = "Notify";
@@ -39,16 +40,22 @@ public class ContextClue : MonoBehaviour
             // Тестовые вопросы
         }
         // Если этот объект пикник
-        else if (other.CompareTag(picnicTag))
+        else if (other.CompareTag(oneEventTag))
         {
             // Настраиваем панель взаимодействия
-            interact.SetEatPanels(other, true);
+            interact.SetEatPanels(other, 0);
         }
         // Если этот объект костёр
-        else if (other.CompareTag(campfireTag))
+        else if (other.CompareTag(twoEventTag))
         {
             // Настраиваем панель взаимодействия
-            interact.SetEatPanels(other, false);
+            interact.SetEatPanels(other, 1);
+        }
+        // Если этот объект костёр
+        else if (other.CompareTag(threeEventTag))
+        {
+            // Настраиваем панель взаимодействия
+            interact.SetEatPanels(other, 2);
         }
         // Если этот объект подбираемый
         else if (other.CompareTag(itemPickTag))
@@ -122,8 +129,9 @@ public class ContextClue : MonoBehaviour
         if (!other.CompareTag(teleportTag))
         {
             // Выключить панель еды
-            interact.ShowEatPanel(false, true);
-            interact.ShowEatPanel(false, false);
+            interact.ShowEatPanel(false, 0);
+            interact.ShowEatPanel(false, 1);
+            interact.ShowEatPanel(false, 2);
 
             // Выключить панель взаимодействия
             interactPanel.SetActive(false);

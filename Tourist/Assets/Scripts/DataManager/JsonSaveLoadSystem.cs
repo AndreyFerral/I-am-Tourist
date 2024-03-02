@@ -87,8 +87,6 @@ public static class JsonSaveLoadSystem
     // Метод для загрузки списка данных из JSON файла
     public static List<T> LoadListData<T>()
     {
-        Debug.Log("Вызван метод LoadListData");
-
         // Создаем имя файла на основе имени типа
         string jsonFileName = typeof(T).Name + "List.json";
         // Создаем полный путь к файлу

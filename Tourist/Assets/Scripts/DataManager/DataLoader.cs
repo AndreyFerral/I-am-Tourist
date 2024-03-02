@@ -1,5 +1,6 @@
 using DataNamespace;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class DataLoader : MonoBehaviour
@@ -87,8 +88,18 @@ public class DataLoader : MonoBehaviour
     {
         foreach (ItemData item in loadedItemList)
         {
-            if (item.FileName == name) return item;
+            if (item.VisibleName == name) return item;
         }
         return null;
+    }
+
+    public static List<EventsItemsData> GetListEventsItemsData(string name, int id=0)
+    {
+        List<EventsItemsData> returnList = new List<EventsItemsData>();
+        foreach (EventsItemsData item in loadedEventItemList)
+        {
+            if (item.EventName == name && item.EventInfoId == id) returnList.Add(item);
+        }
+        return returnList;
     }
 }

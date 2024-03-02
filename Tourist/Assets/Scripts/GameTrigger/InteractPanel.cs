@@ -18,8 +18,9 @@ public class InteractPanel : MonoBehaviour
 
     [Header("Other settings")]
     [SerializeField] GameObject eatPanel;
-    [SerializeField] GameObject picnicPanel;
-    [SerializeField] GameObject campfirePanel;
+    [SerializeField] GameObject onePanel;
+    [SerializeField] GameObject twoPanel;
+    [SerializeField] GameObject threePanel;
     [SerializeField] Transform quickSlots;
     [SerializeField] Button backpackButton;
 
@@ -33,11 +34,10 @@ public class InteractPanel : MonoBehaviour
         // Получаем название объекта
         string objectName = other.name;
         string[] tokens = objectName.Split(' ');
-        objectName = tokens[0].ToLower();
+        objectName = tokens[0];
 
         // Устанавливаем название объекта
-        ItemData item = DataLoader.GetItemData(objectName);
-        interactHeader.text = item.VisibleName;
+        interactHeader.text = objectName;
 
         // Устанавливаем названия панели
         string tag = other.gameObject.tag;
@@ -51,7 +51,7 @@ public class InteractPanel : MonoBehaviour
             buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
-                ItemPick(other, item.VisibleName);
+                ItemPick(other, objectName);
             });
         }
         else
@@ -64,16 +64,16 @@ public class InteractPanel : MonoBehaviour
         }
     }
 
-    private void ItemPick(Collider2D other, string itemName)
+    private void ItemPick(Collider2D other, string nameItem)
     {
         // Уничтожаем вещь
         Destroy(other.gameObject);
 
         // Создание объекта в нижних слотах
-        string namePrefab = "Prefabs/" + itemName;
-        GameObject prefab =
-            Resources.Load(namePrefab) as GameObject;
-        Instantiate(prefab, GetEmptySlot(), false);
+        string namePrefab = "Prefabs/" + nameItem;
+        GameObject prefab = Resources.Load(namePrefab) as GameObject;
+        var item = Instantiate(prefab, GetEmptySlot(), false);
+        item.gameObject.name = nameItem;
     }
 
     public void SetTrashCan(Collider2D other)
@@ -180,14 +180,14 @@ public class InteractPanel : MonoBehaviour
         });
     }
 
-    public void SetEatPanels(Collider2D other, bool isPicnic)
+    public void SetEatPanels(Collider2D other, int idPanel)
     {
         const int textSize = 20;
         ChangeTextSize(textSize);
 
         // Устанавливаем названия панели пикника/костра
-        string tag = other.gameObject.tag;
-        InteractPanelData interact = DataLoader.GetInteractPanelData(tag);
+        string name = other.gameObject.name;
+        InteractPanelData interact = DataLoader.GetInteractPanelData(name);
         interactHeader.text = interact.VisibleName;
         buttonText.text = interact.TextPositive;
 
@@ -195,25 +195,49 @@ public class InteractPanel : MonoBehaviour
         interactButton.onClick.AddListener(delegate
         {
             // Открываем панель
-            ShowEatPanel(true, isPicnic);
+            ShowEatPanel(true, idPanel);
+
+            switch (idPanel)
+            {
+                case 0:
+                    OneSlotPanel oneSlotPanel = new OneSlotPanel();
+                    oneSlotPanel.SetParam(other.gameObject.name);
+                    break;
+                case 1:
+                    TwoSlotPanel twoSlotPanel = new TwoSlotPanel();
+                    twoSlotPanel.SetParam(other.gameObject.name);
+                    break;
+                case 2:
+                    ThreeSlotPanel threeSlotPanel = new ThreeSlotPanel();
+                    threeSlotPanel.SetParam(other.gameObject.name);
+                    break;
+            }
         });
     }
 
-    public void ShowEatPanel(bool show, bool isPicnic)
+    public void ShowEatPanel(bool enable, int idPanel)
     {
-        // true - Закрываем панель взаимодействия
-        // false - Открываем панель взаимодействия
-        interactPanel.SetActive(!show);
+        // Закрываем/Открываем панель взаимодействия
+        interactPanel.SetActive(!enable);
 
-        // true - Открываем панель
-        // false - Закрываем панель
-        eatPanel.SetActive(show);
-        if (isPicnic) picnicPanel.SetActive(show);
-        else campfirePanel.SetActive(show);
+        // Открываем/закрываем панель
+        eatPanel.SetActive(enable);
 
-        // true - Отключаем кнопку вызова рюкзака
-        // false - Включаем кнопку вызова рюкзака
-        backpackButton.interactable = !show;
+        switch (idPanel)
+        {
+            case 0:
+                onePanel.SetActive(enable);
+                break;
+            case 1:
+                twoPanel.SetActive(enable);
+                break;
+            case 2:
+                threePanel.SetActive(enable);
+                break;
+        }
+
+        // Отключаем/Включаем кнопку вызова рюкзака
+        backpackButton.interactable = !enable;
     }
 
     // Метод, возвращающий пустой слот с нижней панели
