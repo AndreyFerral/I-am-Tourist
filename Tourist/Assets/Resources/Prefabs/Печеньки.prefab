@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4736219158561301421}
   - component: {fileID: -3970517800657901871}
   m_Layer: 5
-  m_Name: "\u041F\u0435\u0447\u0435\u043D\u044C\u0435"
+  m_Name: "\u041F\u0435\u0447\u0435\u043D\u044C\u043A\u0438"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

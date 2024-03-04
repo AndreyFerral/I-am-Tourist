@@ -109,7 +109,7 @@ public class Events : MonoBehaviour
         }
     }
 
-    private static EventsItemsData FoundCombinations(List<EventsItemsData> listEventsItems)
+    public static EventsItemsData FoundCombinations(List<EventsItemsData> listEventsItems)
     {
         Debug.Log("Вызов FoundCombinations");
 
@@ -129,79 +129,7 @@ public class Events : MonoBehaviour
         }
         return null;
     }
-
-    // Метод для крафта объектов
-    private static bool CanCraftItem(CraftInfo[] craftInfos)
-    {
-        List<GameObject> items = GetItems();
-
-        // Проходимся по всем доступным крафтам
-        foreach (CraftInfo craftInfo in craftInfos)
-        {
-            List<bool> matches = new List<bool>();
-
-            // Проходимся по всем вещам для крафта
-            for (int i = 0; i < craftInfo.CraftItems.Length; i++)
-            {
-                // Проходимся по всем объектам
-                foreach (GameObject item in items)
-                {
-                    DragHandeler dragHandel =
-                        item.GetComponent<DragHandeler>();
-
-                    Debug.Log(craftInfo.CraftItems[i]);
-                    Debug.Log(dragHandel.ItemInfo.name);
-
-                    if (craftInfo.CraftItems[i] ==
-                        dragHandel.ItemInfo)
-                    {
-                        matches.Add(true);
-                        Debug.Log("true");
-                        break;
-                    }
-
-                }
-            }
-            // Если есть совпадения, то успех
-            if (matches.Count == craftInfo.CraftItems.Length)
-            {
-                // Удаление объектов после крафта
-                int length = craftInfo.DeleteItems.Length;
-                for (int i = 0; i < length; i++)
-                {
-                    // Проходимся по всем объектам
-                    foreach (GameObject item in items)
-                    {
-                        DragHandeler dragHandel =
-                            item.GetComponent<DragHandeler>();
-                        // Если объект подходит к удалению
-                        if (craftInfo.DeleteItems[i] ==
-                            dragHandel.ItemInfo)
-                        {
-                            DestroyImmediate(item);
-                            break;
-                        }
-                    }
-                }
-                //craftedItem = craftInfo.CraftedItem;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Метод для крафта пищи
-    private static void CraftGameObject(ItemsInfo itemsInfo)
-    {
-        // Создание объекта в нижних слотах
-        string itemName = itemsInfo.name;
-        string prefabName = "Prefabs/" + itemName;
-        GameObject prefab =
-            Resources.Load(prefabName) as GameObject;
-        var item = Instantiate(prefab, GetEmptySlot(), false);
-        item.gameObject.name = itemName;
-    }
-
+   
     // Метод, возвращающий пустой слот с нижней панели
     private static Transform GetEmptySlot()
     {

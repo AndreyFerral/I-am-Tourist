@@ -23,7 +23,7 @@ public class TwoSlotPanel : MonoBehaviour
     private static EventsInfoData first, second;
     private static List<EventsItemsData> firstItems, secondItems;
 
-    private bool isFire = false;
+    private bool isFirstActive = false;
 
     void Start()
     {
@@ -65,7 +65,7 @@ public class TwoSlotPanel : MonoBehaviour
 
     public void FirstButton()
     {
-        if (!isFire) buttonText.text = first.TextButtonBefore;
+        if (!isFirstActive) buttonText.text = first.TextButtonBefore;
         else buttonText.text = first.TextButtonAfter;
 
         useButton.onClick.RemoveAllListeners();
@@ -82,23 +82,32 @@ public class TwoSlotPanel : MonoBehaviour
     private void First()
     {
         Debug.Log("Нажата первая кнопка " + curEvent.EventName);
-        if (!isFire && Events.Begin(firstItems))
+        if (!isFirstActive && Events.Begin(firstItems))
         {
-            isFire = true;
+            isFirstActive = true;
             buttonText.text = first.TextButtonAfter;
         }
-        else if (!isFire) buttonText.text = first.TextButtonBefore;
+        else if (!isFirstActive) buttonText.text = first.TextButtonBefore;
     }
 
     private void Second()
     {
         Debug.Log("Нажата вторая кнопка " + curEvent.EventName);
-        if (isFire && Events.Begin(secondItems))
+        if (isFirstActive && Events.Begin(secondItems))
         {
-            isFire = false;
+            isFirstActive = false;
             Debug.Log("Приготовлен");
         }
         else Debug.Log("Не приготовлен");
+    }
+
+    private void SetButtonText(string text) 
+    {
+        // Если значение не пустое, то мы его устанавливаем
+        if (text != null || text != "")
+        {
+            buttonText.text = text;
+        }
     }
 
     private void ClosePanel()

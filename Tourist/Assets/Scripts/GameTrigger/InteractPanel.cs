@@ -1,4 +1,5 @@
 using DataNamespace;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -92,13 +93,15 @@ public class InteractPanel : MonoBehaviour
 
         interactButton.onClick.RemoveAllListeners();
 
+        var eventItems = DataLoader.GetListEventsItemsData(tag);
+
         // Если есть мусор в нижних ячейках
-        if (trashCan.CheckQuick() != false)
+        if (trashCan.CheckQuick(eventItems) != false)
         {
             buttonText.text = interact.TextPositive;
             interactButton.onClick.AddListener(delegate
             {
-                trashCan.UseItems();
+                trashCan.UseItems(eventItems);
                 interactPanel.SetActive(false);
             });
         }
@@ -110,6 +113,7 @@ public class InteractPanel : MonoBehaviour
                 interactPanel.SetActive(false);
             });
         }
+        
     }
 
     public void SetNotify(Collider2D other)

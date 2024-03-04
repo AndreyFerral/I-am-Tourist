@@ -1,21 +1,21 @@
 using DataNamespace;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TrashCan : MonoBehaviour
 {
-    [SerializeField] EventInfo eventInfo;
     [SerializeField] Transform quickSlots;
     [SerializeField] DialogBox scriptDB;
     private bool isTrashDrop = false;
 
     public bool IsTrashDrop => isTrashDrop;
-    //public EventInfo EventInfo => eventInfo;
 
     public static bool IsBrook;
     private bool isBrookOld;
     public static bool IsRain;
     private bool isRainOld;
+
 
     void Start()
     {
@@ -25,26 +25,28 @@ public class TrashCan : MonoBehaviour
 
     public void CheckBrook()
     {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
+        var eventItems = DataLoader.GetListEventsItemsData("Brook");
 
         // Обновляем значение 
-        if (!CheckQuick()) IsBrook = true;
+        if (!CheckQuick(eventItems)) IsBrook = true;
         else IsBrook = false;
 
         // Если значение изменилось выводим сообщение
         if (isBrookOld != IsBrook)
         {
             isBrookOld = IsBrook;
-            if (!CheckQuick()) scriptDB.StartDialogBox(dialog.TextBefore);
+            if (!CheckQuick(eventItems)) scriptDB.StartDialogBox(dialog.TextBefore);
             else scriptDB.StartDialogBox(dialog.TextAfter);
         }
     }
 
     public void StartBrook()
     {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
+        var eventItems = DataLoader.GetListEventsItemsData("Brook");
 
-        if (!CheckQuick())
+        if (!CheckQuick(eventItems))
         {
             // Если пользователь на речке без сапог
             IsBrook = true;
@@ -61,26 +63,28 @@ public class TrashCan : MonoBehaviour
 
     public void CheckRain()
     {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Rain");
+        var eventItems = DataLoader.GetListEventsItemsData("Rain");
 
         // Обновляем значение 
-        if (!CheckQuick()) IsRain = true;
+        if (!CheckQuick(eventItems)) IsRain = true;
         else IsRain = false;
 
         // Если значение изменилось выводим сообщение
         if (isRainOld != IsRain)
         {
             isRainOld = IsRain;
-            if (!CheckQuick()) scriptDB.StartDialogBox(dialog.TextBefore);
+            if (!CheckQuick(eventItems)) scriptDB.StartDialogBox(dialog.TextBefore);
             else scriptDB.StartDialogBox(dialog.TextAfter);
         }
     }
 
     public void StartRain()
     {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Rain");
+        var eventItems = DataLoader.GetListEventsItemsData("Rain");
 
-        if (!CheckQuick())
+        if (!CheckQuick(eventItems))
         {
             // Если пользователь на речке без сапог
             IsRain = true;
@@ -96,7 +100,7 @@ public class TrashCan : MonoBehaviour
     }
 
     // Метод для использования предметов
-    public void UseItems()
+    public void UseItems(List<EventsItemsData> eventItems)
     {
         // Указываем, что часть мусора была выброшена
         isTrashDrop = true;
@@ -111,28 +115,25 @@ public class TrashCan : MonoBehaviour
             if (item == null) continue;
 
             // Если объект соответствует событию
-            if (CanUseItem(item)) Destroy(item);
+            if (CanUseItem(eventItems, item)) Destroy(item);
         }
     }
 
     // Метод, проверяющий нижнию панель на соответствие событию
-    private bool CanUseItem(GameObject item)
+    private bool CanUseItem(List<EventsItemsData> eventItems, GameObject item)
     {
-        DragHandeler dragHandel = item.GetComponent<DragHandeler>();
-
-        DataLoader.GetItemData(item.name);
-
-        // Проходимся по всем доступным вещам в событии
-        foreach (ItemsInfo itemInfo in eventInfo.Items)
+        foreach (var _event in eventItems)
         {
-            // Если вещь доступно событию
-            if (dragHandel.ItemInfo == itemInfo) return true;
+            if (_event.ItemsToUse.Contains(item.name))
+            {
+                return true;
+            }
         }
         return false;
     }
 
     // Метод, проверяющий нижнию панель на наличие мусора
-    public bool CheckQuick()
+    public bool CheckQuick(List<EventsItemsData> eventItems)
     {
         // Проходимся по всем ячейкам кроме последней
         for (int i = 0; i < quickSlots.childCount - 1; i++)
@@ -144,12 +145,12 @@ public class TrashCan : MonoBehaviour
             if (item == null) continue;
 
             // Если объект подходит событию
-            if (CanUseItem(item)) return true;
+            if (CanUseItem(eventItems, item)) return true;
         }
         return false;
     }
 
-    public bool CheckBackpack()
+    public bool CheckBackpack(List<EventsItemsData> eventItems)
     {
         List<Transform> slots = ItemsController.Slots;
 
@@ -167,7 +168,7 @@ public class TrashCan : MonoBehaviour
                 if (item == null) continue;
 
                 // Если объект соответствует событию
-                if (CanUseItem(item)) return true;
+                if (CanUseItem(eventItems, item)) return true;
             }
         }
         return false;

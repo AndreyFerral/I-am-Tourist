@@ -4,9 +4,6 @@ using UnityEngine.EventSystems;
 public class DragHandeler : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] ItemsInfo itemInfo;
-    public ItemsInfo ItemInfo => itemInfo;
-
     private RectTransform rectTrans;
     private Canvas canvasComp;
     private CanvasGroup canvasGroup;

@@ -31,8 +31,10 @@ public class FinalMenu : MonoBehaviour
         mainText.alignment = TextAlignmentOptions.Left;
         mainText.text = win[1];
 
+        var eventItems = DataLoader.GetListEventsItemsData(tag);
+
         // Проверяем ячейки на наличие мусора
-        if (scriptTC.CheckQuick() || scriptTC.CheckBackpack())
+        if (scriptTC.CheckQuick(eventItems) || scriptTC.CheckBackpack(eventItems))
         {
             // Если была выброшена часть мусора
             if (scriptTC.IsTrashDrop) mainText.text += win[4];

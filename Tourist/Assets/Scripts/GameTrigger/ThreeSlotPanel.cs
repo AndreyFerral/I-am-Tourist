@@ -23,7 +23,7 @@ public class ThreeSlotPanel : MonoBehaviour
     private static EventsInfoData first, second, third;
     private static List<EventsItemsData> firstItems, secondItems, thirdItems;
 
-    private bool isFire = false;
+    private bool isFirstActive = false;
 
     void Start()
     {
@@ -64,7 +64,7 @@ public class ThreeSlotPanel : MonoBehaviour
 
     public void FirstButton()
     {
-        if (!isFire) buttonText.text = first.TextButtonBefore;
+        if (!isFirstActive) buttonText.text = first.TextButtonBefore;
         else buttonText.text = first.TextButtonAfter;
 
         useButton.onClick.RemoveAllListeners();
@@ -88,19 +88,19 @@ public class ThreeSlotPanel : MonoBehaviour
     private void First()
     {
         Debug.Log("Пошла проверка на костер");
-        if (!isFire && Events.Begin(firstItems))
+        if (!isFirstActive && Events.Begin(firstItems))
         {
-            isFire = true;
+            isFirstActive = true;
             buttonText.text = first.TextButtonAfter;
         }
-        else if (!isFire) buttonText.text = first.TextButtonBefore;
+        else if (!isFirstActive) buttonText.text = first.TextButtonBefore;
     }
 
     private void Second()
     {
-        if (isFire && Events.Begin(secondItems))
+        if (isFirstActive && Events.Begin(secondItems))
         {
-            isFire = false;
+            isFirstActive = false;
             Debug.Log("Приготовлен");
         }
         else Debug.Log("Не приготовлен");
@@ -110,6 +110,15 @@ public class ThreeSlotPanel : MonoBehaviour
     {
         if (Events.Begin(thirdItems)) Debug.Log("Скушан");
         else Debug.Log("Не скушан");
+    }
+
+    private void SetButtonText(string text)
+    {
+        // Если значение не пустое, то мы его устанавливаем
+        if (text != null || text != "")
+        {
+            buttonText.text = text;
+        }
     }
 
     private void ClosePanel()
