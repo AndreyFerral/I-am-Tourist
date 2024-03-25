@@ -3,27 +3,41 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using System.Linq;
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine.UIElements;
 
 public class LevelConstructor : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
     [SerializeField] Tilemap groundTilemap;
+    [SerializeField] Tilemap decorGroundTilemap;
+    [SerializeField] Tilemap collisionGroundTilemap;
+
     [SerializeField] Tilemap waterTilemap;
-    [SerializeField] Tilemap collisionTilemap;
+    [SerializeField] Tilemap decorWaterTilemap;
+    [SerializeField] Tilemap collisionWaterTilemap;
 
     // todo убрать [SerializeField], делать через бд возможно
 
-    [SerializeField] Tile[] roadTiles; // Массив из изображений дороги
-    [SerializeField] Tile[] whiteTiles; // Массив из изображений дороги
-    [SerializeField] Tile[] greenTiles; // Массив из изображений дороги
-    [SerializeField] Tile[] waterOnStandartTiles; // Массив из изображений воды на траве
-    [SerializeField] Tile[] waterOnWhiteTiles; // Массив из изображений воды на белой поляне
+    [SerializeField] Tile[] roadTiles; // Тайлы дороги
+    [SerializeField] Tile[] whiteTiles; // Тайлы белой поляны
+    [SerializeField] Tile[] greenTiles; // Тайлы темной травы
+    [SerializeField] Tile[] waterOnStandartTiles; // Тайлы воды на стандартной траве
+    [SerializeField] Tile[] waterOnWhiteTiles; // Тайлы воды на белой поляне
 
-    [SerializeField] Tile[] fenceTiles; // Массив из изображений забора
-    [SerializeField] Tile[] bushTiles; // Массив из изображений куста
+    [SerializeField] Tile[] fenceTiles; // Тайлы забора
+    [SerializeField] Tile[] bushTiles; // Тайлы куста
+
+    [SerializeField] Tile[] treeTiles; // Тайлы дерева
+    [SerializeField] Tile[] stumpTiles; // Тайлы пня дерева
+    [SerializeField] Tile[] rockOnGrassTiles1; // Тайлы камня на траве 1
+    [SerializeField] Tile[] rockOnGrassTiles2; // Тайлы камня на траве 2 
+    [SerializeField] Tile[] rockOnWaterTiles1; // Тайлы камня на воде 1 
+    [SerializeField] Tile[] rockOnWaterTiles2; // Тайлы камня на воде 2
+
+    [SerializeField] Tile[] stonesOnGrassTiles; // Камушек на траве несколько вариантов
+    [SerializeField] Tile[] stonesOnWaterTiles; // Камушек на воде несколько вариантов
+    [SerializeField] Tile[] flowersOnGrassTiles; // Цветы на траве несколько вариантов
+    [SerializeField] Tile[] mushroomsOnGrassTiles; // Грибы на траве несколько вариантов
+    [SerializeField] Tile[] flowersOnWaterTiles; // Кувшинка на воде несколько вариантов
 
     // Текущий выбранный слой карты, тайлы карты, главный тайл
     private Tilemap curTilemap;
@@ -35,10 +49,10 @@ public class LevelConstructor : MonoBehaviour
     private Vector3Int currentPos;
     private Vector3Int prevPos;
 
-    private void SetButon(Tile[] tilePrefabs, Tilemap tilemap)
+    private void SetButon(Tile[] tiles, Tilemap tilemap)
     {
-        curMainTile = tilePrefabs[4];
-        curTiles = tilePrefabs;
+        if (tiles.Length > 4) curMainTile = tiles[4];
+        curTiles = tiles;
         curTilemap = tilemap;
     }
 
@@ -47,14 +61,26 @@ public class LevelConstructor : MonoBehaviour
     public void SetBlackGrass() => SetButon(greenTiles, groundTilemap);
     public void SetStandartWater() => SetButon(waterOnStandartTiles, waterTilemap);
     public void SetWhiteWater() => SetButon(waterOnWhiteTiles, waterTilemap);
-    public void SetFence() => SetButon(fenceTiles, collisionTilemap);
-    public void SetBush() => SetButon(bushTiles, collisionTilemap);
+    public void SetFence() => SetButon(fenceTiles, collisionGroundTilemap);
+    public void SetBush() => SetButon(bushTiles, collisionGroundTilemap);
 
+    public void SetTree() => SetButon(treeTiles, collisionGroundTilemap);
+    public void SetStump() => SetButon(stumpTiles, collisionGroundTilemap);
+    public void SetRockOnGrass1() => SetButon(rockOnGrassTiles1, collisionGroundTilemap);
+    public void SetRockOnGrass2() => SetButon(rockOnGrassTiles2, collisionGroundTilemap);
+    public void SetRockOnWater1() => SetButon(rockOnWaterTiles1, collisionWaterTilemap);
+    public void SetRockOnWater2() => SetButon(rockOnWaterTiles2, collisionWaterTilemap);
+
+    public void SetStonesOnWater() => SetButon(stonesOnWaterTiles, collisionWaterTilemap);
+    public void SetStonesOnGrass() => SetButon(stonesOnGrassTiles, collisionGroundTilemap);
+    public void SetFlowersOnWater() => SetButon(flowersOnWaterTiles, decorWaterTilemap);
+    public void SetFlowersOnGrass() => SetButon(flowersOnGrassTiles, decorGroundTilemap);
+    public void SetMushroomsOnGrass() => SetButon(mushroomsOnGrassTiles, decorGroundTilemap);
 
     void FixedUpdate()
     {
         // Прекращаем работу, если не было выбрано
-        if (curMainTile == null || curTiles == null) return;
+        if (curTiles == null) return;
 
         // Не ставим объект при передвижении джойстика
         if (joystick.Horizontal != 0 || joystick.Vertical != 0) return;
@@ -71,9 +97,6 @@ public class LevelConstructor : MonoBehaviour
 
         if (curTiles.Length == 13)
         {
-            // Не вызываем функцию, если уже стоит main tile 
-            if (IsTileSet(currentPos)) return;
-
             SetTile(currentPos);
         }
         else if (curTiles.Length == 10)
@@ -86,7 +109,15 @@ public class LevelConstructor : MonoBehaviour
             if (IsTileSet(currentPos, waterTilemap) || IsTileSet(prevPos, waterTilemap)) return;
 
             CheckMouseMovement(prevPos, currentPos);         
-        }         
+        }
+        else if (curTiles.Length == 4)
+        {
+            SetObject2x2(currentPos);
+        }
+        else if (curTiles.Length == 5)
+        {
+            SetObject1x1(currentPos);
+        }
     }
 
     // Получить позицию мыши или касания и преобразовать ее в координаты Tilemap
@@ -134,64 +165,6 @@ public class LevelConstructor : MonoBehaviour
         return true;
     }
 
-    bool isAreaEmpty(Vector3Int tilePosition, Tilemap tilemap = null)
-    {
-        if (tilemap == null) tilemap = curTilemap;
-
-        // Проходим по всем позициям
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                // Получаем и проверяем текущий тайл из ячейки
-                Vector3Int checkPosition = tilePosition + new Vector3Int(x, y, 0);
-                TileBase tempTile = tilemap.GetTile(checkPosition);
-
-                if (tempTile != null) return false;
-            }
-        }
-        return true;
-    }
-
-    bool isTilesSetR1(Vector3Int tilePosition, Tilemap tilemap = null, Tile[] tiles = null)
-    {
-        if (tilemap == null) tilemap = curTilemap;
-        if (tiles == null) tiles = curTiles;
-
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                // Получаем и проверяем текущий тайл из ячейки
-                Vector3Int checkPosition = tilePosition + new Vector3Int(x, y, 0);
-                TileBase tempTile = tilemap.GetTile(checkPosition);
-
-                // Проверяем совпадение текущего тайла с любым тайлом из массива
-                if (!tiles.Contains(tempTile) && tempTile != null)
-                    return false;               
-            }
-        }
-        return true;
-    }
-
-    bool isTilesSetR2(Vector3Int tilePosition, Tilemap tilemap = null, Tile[] tiles = null)
-    {
-        if (tilemap == null) tilemap = curTilemap;
-        if (tiles == null) tiles = curTiles;
-
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                Vector3Int checkPosition = tilePosition + new Vector3Int(x, y, 0);
-                TileBase tempTile = tilemap.GetTile(checkPosition);
-
-                if (tempTile != tiles[4]) return false;
-            }
-        }
-        return true;
-    }
-
     bool IsTileSet(Vector3Int tilePosition, Tilemap tilemap = null)
     {
         TileBase currentTile;
@@ -233,42 +206,16 @@ public class LevelConstructor : MonoBehaviour
         // Проверка тайла на поверхности воды
         else if (curTilemap == waterTilemap)
         {
-            // Если есть в области тайл земли или коллизии, прекращаем работу
-            if (!IsTileSetArea(tilePosition, collisionTilemap)) return false;
+            // Если есть в области тайл коллизии, прекращаем работу
+            if (!IsTileSetArea(tilePosition, collisionGroundTilemap)) return false;
             // Если 
             else if (curTiles == waterOnWhiteTiles)
             {
                 if (!IsTileSetArea(tilePosition, groundTilemap, whiteTiles)) return false;
             }
-            // Если есть в области тайл земли или коллизии, прекращаем работу
+            // Если есть в области тайл земли, прекращаем работу
             else if (!IsTileSetArea(tilePosition, groundTilemap)) return false;
         }
-
-        /*
-        // Ставим тайл, если только соседний тайл его
-        if (!isTilesSetR1(tilePosition) || IsTileSet(tilePosition)) return false;
-
-        // Проверка тайла на поверхности земли
-        if (curTilemap == groundTilemap)
-        {
-            if (curTiles == whiteTiles)
-            {
-                if (!isTilesSetR1(tilePosition, waterTilemap, waterOnWhiteTiles)) return false;
-            }
-            // Если есть в области тайл воды, прекращаем работу
-            else if (!isAreaEmpty(tilePosition, waterTilemap)) return false;
-        }
-        // Проверка тайла на поверхности воды
-        else if (curTilemap == waterTilemap)
-        {
-            if (curTiles == waterOnWhiteTiles)
-            {
-                if (!isTilesSetR2(tilePosition, groundTilemap, whiteTiles) || !isAreaEmpty(tilePosition, collisionTilemap)) return false;
-            }
-            // Если есть в области тайл земли или коллизии, прекращаем работу
-            else if (!isAreaEmpty(tilePosition, groundTilemap)) return false;
-        }
-        */
 
         // Позиции слева, справа, сверху и снизу тайла
         Vector3Int upPosition = tilePosition + Vector3Int.up;
@@ -467,6 +414,75 @@ public class LevelConstructor : MonoBehaviour
         return true;
     }
 
+    void SetObject1x1(Vector3Int tilePosition)
+    {
+        // Не ставим, если позиция уже занята
+        if (curTilemap.GetTile(tilePosition)) return;
+        // Для камней на воде: Не ставим, если нет воды и место занято на слое коллизии
+        else if (curTiles == stonesOnWaterTiles || curTiles == flowersOnWaterTiles)
+        {
+            if (waterTilemap.GetTile(tilePosition) != waterOnStandartTiles[4] || collisionWaterTilemap.GetTile(tilePosition)) return;
+            else decorWaterTilemap.SetTile(tilePosition, null);
+        }
+        // Для остальных: Не ставим, если есть вода и место занято на слое коллизии
+        else
+        {
+            if (IsTileSet(tilePosition, waterTilemap) || collisionGroundTilemap.GetTile(tilePosition)) return;
+            else decorGroundTilemap.SetTile(tilePosition, null);
+        }
+
+        // Генерируем число от 0 до 4, ставим объект с индексом
+        int number = UnityEngine.Random.Range(0, 5);
+        curTilemap.SetTile(tilePosition, curTiles[number]);
+    }
+
+    void SetObject2x2(Vector3Int tilePosition)
+    {
+        Vector3Int leftPosition = tilePosition;
+        Vector3Int rightPosition = leftPosition + new Vector3Int(1, 0, 0);
+        Vector3Int upPosition = leftPosition + new Vector3Int(0, 1, 0);
+        Vector3Int upRightPosition = leftPosition + new Vector3Int(1, 1, 0);
+
+        // Не ставим, если позиция уже занята
+        if (curTilemap.GetTile(upPosition) || curTilemap.GetTile(upRightPosition) || 
+            curTilemap.GetTile(leftPosition) || curTilemap.GetTile(rightPosition)) return;
+        // Для камней на воде: Не ставим, если нет воды
+        else if (curTiles == rockOnWaterTiles1 || curTiles == rockOnWaterTiles2)
+        {
+            if (waterTilemap.GetTile(upPosition) != waterOnStandartTiles[4] ||
+                waterTilemap.GetTile(upRightPosition) != waterOnStandartTiles[4] ||
+                waterTilemap.GetTile(leftPosition) != waterOnStandartTiles[4] ||
+                waterTilemap.GetTile(rightPosition) != waterOnStandartTiles[4]) return;
+            else
+            {
+                // Очищаем от декоративных элементов
+                decorWaterTilemap.SetTile(upPosition, null);
+                decorWaterTilemap.SetTile(upRightPosition, null);
+                decorWaterTilemap.SetTile(leftPosition, null);
+                decorWaterTilemap.SetTile(rightPosition, null);
+            }
+        }
+        // Для остальных: Не ставим, если есть вода
+        else
+        {
+            if (IsTileSet(upPosition, waterTilemap) || IsTileSet(upRightPosition, waterTilemap) ||
+                IsTileSet(leftPosition, waterTilemap) || IsTileSet(rightPosition, waterTilemap)) return;
+            else
+            {
+                // Очищаем от декоративных элементов
+                decorGroundTilemap.SetTile(upPosition, null);
+                decorGroundTilemap.SetTile(upRightPosition, null);
+                decorGroundTilemap.SetTile(leftPosition, null);
+                decorGroundTilemap.SetTile(rightPosition, null);
+            }
+        }
+
+        curTilemap.SetTile(upPosition, curTiles[0]);
+        curTilemap.SetTile(upRightPosition, curTiles[1]);
+        curTilemap.SetTile(leftPosition, curTiles[2]);
+        curTilemap.SetTile(rightPosition, curTiles[3]);
+    }
+
     void CheckMouseMovement(Vector3Int prevPos, Vector3Int curPos)
     {
         int diffX = curPos.x - prevPos.x;
@@ -579,6 +595,14 @@ public class LevelConstructor : MonoBehaviour
                 else curTilemap.SetTile(prevPos, curTiles[0]);
             }
         }
+
+        /*
+        if (decorGroundTilemap.GetTile(prevPos)) decorGroundTilemap.SetTile(prevPos, null);
+        if (decorGroundTilemap.GetTile(curPos)) decorGroundTilemap.SetTile(curPos, null);
+
+        if (decorWaterTilemap.GetTile(prevPos)) decorWaterTilemap.SetTile(prevPos, null);
+        if (decorWaterTilemap.GetTile(curPos)) decorWaterTilemap.SetTile(curPos, null);
+        */
     }
 
     TileBase GetTile(Vector3Int position) => curTilemap.GetTile(position);
