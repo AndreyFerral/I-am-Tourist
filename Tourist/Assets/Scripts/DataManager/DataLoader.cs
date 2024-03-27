@@ -1,6 +1,5 @@
 using DataNamespace;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class DataLoader : MonoBehaviour
@@ -13,7 +12,6 @@ public class DataLoader : MonoBehaviour
     private static List<EventsData> loadedEventList;
     private static List<EventsInfoData> loadedEventInfoList;
     private static List<EventsItemsData> loadedEventItemList;
-
 
     void Start()
     {

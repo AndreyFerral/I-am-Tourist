@@ -7,6 +7,10 @@ using System.Linq;
 public class LevelConstructor : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
+    [SerializeField] Tile grass; // Тайл травы
+
+    [Header("Tilemaps")]
+
     [SerializeField] Tilemap groundTilemap;
     [SerializeField] Tilemap decorGroundTilemap;
     [SerializeField] Tilemap collisionGroundTilemap;
@@ -16,7 +20,7 @@ public class LevelConstructor : MonoBehaviour
     [SerializeField] Tilemap collisionWaterTilemap;
 
     // todo убрать [SerializeField], делать через бд возможно
-
+    [Header("Tilemaps")]
     [SerializeField] Tile[] roadTiles; // Тайлы дороги
     [SerializeField] Tile[] whiteTiles; // Тайлы белой поляны
     [SerializeField] Tile[] greenTiles; // Тайлы темной травы

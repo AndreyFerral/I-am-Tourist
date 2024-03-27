@@ -49,10 +49,16 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-    // Метод для выхода из игры
-    public void QuitGame()
+    // Метод для перемещения в меню конструктора
+    public void MenuConstructor()
     {
-        Application.Quit();
+        SceneManager.LoadScene(5);
+    }
+
+    // Метод для перемещения в меню конструктора
+    public void Constructor()
+    {
+        SceneManager.LoadScene(6);
     }
 
     // Метод для перемещения в сцену уровней
@@ -60,6 +66,13 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
+
+    // Метод для выхода из игры
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 
     // Метод для очистки JSON файлов
     public static void DeleteJsonFolder()
