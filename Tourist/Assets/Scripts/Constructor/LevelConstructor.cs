@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 
 public class LevelConstructor : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class LevelConstructor : MonoBehaviour
     [SerializeField] Tile grass; // Тайл травы
 
     [Header("Tilemaps")]
+    [SerializeField] Tilemap grassTilemap;
 
     [SerializeField] Tilemap groundTilemap;
     [SerializeField] Tilemap decorGroundTilemap;
@@ -47,44 +50,69 @@ public class LevelConstructor : MonoBehaviour
     private Tilemap curTilemap;
     private Tile curMainTile;
     private Tile[] curTiles;
+    private string objectName;
 
     // Текущие и предыдущие координаты тайлов
     private TileBase lastTile;
     private Vector3Int currentPos;
     private Vector3Int prevPos;
 
-    private void SetButon(Tile[] tiles, Tilemap tilemap)
+    private void SetTileButton(Tile[] tiles, Tilemap tilemap)
     {
         if (tiles.Length > 4) curMainTile = tiles[4];
         curTiles = tiles;
         curTilemap = tilemap;
     }
 
-    public void SetRoad() => SetButon(roadTiles, groundTilemap);
-    public void SetWhiteGrass() => SetButon(whiteTiles, groundTilemap);
-    public void SetBlackGrass() => SetButon(greenTiles, groundTilemap);
-    public void SetStandartWater() => SetButon(waterOnStandartTiles, waterTilemap);
-    public void SetWhiteWater() => SetButon(waterOnWhiteTiles, waterTilemap);
-    public void SetFence() => SetButon(fenceTiles, collisionGroundTilemap);
-    public void SetBush() => SetButon(bushTiles, collisionGroundTilemap);
+    public void SetObject()
+    {
+        curTiles = null;
+        objectName = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log("Нажата кнопка: " + objectName);
 
-    public void SetTree() => SetButon(treeTiles, collisionGroundTilemap);
-    public void SetStump() => SetButon(stumpTiles, collisionGroundTilemap);
-    public void SetRockOnGrass1() => SetButon(rockOnGrassTiles1, collisionGroundTilemap);
-    public void SetRockOnGrass2() => SetButon(rockOnGrassTiles2, collisionGroundTilemap);
-    public void SetRockOnWater1() => SetButon(rockOnWaterTiles1, collisionWaterTilemap);
-    public void SetRockOnWater2() => SetButon(rockOnWaterTiles2, collisionWaterTilemap);
+        if (objectName == "RainVertical" || objectName == "RainHorizontal") curTilemap = collisionGroundTilemap;
+        else curTilemap = collisionGroundTilemap;
+    }
 
-    public void SetStonesOnWater() => SetButon(stonesOnWaterTiles, collisionWaterTilemap);
-    public void SetStonesOnGrass() => SetButon(stonesOnGrassTiles, collisionGroundTilemap);
-    public void SetFlowersOnWater() => SetButon(flowersOnWaterTiles, decorWaterTilemap);
-    public void SetFlowersOnGrass() => SetButon(flowersOnGrassTiles, decorGroundTilemap);
-    public void SetMushroomsOnGrass() => SetButon(mushroomsOnGrassTiles, decorGroundTilemap);
+    public void SetRoad() => SetTileButton(roadTiles, groundTilemap);
+    public void SetWhiteGrass() => SetTileButton(whiteTiles, groundTilemap);
+    public void SetBlackGrass() => SetTileButton(greenTiles, groundTilemap);
+    public void SetStandartWater() => SetTileButton(waterOnStandartTiles, waterTilemap);
+    public void SetWhiteWater() => SetTileButton(waterOnWhiteTiles, waterTilemap);
+    public void SetFence() => SetTileButton(fenceTiles, collisionGroundTilemap);
+    public void SetBush() => SetTileButton(bushTiles, collisionGroundTilemap);
 
-    void FixedUpdate()
+    public void SetTree() => SetTileButton(treeTiles, collisionGroundTilemap);
+    public void SetStump() => SetTileButton(stumpTiles, collisionGroundTilemap);
+    public void SetRockOnGrass1() => SetTileButton(rockOnGrassTiles1, collisionGroundTilemap);
+    public void SetRockOnGrass2() => SetTileButton(rockOnGrassTiles2, collisionGroundTilemap);
+    public void SetRockOnWater1() => SetTileButton(rockOnWaterTiles1, collisionWaterTilemap);
+    public void SetRockOnWater2() => SetTileButton(rockOnWaterTiles2, collisionWaterTilemap);
+
+    public void SetStonesOnWater() => SetTileButton(stonesOnWaterTiles, collisionWaterTilemap);
+    public void SetStonesOnGrass() => SetTileButton(stonesOnGrassTiles, collisionGroundTilemap);
+    public void SetFlowersOnWater() => SetTileButton(flowersOnWaterTiles, decorWaterTilemap);
+    public void SetFlowersOnGrass() => SetTileButton(flowersOnGrassTiles, decorGroundTilemap);
+    public void SetMushroomsOnGrass() => SetTileButton(mushroomsOnGrassTiles, decorGroundTilemap);
+
+    // Новый метод для восстановления состояния указанного Tilemap
+    public void ReturnTilemap()
+    {        
+        Debug.Log("Восстанавливаем tilemap");
+        TilemapManager.ReturnState();
+    }
+
+    // Метод для обработки нажатия на экран перед удержанием
+    private void SaveTilemap()
+    {        
+        Debug.Log("Сохраняем " + curTilemap.name);
+        TilemapManager.SaveState(curTilemap);
+    }
+
+    void Update()
     {
         // Прекращаем работу, если не было выбрано
-        if (curTiles == null) return;
+        if (curTilemap == null) return;
 
         // Не ставим объект при передвижении джойстика
         if (joystick.Horizontal != 0 || joystick.Vertical != 0) return;
@@ -92,14 +120,25 @@ public class LevelConstructor : MonoBehaviour
         // Не ставим объект при перекрытии UI 
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
+        // Проверка нажатия или прикосновения к экрану
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            SaveTilemap();
+        }
+
         // Не ставим объет, если нет нажатия на экран
         if (!Input.GetMouseButton(0)) return;
-        
+
         // Получить текущую позицию мыши или касания
         prevPos = currentPos;
         currentPos = GetMouseOrTouchPosition();
 
-        if (curTiles.Length == 13)
+        if (curTiles == null)
+        {
+            SetObject(currentPos);
+            Debug.Log("Отпускаем");
+        }
+        else if (curTiles.Length == 13)
         {
             SetTile(currentPos);
         }
@@ -112,15 +151,15 @@ public class LevelConstructor : MonoBehaviour
             // Можно ставить, если нет воды
             if (IsTileSet(currentPos, waterTilemap) || IsTileSet(prevPos, waterTilemap)) return;
 
-            CheckMouseMovement(prevPos, currentPos);         
+            SetTile2x1(prevPos, currentPos);
         }
         else if (curTiles.Length == 4)
         {
-            SetObject2x2(currentPos);
+            SetTile2x2(currentPos);
         }
         else if (curTiles.Length == 5)
         {
-            SetObject1x1(currentPos);
+            SetTile1x1(currentPos);
         }
     }
 
@@ -131,7 +170,7 @@ public class LevelConstructor : MonoBehaviour
         Vector3Int gridPos = curTilemap.WorldToCell(worldPos);
         return gridPos;
     }
-
+    
     bool IsTileSetArea(Vector3Int tilePosition, Tilemap tilemap = null, Tile[] tiles = null, bool isSpecial = false)
     {
         TileBase tempTile;
@@ -418,7 +457,30 @@ public class LevelConstructor : MonoBehaviour
         return true;
     }
 
-    void SetObject1x1(Vector3Int tilePosition)
+    void SetObject(Vector3Int position)
+    {
+        // Не ставим объект, если место занято или стоит тайл воды
+        if (collisionGroundTilemap.GetTile(position) != null || waterTilemap.GetTile(position) != null) return;
+
+        // Если по соседству другой объект (в пределах 2 клеток)
+        if (IsObjectAround(position)) return;
+
+        // Корректируем позицию игрового объекта
+        Vector3 objectPosition = new Vector3(position.x - 1.1f, position.y - 1.5f, 0);
+
+        // Создаем игровой объект
+        GameObject objectPrefab = Resources.Load("Objects/" + objectName) as GameObject;
+        GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
+
+        Debug.Log("Создали объект в " + objectPosition);
+        Debug.Log("Координаты объекта " + obj.transform.position);
+
+        // Ставим прозрачный тайл на слой коллизии
+        curTilemap.SetTile(position, grass);
+        SetColor(position, Color.clear);
+    }
+
+    void SetTile1x1(Vector3Int tilePosition)
     {
         // Не ставим, если позиция уже занята
         if (curTilemap.GetTile(tilePosition)) return;
@@ -440,7 +502,7 @@ public class LevelConstructor : MonoBehaviour
         curTilemap.SetTile(tilePosition, curTiles[number]);
     }
 
-    void SetObject2x2(Vector3Int tilePosition)
+    void SetTile2x2(Vector3Int tilePosition)
     {
         Vector3Int leftPosition = tilePosition;
         Vector3Int rightPosition = leftPosition + new Vector3Int(1, 0, 0);
@@ -487,7 +549,7 @@ public class LevelConstructor : MonoBehaviour
         curTilemap.SetTile(rightPosition, curTiles[3]);
     }
 
-    void CheckMouseMovement(Vector3Int prevPos, Vector3Int curPos)
+    void SetTile2x1(Vector3Int prevPos, Vector3Int curPos)
     {
         int diffX = curPos.x - prevPos.x;
         int diffY = curPos.y - prevPos.y;
@@ -609,19 +671,27 @@ public class LevelConstructor : MonoBehaviour
         */
     }
 
-    TileBase GetTile(Vector3Int position) => curTilemap.GetTile(position);
-    TileBase GetLeftTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(-1, 0, 0));
-    TileBase GetRightTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(1, 0, 0));
-    TileBase GetUpTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(0, 1, 0));
-    TileBase GetDownTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(0, -1, 0));
-    TileBase GetUpLeftTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(-1, 1, 0));
-    TileBase GetUpRightTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(1, 1, 0));
-    TileBase GetDownLeftTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(-1, -1, 0));
-    TileBase GetDownRightTile(Vector3Int position) => curTilemap.GetTile(position + new Vector3Int(1, -1, 0));
-
     bool IsAdjacentCell(Vector3Int prevPos, Vector3Int currentPos)
     {
         return Mathf.Abs(prevPos.x - currentPos.x) <= 1 && Mathf.Abs(prevPos.y - currentPos.y) <= 1;
+    }
+
+    // Функция для проверки пустоты тайлов вокруг указанной яейки
+    bool IsObjectAround(Vector3Int tilePosition)
+    {
+        // Перебираем все восьмь соседних ячеек вокруг указанной ячейки
+        for (int xOffset = -2; xOffset <= 2; xOffset++)
+        {
+            for (int yOffset = -2; yOffset <= 2; yOffset++)
+            {
+                Vector3Int tileNeighbor = tilePosition + new Vector3Int(xOffset, yOffset, 0);
+                if (curTilemap.GetTile(tileNeighbor) == grass)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     void SetColor(Vector3Int position, Color color)
