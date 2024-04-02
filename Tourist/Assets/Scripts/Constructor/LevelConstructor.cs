@@ -50,7 +50,9 @@ public class LevelConstructor : MonoBehaviour
     private Tilemap curTilemap;
     private Tile curMainTile;
     private Tile[] curTiles;
+
     private string objectName;
+    private List<GameObject> gameObjects = new List<GameObject>();
 
     // Текущие и предыдущие координаты тайлов
     private TileBase lastTile;
@@ -95,19 +97,8 @@ public class LevelConstructor : MonoBehaviour
     public void SetFlowersOnGrass() => SetTileButton(flowersOnGrassTiles, decorGroundTilemap);
     public void SetMushroomsOnGrass() => SetTileButton(mushroomsOnGrassTiles, decorGroundTilemap);
 
-    // Новый метод для восстановления состояния указанного Tilemap
-    public void ReturnTilemap()
-    {        
-        Debug.Log("Восстанавливаем tilemap");
-        TilemapManager.ReturnState();
-    }
-
-    // Метод для обработки нажатия на экран перед удержанием
-    private void SaveTilemap()
-    {        
-        Debug.Log("Сохраняем " + curTilemap.name);
-        TilemapManager.SaveState(curTilemap);
-    }
+    // Кнопка для восстановления состояния Tilemap и gameObjects
+    public void ReturnTilemap() => gameObjects = TilemapManager.ReturnState(gameObjects);
 
     void Update()
     {
@@ -123,7 +114,12 @@ public class LevelConstructor : MonoBehaviour
         // Проверка нажатия или прикосновения к экрану
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            SaveTilemap();
+            TilemapManager.SaveState(curTilemap, gameObjects);
+        }
+        else if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            // Если последнее сохраненное значение равно текущему - удаляем
+            TilemapManager.CorrectState(curTilemap);
         }
 
         // Не ставим объет, если нет нажатия на экран
@@ -136,7 +132,6 @@ public class LevelConstructor : MonoBehaviour
         if (curTiles == null)
         {
             SetObject(currentPos);
-            Debug.Log("Отпускаем");
         }
         else if (curTiles.Length == 13)
         {
@@ -471,9 +466,7 @@ public class LevelConstructor : MonoBehaviour
         // Создаем игровой объект
         GameObject objectPrefab = Resources.Load("Objects/" + objectName) as GameObject;
         GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
-
-        Debug.Log("Создали объект в " + objectPosition);
-        Debug.Log("Координаты объекта " + obj.transform.position);
+        gameObjects.Add(obj);
 
         // Ставим прозрачный тайл на слой коллизии
         curTilemap.SetTile(position, grass);
