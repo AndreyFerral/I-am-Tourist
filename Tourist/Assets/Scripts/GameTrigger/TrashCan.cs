@@ -1,12 +1,11 @@
 using DataNamespace;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TrashCan : MonoBehaviour
 {
-    [SerializeField] Transform quickSlots;
-    [SerializeField] DialogBox scriptDB;
+    private DialogBox dialogBox;
+    private Transform quickSlots;
     private bool isTrashDrop = false;
 
     public bool IsTrashDrop => isTrashDrop;
@@ -19,6 +18,11 @@ public class TrashCan : MonoBehaviour
 
     void Start()
     {
+        // Сделано так, чтобы работало из префаба
+        dialogBox = FindObjectOfType<DialogBox>();
+        GameObject quickPanel = GameObject.Find("QuickPanel");
+        if (quickPanel != null) quickSlots = quickPanel.transform;
+
         IsBrook = false;
         IsRain = false;
     }
@@ -36,8 +40,8 @@ public class TrashCan : MonoBehaviour
         if (isBrookOld != IsBrook)
         {
             isBrookOld = IsBrook;
-            if (!CheckQuick(eventItems)) scriptDB.StartDialogBox(dialog.TextBefore);
-            else scriptDB.StartDialogBox(dialog.TextAfter);
+            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
+            else dialogBox.StartDialogBox(dialog.TextAfter);
         }
     }
 
@@ -50,13 +54,13 @@ public class TrashCan : MonoBehaviour
         {
             // Если пользователь на речке без сапог
             IsBrook = true;
-            scriptDB.StartDialogBox(dialog.TextBefore);
+            dialogBox.StartDialogBox(dialog.TextBefore);
         }
         else
         {
             // Если пользователь на речке в сапогах
             IsBrook = false;
-            scriptDB.StartDialogBox(dialog.TextAfter);
+            dialogBox.StartDialogBox(dialog.TextAfter);
         }
         isBrookOld = IsBrook;
     }
@@ -74,8 +78,8 @@ public class TrashCan : MonoBehaviour
         if (isRainOld != IsRain)
         {
             isRainOld = IsRain;
-            if (!CheckQuick(eventItems)) scriptDB.StartDialogBox(dialog.TextBefore);
-            else scriptDB.StartDialogBox(dialog.TextAfter);
+            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
+            else dialogBox.StartDialogBox(dialog.TextAfter);
         }
     }
 
@@ -88,13 +92,13 @@ public class TrashCan : MonoBehaviour
         {
             // Если пользователь на речке без сапог
             IsRain = true;
-            scriptDB.StartDialogBox(dialog.TextBefore);
+            dialogBox.StartDialogBox(dialog.TextBefore);
         }
         else
         {
             // Если пользователь на речке в сапогах
             IsRain = false;
-            scriptDB.StartDialogBox(dialog.TextAfter);
+            dialogBox.StartDialogBox(dialog.TextAfter);
         }
         isRainOld = IsRain;
     }

@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
+using static UnityEditor.Progress;
 
 public class LevelConstructor : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class LevelConstructor : MonoBehaviour
     private Tile[] curTiles;
 
     private string objectName;
+    private bool isFlagSet = false;
     private List<GameObject> gameObjects = new List<GameObject>();
 
     // Текущие и предыдущие координаты тайлов
@@ -98,7 +100,16 @@ public class LevelConstructor : MonoBehaviour
     public void SetMushroomsOnGrass() => SetTileButton(mushroomsOnGrassTiles, decorGroundTilemap);
 
     // Кнопка для восстановления состояния Tilemap и gameObjects
-    public void ReturnTilemap() => gameObjects = TilemapManager.ReturnState(gameObjects);
+    public void ReturnTilemap()
+    {
+        gameObjects = TilemapManager.ReturnState(gameObjects);
+
+        // Финиш был удален в ходе нажатия кнопки "Назад"
+        if (!gameObjects.Exists(go => go.name == "Finish"))
+        {
+            isFlagSet = false;
+        }
+    }
 
     void Update()
     {
@@ -460,12 +471,20 @@ public class LevelConstructor : MonoBehaviour
         // Если по соседству другой объект (в пределах 2 клеток)
         if (IsObjectAround(position)) return;
 
+        // Если флаг уже установлен - не ставим
+        if (objectName == "Finish")
+        {
+            if (!isFlagSet) isFlagSet = true;
+            else return;
+        }
+
         // Корректируем позицию игрового объекта
         Vector3 objectPosition = new Vector3(position.x - 1.1f, position.y - 1.5f, 0);
 
         // Создаем игровой объект
         GameObject objectPrefab = Resources.Load("Objects/" + objectName) as GameObject;
         GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
+        obj.gameObject.name = objectName;
         gameObjects.Add(obj);
 
         // Ставим прозрачный тайл на слой коллизии

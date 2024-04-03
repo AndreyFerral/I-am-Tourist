@@ -4,14 +4,12 @@ using System.Collections;
 
 public class DialogBox : MonoBehaviour
 {
-    // Игровой объект, за которым следит DialogBox
     private GameObject player;
     private string playerTag = "Player";
 
-    // Игровые объекты DialogBox
     private TMP_Text dbText;
     private GameObject dbSprite;
-    private bool activeObject = false;
+    private Coroutine dialogCoroutine;
 
     void Awake()
     {
@@ -20,44 +18,34 @@ public class DialogBox : MonoBehaviour
         player = GameObject.FindGameObjectWithTag(playerTag);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         transform.position = GetPlayerCoord();
     }
 
-    // Метод для получения координат игрока
     Vector3 GetPlayerCoord()
     {
         const float addHeight = 1.5f;
-        Vector3 playerCoord = new Vector3()
-        {
-            x = player.transform.position.x,
-            y = player.transform.position.y + addHeight,
-            z = player.transform.position.z
-        };
+        Vector3 playerCoord = player ? player.transform.position + Vector3.up * addHeight : transform.position;
         return playerCoord;
     }
 
-    // Метод для запуска короутины SetDialogBox
     public void StartDialogBox(string text)
     {
-        activeObject = true;
-        StartCoroutine(SetDialogBox(text));
+        if (dialogCoroutine != null)
+        {
+            StopCoroutine(dialogCoroutine);
+        }
+        dialogCoroutine = StartCoroutine(SetDialogBox(text));
     }
 
-    // Метод настройки DialogBox
     private IEnumerator SetDialogBox(string text)
     {
-        // Настраиваем DialogBox
         dbSprite.SetActive(true);
         dbText.text = text;
-        activeObject = false;
 
-        // Ожидаем определенное количество времени
-        const int awaitTime = 2;
-        yield return new WaitForSeconds(awaitTime);
+        yield return new WaitForSeconds(2);
 
-        // Выключаем DialogBox
-        if (!activeObject) dbSprite.SetActive(false);
+        dbSprite.SetActive(false);
     }
 }

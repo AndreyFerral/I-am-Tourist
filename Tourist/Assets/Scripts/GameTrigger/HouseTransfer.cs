@@ -1,60 +1,43 @@
 using UnityEngine;
-using System.Collections;
 using DataNamespace;
-using System.Collections.Generic;
 
 public class HouseTransfer : MonoBehaviour
 {
+    [SerializeField] DialogBox scriptDB;
+    [SerializeField] GameObject gridHouse;
+    [SerializeField] GameObject[] gridMaps;
+
     private Vector2 houseMin;
     private Vector2 houseMax;
-    private Vector2[] newMinPos;
-    private Vector2[] newMaxPos;
+    private Vector2 minPosGrid;
+    private Vector2[] maxPosGrid;
     private Vector3 playerIn;
     private Vector3 playerOut;
 
-    [SerializeField] DialogBox scriptDB;
-    [SerializeField] GameObject gridHouse;
-    [SerializeField] GameObject[] gridsMap;
-
     private CameraController cam;
-    private Transform camTransform;
 
     private string playerTag = "Player";
-    private int idGrid = DataHolder.IdLocation;
-    private static bool isHome = true;
+    private int id = DataHolder.IdLocation;
 
-    private bool isNotifyStart;
-    private bool isAfterRoute;
-
-    public static bool IsHome
-    {
-        get { return isHome; }
-        set { isHome = value; }
-    }
+    public static bool IsHome { get; set; }
 
     private void Start()
     {
+        // Устанавливаем первоначальное значение
+        IsHome = true;
+
         houseMin = new Vector2(-31.8f, -1.2f);
         houseMax = new Vector2(-28.4f, 1.1f);
 
         cam = Camera.main.GetComponent<CameraController>();
-        camTransform = cam.GetComponent<Transform>();
 
-        newMinPos = new Vector2[4];
-        Vector2 verticalMin = new Vector2(-6, -3);
-        Vector2 horizontalMin = new Vector2(-6, -3);
-        newMinPos[0] = horizontalMin;
-        newMinPos[1] = horizontalMin;
-        newMinPos[2] = horizontalMin;
-        newMinPos[3] = verticalMin;
+        minPosGrid = new Vector2(-6, -3);
 
-        newMaxPos = new Vector2[4];
-        Vector2 verticalMax = new Vector2(0, 50);
-        Vector2 horizontalMax = new Vector2(50, 3);
-        newMaxPos[0] = new Vector2(10.5f, 3);
-        newMaxPos[1] = horizontalMax;
-        newMaxPos[2] = horizontalMax;
-        newMaxPos[3] = verticalMax;
+        maxPosGrid = new Vector2[4];
+        maxPosGrid[0] = new Vector2(10.5f, 3);
+        maxPosGrid[1] = new Vector2(50, 3);
+        maxPosGrid[2] = new Vector2(50, 3);
+        maxPosGrid[3] = new Vector2(0, 50);
 
         playerIn = new Vector3(-30.5f, -2, 0);
         playerOut = new Vector3(-3, -1, 0);
@@ -67,10 +50,10 @@ public class HouseTransfer : MonoBehaviour
             DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
 
             // Если игрок дома
-            if (isHome)
+            if (IsHome)
             {
-                isNotifyStart = DataHolder.IsNotifyStart;
-                isAfterRoute = DataHolder.IsAfterRoute;
+                bool isNotifyStart = DataHolder.IsNotifyStart;
+                bool isAfterRoute = DataHolder.IsAfterRoute;
 
                 // Если игрок не сообщил о начале маршрута
                 if (!isNotifyStart)
@@ -94,28 +77,22 @@ public class HouseTransfer : MonoBehaviour
     private void ChangeGrid(Collider2D player)
     {
         // Если игрок выходит из дома
-        if (isHome)
+        if (IsHome)
         {
-            player.transform.position = playerOut;
-            camTransform.position = playerOut;
-            cam.minPos = newMinPos[idGrid];
-            cam.maxPos = newMaxPos[idGrid];
+            cam.MovePlayer(minPosGrid, maxPosGrid[id], playerOut);
 
-            isHome = false;
+            IsHome = false;
             gridHouse.SetActive(false);
-            gridsMap[idGrid].SetActive(true);
+            gridMaps[id].SetActive(true);
         }
         // Если игрок входит в дом
         else
         {
-            player.transform.position = playerIn;
-            camTransform.position = playerIn;
-            cam.minPos = houseMin;
-            cam.maxPos = houseMax;
+            cam.MovePlayer(houseMin, houseMax, playerIn);
 
-            isHome = true;
+            IsHome = true;
             gridHouse.SetActive(true);
-            gridsMap[idGrid].SetActive(false);
+            gridMaps[id].SetActive(false);
         }
     }
 }

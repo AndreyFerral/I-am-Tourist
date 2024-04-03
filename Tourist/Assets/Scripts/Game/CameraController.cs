@@ -21,6 +21,16 @@ public class CameraController : MonoBehaviour
         transform.position = GetPlayerCoord();
     }
 
+    public void MovePlayer(Vector2 newMinPos, Vector2 newMaxPos, Vector3 playerCoord)
+    {
+        // Перемещаем игрока, устанавливаем камере позицию игрока
+        player.transform.position = playerCoord;
+        transform.position = GetPlayerCoord();
+
+        minPos = newMinPos;
+        maxPos = newMaxPos;
+    }
+
     void FixedUpdate()
     {
         if (player.transform)

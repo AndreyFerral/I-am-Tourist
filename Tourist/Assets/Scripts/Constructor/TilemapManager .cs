@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public static class TilemapManager
 {
@@ -106,7 +104,7 @@ public static class TilemapManager
         }
         else
         {
-            Debug.LogWarning("Ќевозможно восстановить tilemap: сохраненного состо€ни€");
+            Debug.LogWarning("Ќевозможно восстановить tilemap");
             return new List<GameObject>();
         }
     }
