@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using DataNamespace;
+using TileData = DataNamespace.TileData;
+using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 public static class TilemapManager
 {
@@ -8,16 +12,15 @@ public static class TilemapManager
     private static Stack<Tilemap> tilemapStack = new Stack<Tilemap>();
     private static Stack<List<GameObject>> gameObjectStack = new Stack<List<GameObject>>();
 
-    private static Vector2Int minCameraPos;
-    private static Vector2Int maxCameraPos;
+    private static Vector2Int minCameraPos = new Vector2Int(-15, -6);
+    private static Vector2Int maxCameraValue;
 
     // Получаем значения границ мира у скрипта PrepareLevel.cs
-    public static Vector2Int MinCameraPos { set => minCameraPos = value; }
-    public static Vector2Int MaxCameraPos { set => maxCameraPos = value; }
+    public static Vector2Int MaxCameraValue { set => maxCameraValue = value; }
 
     private static TileBase[,] GetCurrentTiles(Tilemap tilemap)
     {
-        BoundsInt bounds = new BoundsInt((Vector3Int)minCameraPos, new Vector3Int(maxCameraPos.x, maxCameraPos.y, 1));
+        BoundsInt bounds = new BoundsInt((Vector3Int)minCameraPos, new Vector3Int(maxCameraValue.x, maxCameraValue.y, 1));
         TileBase[,] currentTiles = new TileBase[bounds.size.x, bounds.size.y];
 
         foreach (Vector3Int pos in bounds.allPositionsWithin)
@@ -93,7 +96,7 @@ public static class TilemapManager
                 }
             }
             
-            BoundsInt bounds = new BoundsInt((Vector3Int)minCameraPos, new Vector3Int(maxCameraPos.x, maxCameraPos.y, 1));
+            BoundsInt bounds = new BoundsInt((Vector3Int)minCameraPos, new Vector3Int(maxCameraValue.x, maxCameraValue.y, 1));
 
             foreach (Vector3Int pos in bounds.allPositionsWithin)
             {

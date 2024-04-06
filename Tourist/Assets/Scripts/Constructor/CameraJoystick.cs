@@ -9,11 +9,14 @@ public class CameraJoystick : MonoBehaviour
     [SerializeField] Joystick joystick;
 
     // Область, в которой камера может двигаться
-    [SerializeField] Vector2 minCameraXY;
-    [SerializeField] Vector2 maxCameraValue;
+    private static Vector2 minCameraPos = new Vector2(-16.5f, -8);
+    private static Vector2 maxCameraValue;
 
     // Дополнительная переменная для коррекции камеры
     float extensionPercent = 2.5f;
+
+    // Получаем значения границ мира у скрипта PrepareLevel.cs
+    public static Vector2Int MaxCameraValue { set => maxCameraValue = value; }
 
     void FixedUpdate()
     {
@@ -32,10 +35,10 @@ public class CameraJoystick : MonoBehaviour
         float extensionX = Camera.main.aspect * extensionPercent;
 
         // Вычисляем min и max для X и Y, учитывая размеры камеры и offsetValue
-        float minX = minCameraXY.x + cameraHalfWidth;
-        float maxX = minCameraXY.x + maxCameraValue.x - cameraHalfWidth + extensionX;
-        float minY = minCameraXY.y + cameraHalfHeight;
-        float maxY = minCameraXY.y + maxCameraValue.y - cameraHalfHeight;
+        float minX = minCameraPos.x + cameraHalfWidth;
+        float maxX = minCameraPos.x + maxCameraValue.x - cameraHalfWidth + extensionX;
+        float minY = minCameraPos.y + cameraHalfHeight;
+        float maxY = minCameraPos.y + maxCameraValue.y - cameraHalfHeight;
 
         // Проверяем, находится ли новая позиция в пределах заданной области, учитывая размеры камеры и offsetValue
         float clampedX = Mathf.Clamp(newPos.x, minX, maxX);

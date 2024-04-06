@@ -4,8 +4,6 @@ using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections;
-using static UnityEditor.Progress;
 
 public class LevelConstructor : MonoBehaviour
 {
@@ -109,6 +107,23 @@ public class LevelConstructor : MonoBehaviour
         {
             isFlagSet = false;
         }
+    }
+
+    // Кнопка для сохранения карты
+    public void SaveMap()
+    {
+        List<Tilemap> tilemaps = new List<Tilemap>
+        {
+            grassTilemap,
+            groundTilemap,
+            decorGroundTilemap,
+            collisionGroundTilemap,
+            waterTilemap,
+            decorWaterTilemap,
+            collisionWaterTilemap
+        };
+
+        TilemapSaveLoad.SaveTilemapData(tilemaps, gameObjects);
     }
 
     void Update()
@@ -572,7 +587,7 @@ public class LevelConstructor : MonoBehaviour
         if (diffX == 1 && diffY == 0)
         {
             // Проверка для ячейки справа
-            Debug.Log("->");
+            // Debug.Log("->");
 
             if (curTile == curTiles[0] || curTile == curTiles[1] || curTile == curTiles[2]) return;
             
@@ -598,7 +613,7 @@ public class LevelConstructor : MonoBehaviour
         else if (diffX == -1 && diffY == 0)
         {
             // Проверка для ячейки слева
-            Debug.Log("<-");
+            // Debug.Log("<-");
 
             if (curTile == curTiles[0] || curTile == curTiles[1] || curTile == curTiles[3]) return;
             
@@ -624,7 +639,7 @@ public class LevelConstructor : MonoBehaviour
         else if (diffX == 0 && diffY == 1)
         {
             // Проверка для верхней ячейки
-            Debug.Log("up");
+            // Debug.Log("up");
 
             if (curTile == curTiles[1] || curTile == curTiles[2] || curTile == curTiles[3]) return;
 
@@ -650,7 +665,7 @@ public class LevelConstructor : MonoBehaviour
         else if (diffX == 0 && diffY == -1)
         {
             // Проверка для нижней ячейки
-            Debug.Log("down");
+            // Debug.Log("down");
 
             if (curTile == curTiles[0] || curTile == curTiles[2] || curTile == curTiles[3]) return;
 
