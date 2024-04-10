@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
-    [SerializeField] GameObject finalMenu;
     private float moveSpeed = 3;
 
     private Rigidbody2D myRigidBody;
@@ -41,15 +40,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(CoroutineStamina());
     }
 
-    void Update()
-    {
-        ProcessInput();
-    }
-
-    void FixedUpdate()
-    {
-        Move();
-    }
+    void Update() => ProcessInput(); 
+    void FixedUpdate() => Move();
 
     private IEnumerator CoroutineStamina()
     {
@@ -147,7 +139,7 @@ public class PlayerController : MonoBehaviour
         isGame = false;
 
         // Вызываем окно провала
-        FinalMenu scriptFM = finalMenu.GetComponent<FinalMenu>();
-        scriptFM.SetLoseMenu();
+        FinalMenu finalMenu = FindObjectOfType<FinalMenu>();
+        finalMenu.SetLoseMenu();
     }
 }

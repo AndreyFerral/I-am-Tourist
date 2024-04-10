@@ -2,30 +2,29 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // Игровой объект, за которым следит камера
-    private GameObject player;
-    private string playerTag = "Player";
-
     // Скорость передвижения камеры
     [SerializeField] float movingSpeed;
 
+    // Игровой объект, за которым следит камера
+    private GameObject player;
+
     // Значения границы камеры
-    public Vector2 minPos;
-    public Vector2 maxPos;
+    private Vector2 minPos;
+    private Vector2 maxPos;
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag(playerTag);
-
-        // Устанавливаем камере позицию игрока
-        transform.position = GetPlayerCoord();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public void MovePlayer(Vector2 newMinPos, Vector2 newMaxPos, Vector3 playerCoord)
+    public void MovePlayer(Vector2 newMinPos, Vector2 newMaxPos, Vector3 playerCoord = default)
     {
-        // Перемещаем игрока, устанавливаем камере позицию игрока
-        player.transform.position = playerCoord;
-        transform.position = GetPlayerCoord();
+        if (playerCoord != default)
+        {
+            // Перемещаем игрока, устанавливаем камере позицию игрока
+            player.transform.position = playerCoord;
+            transform.position = GetPlayerCoord();
+        }
 
         minPos = newMinPos;
         maxPos = newMaxPos;
@@ -36,22 +35,21 @@ public class CameraController : MonoBehaviour
         if (player.transform)
         {
             // Получаем координаты игрока
-            Vector3 target = GetPlayerCoord();
+            Vector3 playerPosition = GetPlayerCoord();
 
-            // Ограничиваем координаты 
-            target.x = Mathf.Clamp(target.x, minPos.x, maxPos.x);
-            target.y = Mathf.Clamp(target.y, minPos.y, maxPos.y);
+            // Вычисляем размеры камеры
+            float cameraHalfHeight = Camera.main.orthographicSize;
+            float cameraHalfWidth = cameraHalfHeight * Camera.main.aspect;
 
-            // Обрабатываем координаты
-            Vector3 pos = Vector3.Lerp(
-                transform.position, target,
-                movingSpeed * Time.fixedDeltaTime);
+            // Ограничиваем координаты камеры вокруг игрока с учетом границ
+            float clampedX = Mathf.Clamp(playerPosition.x, minPos.x + cameraHalfWidth, maxPos.x - cameraHalfWidth);
+            float clampedY = Mathf.Clamp(playerPosition.y, minPos.y + cameraHalfHeight, maxPos.y - cameraHalfHeight);
 
-            // Устанавливаем координаты камере
-            transform.position = pos;
+            // Устанавливаем новую позицию камеры посередине игрока с учетом границ
+            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
         }
     }
-
+    
     Vector3 GetPlayerCoord()
     {
         Vector3 playerCoord = new Vector3()

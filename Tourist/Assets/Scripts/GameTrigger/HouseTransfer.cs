@@ -1,98 +1,134 @@
 using UnityEngine;
 using DataNamespace;
+using UnityEngine.Tilemaps;
 
 public class HouseTransfer : MonoBehaviour
 {
-    [SerializeField] DialogBox scriptDB;
+    [SerializeField] DialogBox dialogBox;
     [SerializeField] GameObject gridHouse;
     [SerializeField] GameObject[] gridMaps;
 
-    private Vector2 houseMin;
-    private Vector2 houseMax;
-    private Vector2 minPosGrid;
-    private Vector2[] maxPosGrid;
-    private Vector3 playerIn;
-    private Vector3 playerOut;
+    private Vector2[] houseBounds;
+    private Vector2[] gridBounds;
 
-    private CameraController cam;
+    private Vector3 playerPosHouse = new Vector3(-30.5f, -2, 0);
+    private Vector3 playerPosGrid = new Vector3(-3, -1, 0);
+
+    private CameraController cameraController;
+    private DialogBoxData dialogData;
 
     private string playerTag = "Player";
     private int id = DataHolder.IdLocation;
 
     public static bool IsHome { get; set; }
 
+    private Vector2[] FindTilemapBounds(GameObject grids)
+    {
+        // Получаем tilemap для поиска границ
+        Tilemap[] tilemaps = grids.GetComponentsInChildren<Tilemap>();
+        Tilemap tilemap = System.Array.Find(tilemaps, tilemap => tilemap.name == "Ground Collision");
+
+        // Левая нижняя и правая верхняя граница
+        BoundsInt bounds = tilemap.cellBounds;
+        Vector3Int bottomLeftTilePos = new Vector3Int(bounds.xMax, bounds.yMax, 0);
+        Vector3Int topRightTilePos = new Vector3Int(bounds.xMin, bounds.yMin, 0);
+
+        foreach (Vector3Int pos in bounds.allPositionsWithin)
+        {
+            if (tilemap.HasTile(pos))
+            {
+                bottomLeftTilePos.x = Mathf.Min(bottomLeftTilePos.x, pos.x);
+                bottomLeftTilePos.y = Mathf.Min(bottomLeftTilePos.y, pos.y);
+
+                topRightTilePos.x = Mathf.Max(topRightTilePos.x, pos.x);
+                topRightTilePos.y = Mathf.Max(topRightTilePos.y, pos.y);
+            }
+        }
+
+        // Устанавливаем цвет и флаги для угловых тайлов
+        tilemap.SetTileFlags(bottomLeftTilePos, TileFlags.None);
+        tilemap.SetColor(bottomLeftTilePos, UnityEngine.Color.black);
+
+        tilemap.SetTileFlags(topRightTilePos, TileFlags.None);
+        tilemap.SetColor(topRightTilePos, UnityEngine.Color.black);
+
+        Debug.Log("Левая нижняя граница: " + bottomLeftTilePos);
+        Debug.Log("Правая верхняя граница: " + topRightTilePos);
+
+        // Корректируем значение
+        topRightTilePos += Vector3Int.one;
+
+        // Переводим координату tilemap в глобальную координату
+        Vector2 bottomLeftWorldPos = tilemap.CellToWorld(bottomLeftTilePos);
+        Vector2 topRightWorldPos = tilemap.CellToWorld(topRightTilePos);
+
+        return new Vector2[] { bottomLeftWorldPos, topRightWorldPos };
+    }
+
+    private void LoadData()
+    {
+        // Получаем все Tilemap из дочерних объектов gridMaps
+        Tilemap[] tilemaps = gridMaps[4].GetComponentsInChildren<Tilemap>();
+        TilemapSaveLoad.LoadTilemapData(tilemaps);
+    }
+
     private void Start()
     {
         // Устанавливаем первоначальное значение
         IsHome = true;
+        cameraController = Camera.main.GetComponent<CameraController>();
+        dialogData = DataLoader.GetDialogBoxData(gameObject.tag);
 
-        houseMin = new Vector2(-31.8f, -1.2f);
-        houseMax = new Vector2(-28.4f, 1.1f);
+        // Включаем необходимую карту
+        //id = 4;
 
-        cam = Camera.main.GetComponent<CameraController>();
+        if (id > 4) id = 4;  
+        gridMaps[id].SetActive(true);
 
-        minPosGrid = new Vector2(-6, -3);
+        // Загружаем карту из бд, если необходимо
+        if (id == 4) LoadData();
 
-        maxPosGrid = new Vector2[4];
-        maxPosGrid[0] = new Vector2(10.5f, 3);
-        maxPosGrid[1] = new Vector2(50, 3);
-        maxPosGrid[2] = new Vector2(50, 3);
-        maxPosGrid[3] = new Vector2(0, 50);
+        // Получаем границы дома и карты
+        houseBounds = FindTilemapBounds(gridHouse);
+        gridBounds = FindTilemapBounds(gridMaps[id]);
 
-        playerIn = new Vector3(-30.5f, -2, 0);
-        playerOut = new Vector3(-3, -1, 0);
+        // Устанавлием границы локации
+        cameraController.MovePlayer(houseBounds[0], houseBounds[1]);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
-            DialogBoxData dialog = DataLoader.GetDialogBoxData(gameObject.tag);
+            bool isNotifyStart = DataHolder.IsNotifyStart;
+            bool isAfterRoute = DataHolder.IsAfterRoute;
 
-            // Если игрок дома
-            if (IsHome)
+            if (!isNotifyStart && IsHome)
             {
-                bool isNotifyStart = DataHolder.IsNotifyStart;
-                bool isAfterRoute = DataHolder.IsAfterRoute;
-
-                // Если игрок не сообщил о начале маршрута
-                if (!isNotifyStart)
-                {
-                    scriptDB.StartDialogBox(dialog.TextBefore);
-                    return;
-                }
-                // Если игрок прошел маршрут
-                else if (isAfterRoute)
-                {
-                    scriptDB.StartDialogBox(dialog.TextAfter);
-                    return;
-                }
+                dialogBox.StartDialogBox(dialogData.TextBefore);
             }
-
-            ChangeGrid(other);
+            else if (isAfterRoute && IsHome)
+            {
+                dialogBox.StartDialogBox(dialogData.TextAfter);
+            }
+            else ChangeGrid();        
         }
     }
 
     // Метод для включения/выключения локации
-    private void ChangeGrid(Collider2D player)
+    private void ChangeGrid()
     {
-        // Если игрок выходит из дома
-        if (IsHome)
+        if (!IsHome)
         {
-            cam.MovePlayer(minPosGrid, maxPosGrid[id], playerOut);
-
-            IsHome = false;
-            gridHouse.SetActive(false);
-            gridMaps[id].SetActive(true);
+            // Если игрок входит в дом
+            IsHome = true;
+            cameraController.MovePlayer(houseBounds[0], houseBounds[1], playerPosHouse);
         }
-        // Если игрок входит в дом
         else
         {
-            cam.MovePlayer(houseMin, houseMax, playerIn);
-
-            IsHome = true;
-            gridHouse.SetActive(true);
-            gridMaps[id].SetActive(false);
+            // Если игрок выходит из дома
+            IsHome = false;
+            cameraController.MovePlayer(gridBounds[0], gridBounds[1], playerPosGrid);
         }
     }
 }

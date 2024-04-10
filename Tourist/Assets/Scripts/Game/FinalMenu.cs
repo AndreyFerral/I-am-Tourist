@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class FinalMenu : MonoBehaviour
 {
-    [SerializeField] TrashCan scriptTC;
-    [SerializeField] TMP_Text headerText;
-    [SerializeField] TMP_Text mainText;
+    [SerializeField] TrashCan trashCan;
+    [SerializeField] TMP_Text headerText, mainText;
 
     private string[] lose = {
         "Вы проиграли", "Выносливость персонажа закончилась"
@@ -31,13 +30,13 @@ public class FinalMenu : MonoBehaviour
         mainText.alignment = TextAlignmentOptions.Left;
         mainText.text = win[1];
 
-        var eventItems = DataLoader.GetListEventsItemsData(tag);
+        var eventItems = DataLoader.GetListEventsItemsData("TrashCan");
 
         // Проверяем ячейки на наличие мусора
-        if (scriptTC.CheckQuick(eventItems) || scriptTC.CheckBackpack(eventItems))
+        if (trashCan.CheckQuick(eventItems) || trashCan.CheckBackpack(eventItems))
         {
             // Если была выброшена часть мусора
-            if (scriptTC.IsTrashDrop) mainText.text += win[4];
+            if (trashCan.IsTrashDrop) mainText.text += win[4];
             // Если мусор не был выброшен
             else mainText.text += win[3];
         }

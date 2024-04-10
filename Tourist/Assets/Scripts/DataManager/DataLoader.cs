@@ -13,7 +13,9 @@ public class DataLoader : MonoBehaviour
     private static List<EventsInfoData> loadedEventInfoList;
     private static List<EventsItemsData> loadedEventItemList;
 
-    void Start()
+    private static List<LevelData> loadedLevelDataList;
+
+    void Awake()
     {
         // «агружаем данные из базы данных при запуске похода
         loadedInteractList = JsonSaveLoadSystem.LoadListData<InteractPanelData>();
@@ -25,7 +27,19 @@ public class DataLoader : MonoBehaviour
         loadedEventInfoList = JsonSaveLoadSystem.LoadListData<EventsInfoData>();
         loadedEventItemList = JsonSaveLoadSystem.LoadListData<EventsItemsData>();
 
+        // ћожно не грузить все данные, только нужный уровень
+        loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
+
         Debug.Log("«агрузка данных произошла успешно");
+    }
+
+    public static LevelData GetLevelData(string name)
+    {
+        foreach (LevelData item in loadedLevelDataList)
+        {
+            if (item.nameMap == name) return item;
+        }
+        return null;
     }
 
     public static EventsItemsData GetEventsItemsData(string name, int id=0)
