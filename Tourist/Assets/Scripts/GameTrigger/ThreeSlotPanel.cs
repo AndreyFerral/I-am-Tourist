@@ -98,12 +98,13 @@ public class ThreeSlotPanel : MonoBehaviour
 
     private void Second()
     {
-        if (isFirstActive && Events.Begin(secondItems))
+        if (Events.Begin(secondItems) && isFirstActive)
         {
             isFirstActive = false;
             Debug.Log("Приготовлен");
         }
         else Debug.Log("Не приготовлен");
+        
     }
 
     private void Third()

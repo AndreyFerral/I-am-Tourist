@@ -52,9 +52,6 @@ public class HouseTransfer : MonoBehaviour
         tilemap.SetTileFlags(topRightTilePos, TileFlags.None);
         tilemap.SetColor(topRightTilePos, UnityEngine.Color.black);
 
-        Debug.Log("Левая нижняя граница: " + bottomLeftTilePos);
-        Debug.Log("Правая верхняя граница: " + topRightTilePos);
-
         // Корректируем значение
         topRightTilePos += Vector3Int.one;
 
@@ -93,7 +90,7 @@ public class HouseTransfer : MonoBehaviour
         gridBounds = FindTilemapBounds(gridMaps[id]);
 
         // Устанавлием границы локации
-        cameraController.MovePlayer(houseBounds[0], houseBounds[1]);
+        cameraController.MovePlayer(houseBounds);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -122,13 +119,13 @@ public class HouseTransfer : MonoBehaviour
         {
             // Если игрок входит в дом
             IsHome = true;
-            cameraController.MovePlayer(houseBounds[0], houseBounds[1], playerPosHouse);
+            cameraController.MovePlayer(houseBounds, playerPosHouse);
         }
         else
         {
             // Если игрок выходит из дома
             IsHome = false;
-            cameraController.MovePlayer(gridBounds[0], gridBounds[1], playerPosGrid);
+            cameraController.MovePlayer(gridBounds, playerPosGrid);
         }
     }
 }

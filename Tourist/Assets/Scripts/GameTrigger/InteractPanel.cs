@@ -50,18 +50,12 @@ public class InteractPanel : MonoBehaviour
         if (GetEmptySlot() != null)
         {
             buttonText.text = interact.TextPositive;
-            interactButton.onClick.AddListener(delegate
-            {
-                ItemPick(other, objectName);
-            });
+            interactButton.onClick.AddListener(() => ItemPick(other, objectName));     
         }
         else
         {
             buttonText.text = interact.TextNegative;
-            interactButton.onClick.AddListener(delegate
-            {
-                interactPanel.SetActive(false);
-            });
+            interactButton.onClick.AddListener(() => interactPanel.SetActive(false));
         }
     }
 
@@ -108,12 +102,8 @@ public class InteractPanel : MonoBehaviour
         else
         {
             buttonText.text = interact.TextNegative;
-            interactButton.onClick.AddListener(delegate
-            {
-                interactPanel.SetActive(false);
-            });
+            interactButton.onClick.AddListener(() => interactPanel.SetActive(false));
         }
-        
     }
 
     public void SetNotify(Collider2D other)
@@ -153,7 +143,7 @@ public class InteractPanel : MonoBehaviour
         });
     }
 
-    public void SetFinish(Collider2D other)
+    public void SetFinish(Collider2D other, ParticleSystem rain)
     {
         const int textSize = 16;
         ChangeTextSize(textSize);
@@ -173,6 +163,11 @@ public class InteractPanel : MonoBehaviour
             interactPanel.SetActive(false);
             notifyCollider.enabled = true;
             DataHolder.IsAfterRoute = true;
+
+            // Останавливаем дождь
+            TrashCan.IsRain = false;
+            rain.Stop();
+            rain.Clear();
 
             // Перемещаем игрока домой
             GameObject player = GameObject.FindWithTag("Player");
@@ -205,15 +200,15 @@ public class InteractPanel : MonoBehaviour
             {
                 case 0:
                     OneSlotPanel oneSlotPanel = new OneSlotPanel();
-                    oneSlotPanel.SetParam(other.gameObject.name);
+                    oneSlotPanel.SetParam(name);
                     break;
                 case 1:
                     TwoSlotPanel twoSlotPanel = new TwoSlotPanel();
-                    twoSlotPanel.SetParam(other.gameObject.name);
+                    twoSlotPanel.SetParam(name);
                     break;
                 case 2:
                     ThreeSlotPanel threeSlotPanel = new ThreeSlotPanel();
-                    threeSlotPanel.SetParam(other.gameObject.name);
+                    threeSlotPanel.SetParam(name);
                     break;
             }
         });

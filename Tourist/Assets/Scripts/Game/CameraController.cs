@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    public void MovePlayer(Vector2 newMinPos, Vector2 newMaxPos, Vector3 playerCoord = default)
+    public void MovePlayer(Vector2[] bounds, Vector3 playerCoord = default)
     {
         if (playerCoord != default)
         {
@@ -26,8 +26,8 @@ public class CameraController : MonoBehaviour
             transform.position = GetPlayerCoord();
         }
 
-        minPos = newMinPos;
-        maxPos = newMaxPos;
+        minPos = bounds[0];
+        maxPos = bounds[1];
     }
 
     void FixedUpdate()

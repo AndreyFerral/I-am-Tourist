@@ -93,12 +93,12 @@ public class TwoSlotPanel : MonoBehaviour
     private void Second()
     {
         Debug.Log("Нажата вторая кнопка " + curEvent.EventName);
-        if (isFirstActive && Events.Begin(secondItems))
+        if (Events.Begin(secondItems) && isFirstActive)
         {
             isFirstActive = false;
             Debug.Log("Приготовлен");
         }
-        else Debug.Log("Не приготовлен");
+        else Debug.Log("Не приготовлен");   
     }
 
     private void SetButtonText(string text) 

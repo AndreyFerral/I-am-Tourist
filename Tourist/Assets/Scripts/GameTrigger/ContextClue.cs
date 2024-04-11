@@ -10,6 +10,9 @@ public class ContextClue : MonoBehaviour
 
     // Обращение к скрипту панели взаимодествия
     private InteractPanel interact;
+    private TrashCan trashCan;
+
+    private int interactionCount = 0;
 
     // Теги действий, событий и прочего
     private string signTag = "Sign";
@@ -34,83 +37,61 @@ public class ContextClue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Увеличиваем счетчик входов в зону
+        interactionCount++;
+
         // Если этот объект знак
         if (other.CompareTag(signTag))
         {
             // Тестовые вопросы
         }
-        // Если этот объект пикник
+        // Если это событие 1 вкладкой
         else if (other.CompareTag(oneEventTag))
         {
-            // Настраиваем панель взаимодействия
             interact.SetEatPanels(other, 0);
         }
-        // Если этот объект костёр
+        // Если это событие 2 вкладками
         else if (other.CompareTag(twoEventTag))
         {
-            // Настраиваем панель взаимодействия
             interact.SetEatPanels(other, 1);
         }
-        // Если этот объект костёр
+        // Если этот событие 3 вкладками
         else if (other.CompareTag(threeEventTag))
         {
-            // Настраиваем панель взаимодействия
             interact.SetEatPanels(other, 2);
         }
         // Если этот объект подбираемый
         else if (other.CompareTag(itemPickTag))
         {
-            backpackButton.onClick.AddListener(delegate
-            {
-                interact.SetItemPick(other);
-            });
-
-            // Настраиваем панель взаимодействия
             interact.SetItemPick(other);
-        }
-        else if (other.CompareTag(trachCanTag))
-        {
-            backpackButton.onClick.AddListener(delegate
-            {
-                interact.SetTrashCan(other);
-            });
-
-            // Настраиваем панель взаимодействия
-            interact.SetTrashCan(other);
+            backpackButton.onClick.AddListener(() => interact.SetItemPick(other));
         }
         else if (other.CompareTag(notifyTag))
         {
-            // Настраиваем панель взаимодействия
             interact.SetNotify(other);
         }
         else if (other.CompareTag(finishTag))
         {
-            // Настраиваем панель взаимодействия
-            interact.SetFinish(other);
+            interact.SetFinish(other, rain);
+        }
+        else if (other.CompareTag(trachCanTag))
+        {
+            interact.SetTrashCan(other);
+            backpackButton.onClick.AddListener(() => interact.SetTrashCan(other));
         }
         else if (other.CompareTag(brookTag))
         {
-            TrashCan trashCan = other.GetComponent<TrashCan>();
-
-            backpackButton.onClick.AddListener(delegate
-            {
-                trashCan.CheckBrook();
-            });
-
+            if (trashCan == null) trashCan = other.GetComponent<TrashCan>();
             trashCan.StartBrook();
+            backpackButton.onClick.AddListener(() => trashCan.CheckBrook());
         }
         else if (other.CompareTag(rainTag))
         {
-            StartCoroutine(SetRain());
-            other.enabled = false;
-            TrashCan trashCan = other.GetComponent<TrashCan>();
-
-            backpackButton.onClick.AddListener(delegate
-            {
-                trashCan.CheckRain();
-            });
+            StartCoroutine(SetRain(other));
+            if (trashCan == null) trashCan = other.GetComponent<TrashCan>();
 
             trashCan.StartRain();
+            backpackButton.onClick.AddListener(() => trashCan.CheckRain());
         }
         // Если этот объект не телепорт и не знак
         if (!other.CompareTag(teleportTag) &&
@@ -125,19 +106,17 @@ public class ContextClue : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        // Если этот объект не телепорт
-        if (!other.CompareTag(teleportTag))
-        {
-            // Выключить панель еды
-            interact.ShowEatPanel(false, 0);
-            interact.ShowEatPanel(false, 1);
-            interact.ShowEatPanel(false, 2);
+        // Уменьшаем счетчик выходов из зоны
+        interactionCount--;
 
+        // Убрать все подписанные события на кнопку
+        backpackButton.onClick.RemoveAllListeners();
+
+        // Если этот объект не телепорт
+        if (!other.CompareTag(teleportTag) && interactionCount == 0)
+        {
             // Выключить панель взаимодействия
             interactPanel.SetActive(false);
-
-            // Убрать все подписанные события на кнопку
-            backpackButton.onClick.RemoveAllListeners();
         }
         if (other.CompareTag(brookTag))
         {
@@ -145,18 +124,24 @@ public class ContextClue : MonoBehaviour
         }
     }
 
-    private IEnumerator SetRain()
+    private IEnumerator SetRain(Collider2D rainCollider)
     {
+        // Помещаем дождь над его триггером
+        Vector3 newPosition = rainCollider.transform.position;
+        newPosition.y += 15;
+        rain.transform.position = newPosition;
+
         rain.Play();
+        rainCollider.enabled = false;
 
         // Ожидаем определенное количество времени
-        const int awaitTime = 10;
-        yield return new WaitForSeconds(awaitTime);
+        yield return new WaitForSeconds(10f);
+
+        // Убрать все подписанные события на кнопку
+        backpackButton.onClick.RemoveAllListeners();
 
         // Останавливаем дождь
         TrashCan.IsRain = false;
         rain.Stop();
-        // Убрать все подписанные события на кнопку
-        backpackButton.onClick.RemoveAllListeners();
     }
 }
