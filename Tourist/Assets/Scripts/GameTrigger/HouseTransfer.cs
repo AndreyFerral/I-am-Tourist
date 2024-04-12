@@ -20,6 +20,8 @@ public class HouseTransfer : MonoBehaviour
     private string playerTag = "Player";
     private int id = DataHolder.IdLocation;
 
+    private static bool hasBeenCalled = false;
+
     public static bool IsHome { get; set; }
 
     private Vector2[] FindTilemapBounds(GameObject grids)
@@ -45,12 +47,14 @@ public class HouseTransfer : MonoBehaviour
             }
         }
 
+        /*
         // Устанавливаем цвет и флаги для угловых тайлов
         tilemap.SetTileFlags(bottomLeftTilePos, TileFlags.None);
         tilemap.SetColor(bottomLeftTilePos, UnityEngine.Color.black);
 
         tilemap.SetTileFlags(topRightTilePos, TileFlags.None);
         tilemap.SetColor(topRightTilePos, UnityEngine.Color.black);
+        */
 
         // Корректируем значение
         topRightTilePos += Vector3Int.one;
@@ -77,13 +81,17 @@ public class HouseTransfer : MonoBehaviour
         dialogData = DataLoader.GetDialogBoxData(gameObject.tag);
 
         // Включаем необходимую карту
-        //id = 4;
+        id = 4;
 
         if (id > 4) id = 4;  
         gridMaps[id].SetActive(true);
 
         // Загружаем карту из бд, если необходимо
-        if (id == 4) LoadData();
+        if (id == 4 && !hasBeenCalled)
+        {
+            LoadData();
+            hasBeenCalled = true;
+        }
 
         // Получаем границы дома и карты
         houseBounds = FindTilemapBounds(gridHouse);

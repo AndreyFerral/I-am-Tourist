@@ -10,13 +10,28 @@ public static class TilemapSaveLoad
     {
         LevelData levelData = DataLoader.GetLevelData("Тест");
         Debug.Log("Был загружен уровень: " + levelData.nameMap);
+        
+        // Создаем объекты/события на уровень
+        foreach (ObjectData objectData in levelData.objectDataList)
+        {
+            string prefabPath = "Objects/" + objectData.objectName; // Путь к префабу
+            GameObject prefab = Resources.Load<GameObject>(prefabPath); // Загрузка префаба из ресурсов
 
+            // Создание экземпляра префаба
+            Vector3 position = new Vector3(objectData.xPos, objectData.yPos, 0f); 
+            var item = Object.Instantiate(prefab, position, Quaternion.identity);
+            item.gameObject.name = objectData.objectName;
+        }
+        
+        // Создаем карту на уровне
         for (int i = 0; i < tilemaps.Length; i++)
         {
             TilemapData tilemapData = levelData.tilemapDataList[i];
 
             foreach (TileData tileData in tilemapData.tilesData)
             {
+                if (i != 0 && tileData.tileName == "Overworld_0") continue;
+
                 // Устанавливаем новый тайл на Tilemap
                 string tilePath = "Tiles/Ground/" + tileData.tileName;
                 TileBase tile = Resources.Load<TileBase>(tilePath);

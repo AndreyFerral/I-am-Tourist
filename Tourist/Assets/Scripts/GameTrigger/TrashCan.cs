@@ -10,11 +10,11 @@ public class TrashCan : MonoBehaviour
 
     public bool IsTrashDrop => isTrashDrop;
 
-    public static bool IsBrook;
-    private bool isBrookOld;
-    public static bool IsRain;
-    private bool isRainOld;
+    public static bool IsBrook = false;
+    public static bool IsRain = false;
 
+    //private bool isRainOld;
+    //private bool isBrookOld;
 
     void Start()
     {
@@ -22,30 +22,9 @@ public class TrashCan : MonoBehaviour
         dialogBox = FindObjectOfType<DialogBox>();
         GameObject quickPanel = GameObject.Find("QuickPanel");
         if (quickPanel != null) quickSlots = quickPanel.transform;
-
-        IsBrook = false;
-        IsRain = false;
     }
 
-    public void CheckBrook()
-    {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
-        var eventItems = DataLoader.GetListEventsItemsData("Brook");
-
-        // Обновляем значение 
-        if (!CheckQuick(eventItems)) IsBrook = true;
-        else IsBrook = false;
-
-        // Если значение изменилось выводим сообщение
-        if (isBrookOld != IsBrook)
-        {
-            isBrookOld = IsBrook;
-            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
-            else dialogBox.StartDialogBox(dialog.TextAfter);
-        }
-    }
-
-    public void StartBrook()
+    public void Brook()
     {
         DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
         var eventItems = DataLoader.GetListEventsItemsData("Brook");
@@ -62,7 +41,46 @@ public class TrashCan : MonoBehaviour
             IsBrook = false;
             dialogBox.StartDialogBox(dialog.TextAfter);
         }
-        isBrookOld = IsBrook;
+        //isBrookOld = IsBrook;
+    }
+
+    public void Rain()
+    {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Rain");
+        var eventItems = DataLoader.GetListEventsItemsData("Rain");
+
+        if (!CheckQuick(eventItems))
+        {
+            // Если пользователь под дождем
+            IsRain = true;
+            dialogBox.StartDialogBox(dialog.TextBefore);
+        }
+        else
+        {
+            // Если пользователь под дождем в плаще или с зонтом
+            IsRain = false;
+            dialogBox.StartDialogBox(dialog.TextAfter);
+        }
+        //isRainOld = IsRain;
+    }
+
+    /*
+    public void CheckBrook()
+    {
+        DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
+        var eventItems = DataLoader.GetListEventsItemsData("Brook");
+
+        // Обновляем значение 
+        if (!CheckQuick(eventItems)) IsBrook = true;
+        else IsBrook = false;
+
+        // Если значение изменилось выводим сообщение
+        if (isBrookOld != IsBrook)
+        {
+            isBrookOld = IsBrook;
+            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
+            else dialogBox.StartDialogBox(dialog.TextAfter);
+        }
     }
 
     public void CheckRain()
@@ -82,26 +100,7 @@ public class TrashCan : MonoBehaviour
             else dialogBox.StartDialogBox(dialog.TextAfter);
         }
     }
-
-    public void StartRain()
-    {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData("Rain");
-        var eventItems = DataLoader.GetListEventsItemsData("Rain");
-
-        if (!CheckQuick(eventItems))
-        {
-            // Если пользователь на речке без сапог
-            IsRain = true;
-            dialogBox.StartDialogBox(dialog.TextBefore);
-        }
-        else
-        {
-            // Если пользователь на речке в сапогах
-            IsRain = false;
-            dialogBox.StartDialogBox(dialog.TextAfter);
-        }
-        isRainOld = IsRain;
-    }
+    */
 
     // Метод для использования предметов
     public void UseItems(List<EventsItemsData> eventItems)

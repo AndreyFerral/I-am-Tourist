@@ -9,15 +9,12 @@ public class ItemsController : MonoBehaviour
 
     private static int idBackpack;
     private static List<string> items;
-    private static bool isRestore;
+    private static bool isRestore = false;
 
     public static List<Transform> Slots => slots;
 
     void Start()
     {
-        // –юкзак не был восстановлен
-        isRestore = false;
-
         slots = new List<Transform>();
 
         // 0 - Small, 1 - Medium, 2 - Large Backpack Panel

@@ -15,20 +15,19 @@ public class FinalMenu : MonoBehaviour
         "- Не весь мусор выброшен"
     };
 
-    public void SetLoseMenu()
+    private void PrepareFinalMenu(TextAlignmentOptions alignment, string[] text)
     {
         gameObject.SetActive(true);
-        headerText.text = lose[0];
-        mainText.alignment = TextAlignmentOptions.Center;
-        mainText.text = lose[1];
+        mainText.alignment = alignment;
+        headerText.text = text[0];
+        mainText.text = text[1];
     }
+
+    public void SetLoseMenu() => PrepareFinalMenu(TextAlignmentOptions.Center, lose);
 
     public void SetWinMenu()
     {
-        gameObject.SetActive(true);
-        headerText.text = win[0];
-        mainText.alignment = TextAlignmentOptions.Left;
-        mainText.text = win[1];
+        PrepareFinalMenu(TextAlignmentOptions.Left, win);
 
         var eventItems = DataLoader.GetListEventsItemsData("TrashCan");
 

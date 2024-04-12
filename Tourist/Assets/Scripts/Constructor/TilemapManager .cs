@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using DataNamespace;
-using TileData = DataNamespace.TileData;
-using UnityEngine.UIElements;
-using UnityEngine.WSA;
 
 public static class TilemapManager
 {

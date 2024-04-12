@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Joystick joystick;
+    [SerializeField] FinalMenu finalMenu;
     private float moveSpeed = 3;
 
     private Rigidbody2D myRigidBody;
@@ -82,20 +83,8 @@ public class PlayerController : MonoBehaviour
 
     private void ProcessInput()
     {
-        float moveX, moveY;
-
-        if (isGame)
-        {
-            // Получаем значения из джойстика
-            moveX = joystick.Horizontal;
-            moveY = joystick.Vertical;
-        }
-        else
-        {
-            // Если игра завершена
-            moveX = 0;
-            moveY = 0;
-        }
+        float moveX = isGame ? joystick.Horizontal : 0;
+        float moveY = isGame ? joystick.Vertical : 0;
 
         // Нормализация значения при получении двух значений
         moveDirection = new Vector2(moveX, moveY).normalized;
@@ -133,13 +122,11 @@ public class PlayerController : MonoBehaviour
     private void PrepareLoseMenu()
     {
         // Останавливаем джойстик
-        Vector3 nullPos = new Vector3(0, 0, 0);
-        handleJoystick.localPosition = nullPos;
+        handleJoystick.localPosition = Vector3.zero;
         joystick.enabled = false;
         isGame = false;
 
         // Вызываем окно провала
-        FinalMenu finalMenu = FindObjectOfType<FinalMenu>();
         finalMenu.SetLoseMenu();
     }
 }

@@ -6,7 +6,9 @@ public class ContextClue : MonoBehaviour
 {
     [SerializeField] GameObject interactPanel;
     [SerializeField] Button backpackButton;
-    [SerializeField] ParticleSystem rain;
+
+    // Для манипуляцией дождем
+    private ParticleSystem rain;
 
     // Обращение к скрипту панели взаимодествия
     private InteractPanel interact;
@@ -28,9 +30,11 @@ public class ContextClue : MonoBehaviour
     private string rainTag = "Rain";
 
     private void Start()
-    {
+    {        
         // Выключаем дождь
+        rain = gameObject.GetComponentInChildren<ParticleSystem>();
         rain.Stop();
+
         // Определяем объект скрипта
         interact = interactPanel.GetComponent<InteractPanel>();
     }
@@ -82,16 +86,17 @@ public class ContextClue : MonoBehaviour
         else if (other.CompareTag(brookTag))
         {
             if (trashCan == null) trashCan = other.GetComponent<TrashCan>();
-            trashCan.StartBrook();
-            backpackButton.onClick.AddListener(() => trashCan.CheckBrook());
+            trashCan.Brook();
+            backpackButton.onClick.AddListener(() => trashCan.Brook());
         }
-        else if (other.CompareTag(rainTag))
+        else if (other.CompareTag(rainTag) && !HouseTransfer.IsHome)
         {
+            // !HouseTransfer.IsHome если часть триггера дождя находится дома
             StartCoroutine(SetRain(other));
             if (trashCan == null) trashCan = other.GetComponent<TrashCan>();
 
-            trashCan.StartRain();
-            backpackButton.onClick.AddListener(() => trashCan.CheckRain());
+            trashCan.Rain();
+            backpackButton.onClick.AddListener(() => trashCan.Rain());
         }
         // Если этот объект не телепорт и не знак
         if (!other.CompareTag(teleportTag) &&
@@ -124,15 +129,11 @@ public class ContextClue : MonoBehaviour
         }
     }
 
-    private IEnumerator SetRain(Collider2D rainCollider)
+    private IEnumerator SetRain(Collider2D rainTrigger)
     {
-        // Помещаем дождь над его триггером
-        Vector3 newPosition = rainCollider.transform.position;
-        newPosition.y += 15;
-        rain.transform.position = newPosition;
-
+        // Запускаем дождь
         rain.Play();
-        rainCollider.enabled = false;
+        rainTrigger.enabled = false;
 
         // Ожидаем определенное количество времени
         yield return new WaitForSeconds(10f);

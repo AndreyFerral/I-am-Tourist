@@ -13084,7 +13084,7 @@ GameObject:
   - component: {fileID: 1441832299}
   m_Layer: 0
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: Brook
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17690,7 +17690,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9eb163e9d49813a4cacc9e88c2318fdd, type: 2}
   - {fileID: 11400000, guid: e45458044b61e2748ace1e9c8f9b0fec, type: 2}
   - {fileID: 11400000, guid: ea52f38c8a0b7024fac74a80e21913fe, type: 2}
-  maxCameraValue: {x: 20, y: 15}
+  maxCameraValue: {x: 30, y: 30}
 --- !u!1 &2012794666
 GameObject:
   m_ObjectHideFlags: 0
