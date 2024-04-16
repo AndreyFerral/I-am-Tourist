@@ -1,3 +1,4 @@
+using DataNamespace;
 using System.Collections.Generic;
 
 public static class DataHolder
@@ -25,4 +26,7 @@ public static class DataHolder
 
     // Было ли сообщено в конце похода
     public static bool IsNotifyEnd { get; set; }
+
+    // Для передачи данных при создании уровня
+    public static LevelData levelData { get; set; }
 }

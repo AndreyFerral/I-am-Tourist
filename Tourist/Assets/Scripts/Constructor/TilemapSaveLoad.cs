@@ -67,8 +67,15 @@ public static class TilemapSaveLoad
             objectDataList.Add(tileData);
         }
 
-        LevelData data = new LevelData("Тест", tilemapDataList, objectDataList);
-        JsonSaveLoadSystem.AddDataToList(data);
+        // Если были переданы значения, то актуализируем их
+        LevelData levelData = DataHolder.levelData;
+        if (levelData is not null)
+        {
+            levelData.tilemapDataList = tilemapDataList;
+            levelData.objectDataList = objectDataList;
+            JsonSaveLoadSystem.AddDataToList(levelData);
+        }
+        else Debug.Log("Уровень не был сохранен, о нём нет данных");
     }
 
     private static List<TileData> GetTileData(Tilemap tilemap)

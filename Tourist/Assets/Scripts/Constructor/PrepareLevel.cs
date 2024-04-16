@@ -16,6 +16,14 @@ public class PrepareLevel : MonoBehaviour
 
     void Start()
     {
+        // Если были переданы значения, то актуализируем их
+        LevelData levelData = DataHolder.levelData;
+        if (levelData is not null)
+        {
+            Debug.Log("maxCameraValue было изменено");
+            maxCameraValue = new Vector2Int(levelData.heightMap, levelData.weightMap);
+        }
+
         // Строим уровень
         FillTilemapArea();
         TraverseBorder();

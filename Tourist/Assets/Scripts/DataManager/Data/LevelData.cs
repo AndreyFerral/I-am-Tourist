@@ -6,12 +6,18 @@ namespace DataNamespace
     public class LevelData
     {
         public string nameMap;
+        public string descriptionMap;
+        public int heightMap;
+        public int weightMap;
         public List<TilemapData> tilemapDataList;
         public List<ObjectData> objectDataList;
 
-        public LevelData(string name, List<TilemapData> tilemapData, List<ObjectData> gameObjects)
+        public LevelData(string name, string description, int height, int weight, List<TilemapData> tilemapData = default, List<ObjectData> gameObjects = default)
         {
             nameMap = name;
+            descriptionMap = description;
+            heightMap = height;
+            weightMap = weight;
             tilemapDataList = tilemapData;
             objectDataList = gameObjects;
         }
