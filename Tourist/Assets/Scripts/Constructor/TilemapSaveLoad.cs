@@ -8,7 +8,8 @@ public static class TilemapSaveLoad
 {
     public static void LoadTilemapData(Tilemap[] tilemaps)
     {
-        LevelData levelData = DataLoader.GetLevelData("Тест");
+        LevelData levelData = DataHolder.levelData;
+        if (levelData == null) levelData = DataLoader.GetLevelData("Тест");
         Debug.Log("Был загружен уровень: " + levelData.nameMap);
         
         // Создаем объекты/события на уровень

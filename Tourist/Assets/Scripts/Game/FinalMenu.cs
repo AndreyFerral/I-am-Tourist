@@ -1,5 +1,9 @@
+using DataNamespace;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FinalMenu : MonoBehaviour
 {
@@ -41,5 +45,20 @@ public class FinalMenu : MonoBehaviour
         }
         // Если мусор был выброшен
         else mainText.text += win[2];
+    }
+
+    public void LevelComplete()
+    {
+        if (DataHolder.levelData != null)
+        {
+            List<LevelData> loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
+            LevelData levelDataToUpdate = loadedLevelDataList.FirstOrDefault(data => data.nameMap == DataHolder.levelData.nameMap);
+
+            levelDataToUpdate.isPassed = true;
+            JsonSaveLoadSystem.ReplaceListData(loadedLevelDataList);
+            Debug.Log("JSON: Записано прохождение уровня");
+        }
+
+        MainMenu.Menu();    
     }
 }

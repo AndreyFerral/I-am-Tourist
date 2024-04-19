@@ -21,7 +21,7 @@ public class PrepareLevel : MonoBehaviour
         if (levelData is not null)
         {
             Debug.Log("maxCameraValue было изменено");
-            maxCameraValue = new Vector2Int(levelData.heightMap, levelData.weightMap);
+            maxCameraValue = new Vector2Int(levelData.widthMap, levelData.heightMap);
         }
 
         // Строим уровень

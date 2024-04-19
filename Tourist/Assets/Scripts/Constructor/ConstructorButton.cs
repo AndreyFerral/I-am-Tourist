@@ -1,5 +1,6 @@
 using DataNamespace;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,35 +8,26 @@ using UnityEngine.UI;
 
 public class ConstructorButton : MonoBehaviour
 {
-    [SerializeField] GameObject info_panel;
-    private GameObject info;
-    private TMP_Text info_text;
     private List<LevelData> loadedLevelDataList;
 
+    [Header("Создание уровня")]
     [SerializeField] TMP_InputField input_name;
     [SerializeField] TMP_InputField input_description;
     [SerializeField] Slider slider_height;
     [SerializeField] Slider slider_width;
-
-    private string level_name;
-    private string level_description;
-    private int level_height;
-    private int level_width;
+    [SerializeField] ToggleGroup toggle_group;
 
     void Start()
     {
-        info = info_panel.transform.GetChild(0).gameObject;
-        info_text = info.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
-
         loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
     }
 
     public void CreateLevel()
     {
-        level_name = input_name.text;
-        level_description = input_description.text;
-        level_height = (int)slider_height.value;
-        level_width = (int)slider_width.value;
+        string level_name = input_name.text;
+        string level_description = input_description.text;
+        int level_height = (int)slider_height.value;
+        int level_width = (int)slider_width.value;
 
         if (level_name == "" || level_description == "")
         {
@@ -48,15 +40,17 @@ public class ConstructorButton : MonoBehaviour
             return;
         }
 
-        //Debug.Log(level_name + " " + level_description + " " + level_height + " " + level_width);
-        DataHolder.levelData = new LevelData(level_name, level_description, level_height, level_width);
-        SceneManager.LoadScene(6);
+        Toggle[] toggles = toggle_group.GetComponentsInChildren<Toggle>();
+        int toggleIndex = toggles.ToList().FindIndex(toggle => toggle.isOn);
+
+        DataHolder.levelData = new LevelData(level_name, level_description, level_height, level_width, toggleIndex);
+        MainMenu.Constructor();
     }
 
     private void InfoPanel(string text)
     {
-        info_panel.SetActive(true);
-        info_text.text = text;
+        InfoPanel infoPanel = FindObjectOfType<InfoPanel>();
+        infoPanel.DisplayText(text);
     }
 
     private bool CheckName(string name)

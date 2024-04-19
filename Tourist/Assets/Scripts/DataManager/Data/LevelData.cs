@@ -8,16 +8,20 @@ namespace DataNamespace
         public string nameMap;
         public string descriptionMap;
         public int heightMap;
-        public int weightMap;
+        public int widthMap;
+        public int idBackpack;
+        public bool isPassed;
         public List<TilemapData> tilemapDataList;
         public List<ObjectData> objectDataList;
 
-        public LevelData(string name, string description, int height, int weight, List<TilemapData> tilemapData = default, List<ObjectData> gameObjects = default)
+        public LevelData(string name, string description, int height, int width, int id, bool res = false, List<TilemapData> tilemapData = default, List<ObjectData> gameObjects = default)
         {
             nameMap = name;
             descriptionMap = description;
             heightMap = height;
-            weightMap = weight;
+            widthMap = width;
+            idBackpack = id;
+            isPassed = res;
             tilemapDataList = tilemapData;
             objectDataList = gameObjects;
         }

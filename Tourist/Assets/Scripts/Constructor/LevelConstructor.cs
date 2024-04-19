@@ -109,21 +109,39 @@ public class LevelConstructor : MonoBehaviour
         }
     }
 
+    private void InfoPanel(string text)
+    {
+        InfoPanel infoPanel = FindObjectOfType<InfoPanel>();
+        infoPanel.DisplayText(text);
+    }
+
     // Кнопка для сохранения карты
     public void SaveMap()
     {
-        List<Tilemap> tilemaps = new List<Tilemap>
+        if (DataHolder.levelData == null)
         {
-            grassTilemap,
-            groundTilemap,
-            decorGroundTilemap,
-            collisionGroundTilemap,
-            waterTilemap,
-            decorWaterTilemap,
-            collisionWaterTilemap
-        };
+            InfoPanel("Уровень не был сохранен, о нём нет данных");
+        }
+        else if (!isFlagSet)
+        {
+            InfoPanel("Вы не можете сохранить данный уровень без финиша");
+        }
+        else
+        {
+            List<Tilemap> tilemaps = new List<Tilemap>
+            {
+                grassTilemap,
+                groundTilemap,
+                decorGroundTilemap,
+                collisionGroundTilemap,
+                waterTilemap,
+                decorWaterTilemap,
+                collisionWaterTilemap
+            };
 
-        TilemapSaveLoad.SaveTilemapData(tilemaps, gameObjects);
+            TilemapSaveLoad.SaveTilemapData(tilemaps, gameObjects);
+            MainMenu.Menu();
+        }
     }
 
     void Update()

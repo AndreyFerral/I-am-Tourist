@@ -31,9 +31,9 @@ public static class JsonSaveLoadSystem
     }
 
     // Метод для сохранения списка данных в JSON файл
-    public static void SaveListData<T>(List<T> dataList)
+    public static void ReplaceListData<T>(List<T> dataList)
     {
-        Debug.Log("Вызван метод SaveListData");
+        Debug.Log("Вызван метод ReplaceListData");
 
         // Проверяем, существует ли папка и создаем, если не существует
         if (!Directory.Exists(saveFolder)) Directory.CreateDirectory(saveFolder);

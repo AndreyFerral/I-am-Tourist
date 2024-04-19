@@ -6,14 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [Header("Коллекция уровней")]
+    [SerializeField] GameObject levelPanelPrefab;
+    [SerializeField] Transform parentTransform;
+
+    void Start()
+    {
+        if (levelPanelPrefab == null || parentTransform == null) return;
+
+        List<LevelData> loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
+
+        foreach (LevelData item in loadedLevelDataList)
+        {
+            GameObject panelObject = Instantiate(levelPanelPrefab, parentTransform);
+            LevelPanelInfo panelInfo = panelObject.GetComponent<LevelPanelInfo>();
+            LevelPanelConstructor panelConstruct = panelObject.GetComponent<LevelPanelConstructor>();
+            if (panelInfo != null) panelInfo.Initialize(item);
+            else panelConstruct.Initialize(item, loadedLevelDataList);
+        }
+    }
+
     // Метод для перемещения в сцену меню
-    public void Menu()
+    public static void Menu()
     {
         SceneManager.LoadScene(0);
     }
 
     // Метод для перемещения в сцену настроек маршрута
-    public void CustomRoute()
+    public static void CustomRoute()
     {
         // Устанавливаем первоначальные значения
         DataHolder.IdBackpack = 0;
@@ -27,7 +47,7 @@ public class MainMenu : MonoBehaviour
     }
 
     // Метод для перемещения в сцену выбора и расположения вещей
-    public void SelectItems()
+    public static void SelectItems()
     {
         DataHolder.Items = null;
         Inventory.IsOpen = false;
@@ -36,7 +56,7 @@ public class MainMenu : MonoBehaviour
     }
 
     // Метод для перемещения в сцену игры
-    public void PlayGame()
+    public static void PlayGame()
     {
         // Устанавливаем первоначальные значения
         Inventory.IsOpen = false;
@@ -50,29 +70,22 @@ public class MainMenu : MonoBehaviour
     }
 
     // Метод для перемещения в меню конструктора
-    public void MenuConstructor()
-    {
-        SceneManager.LoadScene(5);
-    }
-
-    // Метод для перемещения в меню конструктора
-    public void Constructor()
-    {
-        SceneManager.LoadScene(6);
-    }
-
-    // Метод для перемещения в сцену уровней
-    public void LevelGame()
+    public static void MenuConstructor()
     {
         SceneManager.LoadScene(4);
     }
 
+    // Метод для перемещения в меню конструктора
+    public static void Constructor()
+    {
+        SceneManager.LoadScene(5);
+    }
+
     // Метод для выхода из игры
-    public void QuitGame()
+    public static void QuitGame()
     {
         Application.Quit();
     }
-
 
     // Метод для очистки JSON файлов
     public static void DeleteJsonFolder()
@@ -95,7 +108,7 @@ public class MainMenu : MonoBehaviour
         data.Add(new InteractPanelData("Picnic", "Пикник", "Открыть", ""));
         data.Add(new InteractPanelData("Campfire", "Костёр", "Открыть", ""));
         data.Add(new InteractPanelData("Finish", "Маршрут пройден", "Домой", ""));
-        JsonSaveLoadSystem.SaveListData(data);
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 
     private static void CreateDialogBoxData()
@@ -107,7 +120,7 @@ public class MainMenu : MonoBehaviour
         data.Add(new DialogBoxData("Finish", "", "Мне нужно сообщить о том, что я вернулся из похода"));
         data.Add(new DialogBoxData("Brook", "Мне нужно надеть сапоги или уйти с ручья", "На мне сапоги - я не намочу ноги"));
         data.Add(new DialogBoxData("Rain", "Мне нужно взять зонт или надеть плащ", "Теперь я не промокну"));
-        JsonSaveLoadSystem.SaveListData(data);
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 
     private static void CreateItemData()
@@ -130,7 +143,7 @@ public class MainMenu : MonoBehaviour
         data.Add(new ItemData("Prefabs/", "sandwich", "Бутерброд", 0.4f));
         data.Add(new ItemData("Prefabs/", "thermos", "Термос", 0.6f));
         data.Add(new ItemData("Prefabs/", "zip-bag", "Печеньки", 0.1f));
-        JsonSaveLoadSystem.SaveListData(data);
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 
     private static void CreateEventsItemsData()
@@ -155,7 +168,7 @@ public class MainMenu : MonoBehaviour
         data.Add(new EventsItemsData("Campfire", 1, new List<string> { "Кастрюля", "РисСырой", "Термос" }, new List<string> { "РисСырой", "Термос" }, new List<string> { "Рис" }, 0));
         data.Add(new EventsItemsData("Campfire", 2, new List<string> { "Рис", "Приборы" }, new List<string> { "Рис" }, new List<string> { "" }, 20));
 
-        JsonSaveLoadSystem.SaveListData(data);
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 
     private static void CreateEventsInfoData()
@@ -167,7 +180,7 @@ public class MainMenu : MonoBehaviour
         data.Add(new EventsInfoData("Campfire", 1, "", "Приготовить", "", ""));
         data.Add(new EventsInfoData("Campfire", 2, "", "Съесть", "", ""));
         
-        JsonSaveLoadSystem.SaveListData(data);
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 
     private static void CreateEventsData()
@@ -176,16 +189,6 @@ public class MainMenu : MonoBehaviour
         data.Add(new EventsData("Picnic", "Пикник", ""));
         data.Add(new EventsData("Campfire", "Костёр", ""));
 
-        JsonSaveLoadSystem.SaveListData(data);
-    }
-
-    // Метод для добавления данных в JSON
-    public static void AddDataToJson()
-    {
-        /*
-        CreateEventsItemsData();
-        CreateEventsInfoData();
-        CreateEventsData();
-        */
+        JsonSaveLoadSystem.ReplaceListData(data);
     }
 }

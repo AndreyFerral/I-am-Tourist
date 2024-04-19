@@ -81,8 +81,6 @@ public class HouseTransfer : MonoBehaviour
         dialogData = DataLoader.GetDialogBoxData(gameObject.tag);
 
         // ¬ключаем необходимую карту
-        id = 4;
-
         if (id > 4) id = 4;  
         gridMaps[id].SetActive(true);
 
