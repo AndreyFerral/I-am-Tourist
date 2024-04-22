@@ -21894,6 +21894,7 @@ GameObject:
   - component: {fileID: 319277827}
   - component: {fileID: 319277826}
   - component: {fileID: 319277825}
+  - component: {fileID: 319277830}
   m_Layer: 0
   m_Name: Water
   m_TagString: Brook
@@ -21946,7 +21947,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths: []
@@ -22062,6 +22063,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &319277830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319277823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777bc1b9df0dd849b740c1ad223a015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &352834529
 GameObject:
   m_ObjectHideFlags: 0

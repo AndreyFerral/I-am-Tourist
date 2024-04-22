@@ -14,6 +14,7 @@ public class DataLoader : MonoBehaviour
     private static List<EventsItemsData> loadedEventItemList;
 
     private static List<LevelData> loadedLevelDataList;
+    private static List<QuestionChoiceData> loadedQuestionChoiceDataList;
 
     void Awake()
     {
@@ -29,8 +30,17 @@ public class DataLoader : MonoBehaviour
 
         // ћожно не грузить все данные, только нужный уровень
         loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
-
+        loadedQuestionChoiceDataList = JsonSaveLoadSystem.LoadListData<QuestionChoiceData>();
         Debug.Log("«агрузка данных произошла успешно");
+    }
+
+    public static QuestionChoiceData GetQuestionChoiceData(string name)
+    {
+        foreach (QuestionChoiceData item in loadedQuestionChoiceDataList)
+        {
+            if (item.nameQuestion == name) return item;
+        }
+        return null;
     }
 
     public static LevelData GetLevelData(string name)

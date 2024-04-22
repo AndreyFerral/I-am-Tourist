@@ -2,7 +2,6 @@ using DataNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Networking.UnityWebRequest;
 
 public class LevelPanelInfo : MonoBehaviour
 {

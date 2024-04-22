@@ -3,26 +3,66 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
 
 public class MainMenu : MonoBehaviour
 {
     [Header("Коллекция уровней")]
     [SerializeField] GameObject levelPanelPrefab;
     [SerializeField] Transform parentTransform;
+    [Header("Коллекция вопросов")]
+    [SerializeField] GameObject questionChoicePrefab;
+    [SerializeField] Transform parentQuestionTransform;
 
     void Start()
     {
-        if (levelPanelPrefab == null || parentTransform == null) return;
+        if (questionChoicePrefab != null && parentQuestionTransform != null)
+        {
+            UpdateQuestions();
+        }
+        if (levelPanelPrefab != null && parentTransform != null)
+        { 
+            UpdateLevels();
+        }
+    }
 
+    // Метод для обновления данных для отображения вопросов
+    public void UpdateQuestions()
+    {
+        List<QuestionChoiceData> loadedQuestionChoiceData = JsonSaveLoadSystem.LoadListData<QuestionChoiceData>();
+
+        // Удаление всех дочерних объектов из parentQuestionTransform
+        foreach (Transform child in parentQuestionTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (QuestionChoiceData item in loadedQuestionChoiceData)
+        {
+            GameObject questionChoicePanel = Instantiate(questionChoicePrefab, parentQuestionTransform);
+            QuestionChoicePanel qcp = questionChoicePanel.GetComponent<QuestionChoicePanel>();
+            qcp.Initialize(item, loadedQuestionChoiceData);
+        }
+    }
+
+    // Метод для обновления данных для отображения уровней
+    public void UpdateLevels()
+    {
         List<LevelData> loadedLevelDataList = JsonSaveLoadSystem.LoadListData<LevelData>();
+
+        // Удаление всех дочерних объектов из parentTransform
+        foreach (Transform child in parentTransform)
+        {
+            Destroy(child.gameObject);
+        }
 
         foreach (LevelData item in loadedLevelDataList)
         {
             GameObject panelObject = Instantiate(levelPanelPrefab, parentTransform);
-            LevelPanelInfo panelInfo = panelObject.GetComponent<LevelPanelInfo>();
-            LevelPanelConstructor panelConstruct = panelObject.GetComponent<LevelPanelConstructor>();
-            if (panelInfo != null) panelInfo.Initialize(item);
-            else panelConstruct.Initialize(item, loadedLevelDataList);
+            LevelPanelInfo lpi = panelObject.GetComponent<LevelPanelInfo>();
+            LevelPanelConstructor lpc = panelObject.GetComponent<LevelPanelConstructor>();
+            if (lpi != null) lpi.Initialize(item);
+            else lpc.Initialize(item, loadedLevelDataList);
         }
     }
 
