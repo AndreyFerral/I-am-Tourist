@@ -71,9 +71,7 @@ public class LevelConstructor : MonoBehaviour
         curTiles = null;
         objectName = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log("Нажата кнопка: " + objectName);
-
-        if (objectName == "RainVertical" || objectName == "RainHorizontal") curTilemap = collisionGroundTilemap;
-        else curTilemap = collisionGroundTilemap;
+        curTilemap = collisionGroundTilemap;
     }
 
     public void SetRoad() => SetTileButton(roadTiles, groundTilemap);

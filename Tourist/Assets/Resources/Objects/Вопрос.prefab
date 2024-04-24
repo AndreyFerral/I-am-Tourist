@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4383230092730277460}
   - component: {fileID: 4383230092730277461}
   m_Layer: 0
-  m_Name: Sign
+  m_Name: "\u0412\u043E\u043F\u0440\u043E\u0441"
   m_TagString: Sign
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

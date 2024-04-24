@@ -6,12 +6,14 @@ namespace DataNamespace
     public class QuestionChoiceData
     {
         public string nameQuestion;
+        public int valueStamina;
         public Answers[] answerResult;
 
-        public QuestionChoiceData(string name, Answers[] answers)
+        public QuestionChoiceData(string name, Answers[] answers, int value)
         {
             nameQuestion = name;
             answerResult = answers;
+            valueStamina = value;
         }
     }
 

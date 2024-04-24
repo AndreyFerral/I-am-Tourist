@@ -13,9 +13,6 @@ public class TrashCan : MonoBehaviour
     public static bool IsBrook = false;
     public static bool IsRain = false;
 
-    //private bool isRainOld;
-    //private bool isBrookOld;
-
     void Start()
     {
         // Сделано так, чтобы работало из префаба
@@ -41,7 +38,6 @@ public class TrashCan : MonoBehaviour
             IsBrook = false;
             dialogBox.StartDialogBox(dialog.TextAfter);
         }
-        //isBrookOld = IsBrook;
     }
 
     public void Rain()
@@ -61,46 +57,7 @@ public class TrashCan : MonoBehaviour
             IsRain = false;
             dialogBox.StartDialogBox(dialog.TextAfter);
         }
-        //isRainOld = IsRain;
     }
-
-    /*
-    public void CheckBrook()
-    {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData("Brook");
-        var eventItems = DataLoader.GetListEventsItemsData("Brook");
-
-        // Обновляем значение 
-        if (!CheckQuick(eventItems)) IsBrook = true;
-        else IsBrook = false;
-
-        // Если значение изменилось выводим сообщение
-        if (isBrookOld != IsBrook)
-        {
-            isBrookOld = IsBrook;
-            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
-            else dialogBox.StartDialogBox(dialog.TextAfter);
-        }
-    }
-
-    public void CheckRain()
-    {
-        DialogBoxData dialog = DataLoader.GetDialogBoxData("Rain");
-        var eventItems = DataLoader.GetListEventsItemsData("Rain");
-
-        // Обновляем значение 
-        if (!CheckQuick(eventItems)) IsRain = true;
-        else IsRain = false;
-
-        // Если значение изменилось выводим сообщение
-        if (isRainOld != IsRain)
-        {
-            isRainOld = IsRain;
-            if (!CheckQuick(eventItems)) dialogBox.StartDialogBox(dialog.TextBefore);
-            else dialogBox.StartDialogBox(dialog.TextAfter);
-        }
-    }
-    */
 
     // Метод для использования предметов
     public void UseItems(List<EventsItemsData> eventItems)

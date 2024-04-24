@@ -66,7 +66,7 @@ public class ConstructorButton : MonoBehaviour
             };
         }
 
-        JsonSaveLoadSystem.AddDataToList(new QuestionChoiceData(question, questionAnswers));
+        JsonSaveLoadSystem.AddDataToList(new QuestionChoiceData(question, questionAnswers, 10));
         InfoPanel("Вопрос был добавлен в коллекцию");
 
         // Отображаем вопрос в коллекции

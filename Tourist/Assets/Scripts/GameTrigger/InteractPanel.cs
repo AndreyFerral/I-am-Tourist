@@ -17,15 +17,41 @@ public class InteractPanel : MonoBehaviour
     [SerializeField] DialogBox scriptDB;
     [SerializeField] FinalMenu scriptFM;
 
-    [Header("Other settings")]
+    [Header("EatPanel")]
     [SerializeField] GameObject eatPanel;
     [SerializeField] GameObject onePanel;
     [SerializeField] GameObject twoPanel;
     [SerializeField] GameObject threePanel;
+
+    [Header("UI")]
     [SerializeField] Transform quickSlots;
     [SerializeField] Button backpackButton;
 
+    [Header("QuestionPanel")]
+    [SerializeField] GameObject questionPanel;
+
     private Collider2D notifyCollider;
+
+    public void SetQuestion(Collider2D other)
+    {
+        // Устанавливаем название объекта
+        ChangeTextSize(20);
+        interactHeader.text = "Вопрос";
+        buttonText.text = "Открыть";
+
+        interactButton.onClick.RemoveAllListeners();
+        interactButton.onClick.AddListener(delegate
+        {
+            interactPanel.SetActive(false);
+
+            GameObject parentObject = questionPanel.transform.parent.gameObject;
+            parentObject.SetActive(true);
+            questionPanel.SetActive(true);
+
+            QuestionChoicePanel qcp = questionPanel.GetComponent<QuestionChoicePanel>();
+            qcp.SetQuestionChoicePanel(other);
+        });
+    }
 
     public void SetItemPick(Collider2D other)
     {

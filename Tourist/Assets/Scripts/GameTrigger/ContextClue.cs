@@ -47,7 +47,7 @@ public class ContextClue : MonoBehaviour
         // Если этот объект знак
         if (other.CompareTag(signTag))
         {
-            // Тестовые вопросы
+            interact.SetQuestion(other);
         }
         // Если это событие 1 вкладкой
         else if (other.CompareTag(oneEventTag))
@@ -100,7 +100,6 @@ public class ContextClue : MonoBehaviour
         }
         // Если этот объект не телепорт и не знак
         if (!other.CompareTag(teleportTag) &&
-            !other.CompareTag(signTag) &&
             !other.CompareTag(brookTag) &&
             !other.CompareTag(rainTag))
         {
