@@ -48,5 +48,6 @@ namespace DataNamespace
         public float xPos;
         public float yPos;
         public string objectName;
+        public string objectTag;
     }
 }

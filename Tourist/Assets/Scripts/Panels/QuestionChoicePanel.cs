@@ -114,6 +114,7 @@ public class QuestionChoicePanel : MonoBehaviour
         infoPanel.CloseQuestion();
 
         LevelConstructor levelConstructor = FindObjectOfType<LevelConstructor>();
+        levelConstructor.SetQuestion(questionChoiceData.nameQuestion);
     }
 
     void ResizeText(TMP_Text textMeshPro)

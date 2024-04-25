@@ -49,7 +49,7 @@ public class LevelPanelInfo : MonoBehaviour
         DataHolder.levelData = levelData;
         DataHolder.IdLocation = 4;
         DataHolder.IdBackpack = levelData.idBackpack;
-        MainMenu.PlayGame();
+        MainMenu.SelectItems();
     }
 
     void ResizeText(TMP_Text textMeshPro)

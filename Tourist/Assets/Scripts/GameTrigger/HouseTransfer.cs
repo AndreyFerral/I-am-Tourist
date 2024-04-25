@@ -20,8 +20,6 @@ public class HouseTransfer : MonoBehaviour
     private string playerTag = "Player";
     private int id = DataHolder.IdLocation;
 
-    private static bool hasBeenCalled = false;
-
     public static bool IsHome { get; set; }
 
     private Vector2[] FindTilemapBounds(GameObject grids)
@@ -85,12 +83,8 @@ public class HouseTransfer : MonoBehaviour
         gridMaps[id].SetActive(true);
 
         // Загружаем карту из бд, если необходимо
-        if (id == 4 && !hasBeenCalled)
-        {
-            LoadData();
-            hasBeenCalled = true;
-        }
-
+        if (id == 4) LoadData();
+        
         // Получаем границы дома и карты
         houseBounds = FindTilemapBounds(gridHouse);
         gridBounds = FindTilemapBounds(gridMaps[id]);

@@ -19935,19 +19935,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 225711397}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1408374438}
-        m_TargetAssemblyTypeName: FinalMenu, Assembly-CSharp
-        m_MethodName: LevelComplete
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &225711397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45176,7 +45164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &695951609
 RectTransform:
   m_ObjectHideFlags: 0
@@ -98889,7 +98877,6 @@ GameObject:
   - component: {fileID: 1644902133}
   - component: {fileID: 1644902132}
   - component: {fileID: 1644902131}
-  - component: {fileID: 1644902130}
   m_Layer: 5
   m_Name: FinalMenu
   m_TagString: Untagged
@@ -98920,22 +98907,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 220, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1644902130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1644902128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eab489200df94f46bec305b67478842, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelPanelPrefab: {fileID: 0}
-  parentTransform: {fileID: 0}
-  questionChoicePrefab: {fileID: 0}
-  parentQuestionTransform: {fileID: 0}
 --- !u!114 &1644902131
 MonoBehaviour:
   m_ObjectHideFlags: 0

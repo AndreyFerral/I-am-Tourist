@@ -50,7 +50,8 @@ public class LevelConstructor : MonoBehaviour
     private Tile curMainTile;
     private Tile[] curTiles;
 
-    private string objectName;
+    private string prefabName;
+    private bool isSign = false;
     private bool isFlagSet = false;
     private List<GameObject> gameObjects = new List<GameObject>();
 
@@ -59,19 +60,29 @@ public class LevelConstructor : MonoBehaviour
     private Vector3Int currentPos;
     private Vector3Int prevPos;
 
+    private void SetObjectOrQuestion(string newPrefabName = default)
+    {
+        prefabName = EventSystem.current.currentSelectedGameObject.name;
+
+        if (newPrefabName != default)
+        {
+            prefabName = newPrefabName;
+            isSign = true;
+        }
+
+        curTiles = null;
+        Debug.Log("Нажата кнопка: " + prefabName);
+        curTilemap = collisionGroundTilemap;
+    }
+
+    public void SetObject() => SetObjectOrQuestion();
+    public void SetQuestion(string newPrefabName) => SetObjectOrQuestion(newPrefabName);
+
     private void SetTileButton(Tile[] tiles, Tilemap tilemap)
     {
         if (tiles.Length > 4) curMainTile = tiles[4];
         curTiles = tiles;
         curTilemap = tilemap;
-    }
-
-    public void SetObject()
-    {
-        curTiles = null;
-        objectName = EventSystem.current.currentSelectedGameObject.name;
-        Debug.Log("Нажата кнопка: " + objectName);
-        curTilemap = collisionGroundTilemap;
     }
 
     public void SetRoad() => SetTileButton(roadTiles, groundTilemap);
@@ -500,23 +511,35 @@ public class LevelConstructor : MonoBehaviour
         if (collisionGroundTilemap.GetTile(position) != null || waterTilemap.GetTile(position) != null) return;
 
         // Если по соседству другой объект (в пределах 2 клеток)
-        if (IsObjectAround(position)) return;
-
-        // Если флаг уже установлен - не ставим
-        if (objectName == "Finish")
-        {
-            if (!isFlagSet) isFlagSet = true;
-            else return;
-        }
+        if (IsObjectAround(position) || prefabName == null) return;
 
         // Корректируем позицию игрового объекта
         Vector3 objectPosition = new Vector3(position.x - 1.1f, position.y - 1.5f, 0);
 
-        // Создаем игровой объект
-        GameObject objectPrefab = Resources.Load("Objects/" + objectName) as GameObject;
-        GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
-        obj.gameObject.name = objectName;
-        gameObjects.Add(obj);
+        // Если флаг уже установлен - не ставим
+        if (isSign)
+        {
+            GameObject objectPrefab = Resources.Load("Objects/Вопрос") as GameObject;
+            GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
+            obj.gameObject.name = prefabName;
+            gameObjects.Add(obj);
+
+            isSign = false;
+            prefabName = null;
+        }
+        else
+        {
+            if (prefabName == "Finish")
+            {
+                if (!isFlagSet) isFlagSet = true;
+                else return;
+            }
+
+            GameObject objectPrefab = Resources.Load("Objects/" + prefabName) as GameObject;
+            GameObject obj = Instantiate(objectPrefab, objectPosition, Quaternion.identity);
+            obj.gameObject.name = prefabName;
+            gameObjects.Add(obj);
+        }
 
         // Ставим прозрачный тайл на слой коллизии
         curTilemap.SetTile(position, grass);
@@ -723,9 +746,9 @@ public class LevelConstructor : MonoBehaviour
     bool IsObjectAround(Vector3Int tilePosition)
     {
         // Перебираем все восьмь соседних ячеек вокруг указанной ячейки
-        for (int xOffset = -2; xOffset <= 2; xOffset++)
+        for (int xOffset = -1; xOffset <= 1; xOffset++)
         {
-            for (int yOffset = -2; yOffset <= 2; yOffset++)
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 Vector3Int tileNeighbor = tilePosition + new Vector3Int(xOffset, yOffset, 0);
                 if (curTilemap.GetTile(tileNeighbor) == grass)

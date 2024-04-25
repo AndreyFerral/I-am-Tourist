@@ -11,11 +11,19 @@ public static class TilemapSaveLoad
         LevelData levelData = DataHolder.levelData;
         if (levelData == null) levelData = DataLoader.GetLevelData("Тест");
         Debug.Log("Был загружен уровень: " + levelData.nameMap);
-        
+
+        // Проверяем был 
+        if (tilemaps[0].GetUsedTilesCount() > 0)
+        {
+            Debug.Log("Данная коллекция tilemap уже заполнена ");
+            return;
+        }
+
         // Создаем объекты/события на уровень
         foreach (ObjectData objectData in levelData.objectDataList)
         {
             string prefabPath = "Objects/" + objectData.objectName; // Путь к префабу
+            if (objectData.objectTag == "Sign") prefabPath = "Objects/Вопрос";
             GameObject prefab = Resources.Load<GameObject>(prefabPath); // Загрузка префаба из ресурсов
 
             // Создание экземпляра префаба
@@ -63,7 +71,8 @@ public static class TilemapSaveLoad
             ObjectData tileData = new ObjectData {
                 xPos = objectPos.x,
                 yPos = objectPos.y,
-                objectName = gameObject.name
+                objectName = gameObject.name,
+                objectTag = gameObject.tag
             };
             objectDataList.Add(tileData);
         }
