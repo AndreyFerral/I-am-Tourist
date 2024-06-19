@@ -21,7 +21,6 @@ public class LevelConstructor : MonoBehaviour
     [SerializeField] Tilemap decorWaterTilemap;
     [SerializeField] Tilemap collisionWaterTilemap;
 
-    // todo убрать [SerializeField], делать через бд возможно
     [Header("Tilemaps")]
     [SerializeField] Tile[] roadTiles; // Тайлы дороги
     [SerializeField] Tile[] whiteTiles; // Тайлы белой поляны
@@ -62,6 +61,7 @@ public class LevelConstructor : MonoBehaviour
 
     private void SetObjectOrQuestion(string newPrefabName = default)
     {
+        isSign = false;
         prefabName = EventSystem.current.currentSelectedGameObject.name;
 
         if (newPrefabName != default)
@@ -74,12 +74,11 @@ public class LevelConstructor : MonoBehaviour
         Debug.Log("Нажата кнопка: " + prefabName);
         curTilemap = collisionGroundTilemap;
     }
-
     public void SetObject() => SetObjectOrQuestion();
     public void SetQuestion(string newPrefabName) => SetObjectOrQuestion(newPrefabName);
-
     private void SetTileButton(Tile[] tiles, Tilemap tilemap)
     {
+        isSign = false;
         if (tiles.Length > 4) curMainTile = tiles[4];
         curTiles = tiles;
         curTilemap = tilemap;
@@ -106,6 +105,8 @@ public class LevelConstructor : MonoBehaviour
     public void SetFlowersOnGrass() => SetTileButton(flowersOnGrassTiles, decorGroundTilemap);
     public void SetMushroomsOnGrass() => SetTileButton(mushroomsOnGrassTiles, decorGroundTilemap);
 
+    public void ResetSelectable() => curTilemap = null;
+    
     // Кнопка для восстановления состояния Tilemap и gameObjects
     public void ReturnTilemap()
     {
@@ -162,7 +163,11 @@ public class LevelConstructor : MonoBehaviour
         if (joystick.Horizontal != 0 || joystick.Vertical != 0) return;
 
         // Не ставим объект при перекрытии UI 
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (Input.touchCount > 0)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
+        }
+        else if (EventSystem.current.IsPointerOverGameObject()) return;
 
         // Проверка нажатия или прикосновения к экрану
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)

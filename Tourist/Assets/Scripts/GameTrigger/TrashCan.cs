@@ -1,6 +1,7 @@
 using DataNamespace;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class TrashCan : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class TrashCan : MonoBehaviour
         dialogBox = FindObjectOfType<DialogBox>();
         GameObject quickPanel = GameObject.Find("QuickPanel");
         if (quickPanel != null) quickSlots = quickPanel.transform;
+
+        // Отключаем изображение у дождя (кроме сцены конструктор уровня)
+        if ((name == "RainVertical" || name == "RainHorizontal") && SceneManager.GetActiveScene().name != "Constructor")
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 
     public void Brook()

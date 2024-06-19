@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
 
 public class MainMenu : MonoBehaviour
 {
     [Header("Коллекция уровней")]
     [SerializeField] GameObject levelPanelPrefab;
     [SerializeField] Transform parentTransform;
+
     [Header("Коллекция вопросов")]
     [SerializeField] GameObject questionChoicePrefab;
     [SerializeField] Transform parentQuestionTransform;
 
     void Start()
     {
+        // Создаем все необходимые JSON файлы
+        JsonSaveLoadSystem.CreateJSON();
+
         if (questionChoicePrefab != null && parentQuestionTransform != null)
         {
             UpdateQuestions();
@@ -79,9 +82,6 @@ public class MainMenu : MonoBehaviour
         DataHolder.IdBackpack = 0;
         DataHolder.IdLocation = 0;
         DataHolder.IdSeason = 0;
-
-        // Создаем все необходимые JSON файлы
-        JsonSaveLoadSystem.CreateJSON();
 
         SceneManager.LoadScene(1);
     }

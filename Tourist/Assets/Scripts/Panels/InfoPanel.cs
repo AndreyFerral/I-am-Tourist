@@ -15,8 +15,7 @@ public class InfoPanel : MonoBehaviour
         infoText = panelInfo.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
 
         if (panels.transform.childCount >= 3)
-            panelQuestions = panels.transform.GetChild(2).gameObject;
-        
+            panelQuestions = panels.transform.GetChild(2).gameObject;    
     }
 
     public void DisplayText(string text)
@@ -28,7 +27,7 @@ public class InfoPanel : MonoBehaviour
 
     public void ConstructorText()
     {
-        string text = "Это стандартный текст для отображения, не более";
+        string text = "Для получения дополнительных плиток переключите вкладки";
         panels.SetActive(true);
         panelInfo.SetActive(true);
         infoText.text = text;

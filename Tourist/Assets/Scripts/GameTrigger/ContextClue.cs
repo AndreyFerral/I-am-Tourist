@@ -126,7 +126,6 @@ public class ContextClue : MonoBehaviour
         {
             TrashCan.IsBrook = false;
         }
-
     }
 
     private IEnumerator SetRain(Collider2D rainTrigger)

@@ -76,7 +76,6 @@ public class ConstructorButton : MonoBehaviour
         ClearPanelQuestion(input_question, answerInputs, answerToggles);
     }
 
-
     private void ClearPanelQuestion(TMP_InputField question, TMP_InputField[] answers, Toggle[] toggles)
     {
         question.text = "";

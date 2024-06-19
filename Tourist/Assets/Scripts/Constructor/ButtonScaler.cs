@@ -1,50 +1,62 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine.UIElements;
 
-public class ButtonScaler : MonoBehaviour
+public class ButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private Button[] buttons;
-    private Button selectedButton;
-    private float selectedScale = 1.25f; // Желаемый увеличенный масштаб кнопки в состоянии Selected
+    private Vector3 normalScale = Vector3.one;
+    private Vector3 hoveredScale = new Vector3(0.85f, 0.85f, 0.85f);
+    private Vector3 clickedScale = new Vector3(1.15f, 1.15f, 1.15f);
+    private float duration = 0.3f;
 
-    void Start()
+    private static ButtonScaler clickedButton; // Используем статическую переменную для отслеживания нажатой кнопки
+
+    private Outline outline; // Переменная для компонента Outline
+
+    private void Start()
     {
-        buttons = GetComponentsInChildren<Button>(); // Находим все компоненты кнопок в дочерних элементах
+        transform.localScale = normalScale;
 
-        foreach (Button button in buttons)
+        // Добавляем компонент Outline, если его  нет
+        outline = gameObject.GetComponent<Outline>();
+        if (outline == null) outline = gameObject.AddComponent<Outline>();
+
+        outline.effectColor = new Color(0, 0, 0, 0.3f);
+        outline.effectDistance = new Vector2(1, 1);
+        outline.enabled = false;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        // Если текущая кнопка не является последней нажатой или не была нажата, тогда применяем анимацию
+        if (clickedButton != this)
         {
-            button.onClick.AddListener(() => ToggleButtonSelection(button));
+            transform.DOScale(hoveredScale, duration);
         }
     }
 
-    void ToggleButtonSelection(Button clickedButton)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        if (selectedButton == clickedButton)
+        // Возвращаем кнопку к нормальному размеру только, если она не была последней нажатой
+        if (clickedButton != this)
         {
-            return; // Не переключать состояние, если кнопка уже была выбрана
+            transform.DOScale(normalScale, duration);
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (clickedButton != null && clickedButton != this)
+        {
+            // Возвращаем предыдущую нажатую кнопку к нормальному масштабу и отключаем её обводку
+            clickedButton.transform.DOScale(normalScale, duration);
+            clickedButton.outline.enabled = false;
         }
 
-        if (selectedButton != null)
-        {
-            selectedButton.transform.localScale = Vector3.one; // Возвращаем масштаб предыдущей выбранной кнопки к обычному значению
-            Animator buttonAnimator = selectedButton.GetComponent<Animator>();
-
-            if (buttonAnimator != null)
-            {
-                buttonAnimator.SetTrigger("Normal"); // Устанавливаем состояние "Normal" для предыдущей выбранной кнопки
-            }
-        }
-
-        selectedButton = clickedButton;
-
-        // Увеличиваем масштаб выбранной кнопки
-        selectedButton.transform.localScale = new Vector3(selectedScale, selectedScale, selectedScale);
-
-        // Проигрываем анимацию Scale у выбранной кнопки
-        Animator selectedButtonAnimator = selectedButton.GetComponent<Animator>();
-        if (selectedButtonAnimator != null)
-        {
-            selectedButtonAnimator.SetTrigger("Selected"); // Устанавливаем состояние "Selected" для выбранной кнопки
-        }
+        transform.DOScale(clickedScale, duration); // Анимация увеличения масштаба при нажатии
+        outline.enabled = true; // Включаем обводку
+        clickedButton = this; // Запоминаем текущую кнопку как последнюю нажатую
     }
 }
